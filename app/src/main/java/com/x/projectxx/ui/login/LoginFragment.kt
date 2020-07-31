@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -49,6 +50,12 @@ class LoginFragment : Fragment() {
         viewModel.user.observe(viewLifecycleOwner , Observer { firebaseUser ->
             binding.displayName.text = firebaseUser.displayName
         })
+
+        viewModel.isLoggedIn.observe(viewLifecycleOwner , Observer { isLoggedIn ->
+           if(isLoggedIn) {
+               binding.loginButton.visibility = GONE
+           }
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -56,5 +63,4 @@ class LoginFragment : Fragment() {
 
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
-
 }

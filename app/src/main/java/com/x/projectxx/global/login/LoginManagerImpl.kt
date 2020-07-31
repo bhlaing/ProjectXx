@@ -1,12 +1,8 @@
 package com.x.projectxx.global.login
 
-import android.content.Context
-import android.util.Log
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.facebook.AccessToken
-import com.facebook.CallbackManager
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -22,6 +18,10 @@ class LoginManagerImpl @Inject constructor(): LoginManager {
     override fun loginWithFacebookToken(token: AccessToken) : LiveData<FirebaseUser> = liveData(Dispatchers.IO) {
             emit(_loginWithFacebookToken((token)))
         }
+
+    override fun isUserLoggedIn(): LiveData<Boolean> = liveData(Dispatchers.IO) {
+       emit(auth.currentUser != null)
+    }
 
     private suspend fun _loginWithFacebookToken(token: AccessToken) = suspendCoroutine<FirebaseUser> { cont ->
             val credential = FacebookAuthProvider.getCredential(token.token)
