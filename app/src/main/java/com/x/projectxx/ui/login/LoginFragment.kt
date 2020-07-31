@@ -17,11 +17,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
-    val callbackManager = CallbackManager.Factory.create()
-    lateinit var binding: LoginFragmentBinding
-    companion object {
-        fun newInstance() = LoginFragment()
-    }
+    private val callbackManager = CallbackManager.Factory.create()
+    private lateinit var binding: LoginFragmentBinding
 
     private val viewModel: LoginViewModel by viewModels()
 
