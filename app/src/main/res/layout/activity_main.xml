@@ -13,4 +13,11 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp" />
+
+    <TextView
+        android:id="@+id/displayName"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="Username"
+        android:layout_below="@+id/login_button" />
 </RelativeLayout>
