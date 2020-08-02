@@ -7,12 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.x.projectxx.databinding.LoginFragmentBinding
+import com.x.projectxx.global.extensions.observeNonNull
 import com.x.projectxx.global.login.LoginManager
 import com.x.projectxx.ui.chat.ChatActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,18 +48,20 @@ class LoginFragment : Fragment() {
     }
 
     private fun setUpObservers() {
-        viewModel.authState.observe(viewLifecycleOwner, Observer { authState ->
-            when (authState) {
-                is LoginManager.AuthState.LoggedIn -> {
-                    binding.displayName.text = authState.firebaseUser.displayName
-                    navigateToChatScreen()
-                }
-                is LoginManager.AuthState.LoggedOut -> {
-                    binding.displayName.text = "ProjectxX"
-                }
-            }
-        })
+        viewModel.authState.observeNonNull(viewLifecycleOwner) { authState ->
+            onAuthStateChanged(authState)
+        }
     }
+
+    private fun onAuthStateChanged(authState: LoginManager.AuthState) =
+        when (authState) {
+            is LoginManager.AuthState.LoggedIn -> {
+                binding.displayName.text = authState.firebaseUser.displayName
+            }
+            is LoginManager.AuthState.LoggedOut -> {
+                binding.displayName.text = "ProjectxX"
+            }
+        }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
