@@ -5,10 +5,8 @@ import com.facebook.AccessToken
 import com.google.firebase.auth.FirebaseUser
 
 interface LoginManager {
-//    fun loginWithFacebookToken(token: AccessToken): LiveData<FirebaseUser>
-    fun isUserLoggedIn(): Boolean
+    fun getUserLoginStatus(): LiveData<AuthState>
     fun getFacebookUser(): FirebaseUser?
-    fun setAuthStateChangeListener(listener: ((AuthState) -> Unit)?)
     fun loginWithFacebookToken(token: AccessToken)
 
     sealed class AuthState {

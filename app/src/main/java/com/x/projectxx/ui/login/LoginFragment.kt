@@ -52,7 +52,7 @@ class LoginFragment : Fragment() {
                 is LoginManager.AuthState.LoggedIn -> {
                     binding.displayName.text = authState.firebaseUser.displayName
                 }
-                else -> {
+                is LoginManager.AuthState.LoggedOut -> {
                     binding.displayName.text = "ProjectxX"
                 }
             }
