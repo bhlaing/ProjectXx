@@ -7,17 +7,15 @@ import com.google.firebase.auth.FirebaseUser
 import com.x.projectxx.global.login.LoginManager
 
 class LoginViewModel @ViewModelInject constructor(private val loginManager: LoginManager) : ViewModel() {
-    private var accessTokenSuccess = MutableLiveData<AccessToken>()
 
-    val user: LiveData<FirebaseUser> = accessTokenSuccess.switchMap { accessToken ->
-        loginManager.loginWithFacebookToken(accessToken)
-    }
-    val isLoggedIn: LiveData<Boolean> by lazy {
-        loginManager.isUserLoggedIn()
+    private val _authState = MutableLiveData<LoginManager.AuthState>()
+    val authState: LiveData<LoginManager.AuthState> = _authState
+
+    init {
+        loginManager.setAuthStateChangeListener {
+            _authState.value = it
+        }
     }
 
-
-    fun onFacebookLoginSuccess(token: AccessToken) {
-        accessTokenSuccess.value = token
-    }
+    fun onFacebookLoginSuccess(token: AccessToken) = loginManager.loginWithFacebookToken(token)
 }

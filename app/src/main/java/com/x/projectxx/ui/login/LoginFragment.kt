@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,6 +13,7 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.x.projectxx.databinding.LoginFragmentBinding
+import com.x.projectxx.global.login.LoginManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,14 +47,15 @@ class LoginFragment : Fragment() {
     }
 
     private fun setUpObservers() {
-        viewModel.user.observe(viewLifecycleOwner , Observer { firebaseUser ->
-            binding.displayName.text = firebaseUser.displayName
-        })
-
-        viewModel.isLoggedIn.observe(viewLifecycleOwner , Observer { isLoggedIn ->
-           if(isLoggedIn) {
-               binding.loginButton.visibility = GONE
-           }
+        viewModel.authState.observe(viewLifecycleOwner, Observer { authState ->
+            when (authState) {
+                is LoginManager.AuthState.LoggedIn -> {
+                    binding.displayName.text = authState.firebaseUser.displayName
+                }
+                else -> {
+                    binding.displayName.text = "ProjectxX"
+                }
+            }
         })
     }
 
