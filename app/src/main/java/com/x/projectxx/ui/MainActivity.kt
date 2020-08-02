@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.loginFlowFragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-//        setSupportActionBar(binding.toolbar)
     }
 
     private fun testCreateUser() {
