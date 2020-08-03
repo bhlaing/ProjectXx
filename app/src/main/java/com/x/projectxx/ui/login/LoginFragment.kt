@@ -12,8 +12,10 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.x.projectxx.databinding.LoginFragmentBinding
+import com.x.projectxx.global.extensions.observeEvent
 import com.x.projectxx.global.extensions.observeNonNull
 import com.x.projectxx.global.login.LoginManager
+import com.x.projectxx.ui.chat.ChatActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,7 +49,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun setUpObservers() {
-        viewModel.authState.observeNonNull(viewLifecycleOwner) { authState ->
+        viewLifecycleOwner.observeEvent(viewModel.authState) { authState ->
             onAuthStateChanged(authState)
         }
     }
@@ -55,7 +57,8 @@ class LoginFragment : Fragment() {
     private fun onAuthStateChanged(authState: LoginManager.AuthState) =
         when (authState) {
             is LoginManager.AuthState.LoggedIn -> {
-                binding.displayName.text = authState.firebaseUser.displayName
+                navigateToChatScreen()
+
             }
             is LoginManager.AuthState.LoggedOut -> {
                 binding.displayName.text = "ProjectxX"
@@ -67,4 +70,7 @@ class LoginFragment : Fragment() {
 
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
+
+    private fun navigateToChatScreen() =
+        startActivity(ChatActivity.makeChatIntent(requireContext()))
 }

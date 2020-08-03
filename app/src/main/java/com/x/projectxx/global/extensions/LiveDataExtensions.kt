@@ -4,13 +4,21 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 
-fun <T> LiveData<T>.observe(owner: LifecycleOwner, f: (T?) -> Unit) {
-    this.observe(owner, Observer<T> { t -> f(t) })
-}
-
 /**
  * Filter out nulls from liveData.value
  */
-fun <T> LiveData<T>.observeNonNull(owner: LifecycleOwner, f: (T) -> Unit) {
-    this.observe(owner, Observer<T> { t -> t?.let(f) })
+fun <T> LifecycleOwner.observeNonNull(liveData: LiveData<T>, f: (T) -> Unit) {
+    liveData.observe(this, Observer { t -> t?.let(f) })
+}
+
+inline fun <T> LifecycleOwner.observe(liveData: LiveData<T>, crossinline action: (t: T?) -> Unit) {
+    liveData.observe(this, Observer { action(it) })
+}
+
+inline fun <T> LifecycleOwner.observeEvent(liveData: LiveData<Event<T>>, crossinline unhandledEventContent: (T) -> Unit) {
+    liveData.observe(this, EventObserver { it?.let(unhandledEventContent) } )
+}
+
+inline fun LifecycleOwner.observeEvent(liveData: LiveData<Event<Unit>>, crossinline unhandledEventContent: () -> Unit) {
+    liveData.observe(this, EventObserver { unhandledEventContent() })
 }
