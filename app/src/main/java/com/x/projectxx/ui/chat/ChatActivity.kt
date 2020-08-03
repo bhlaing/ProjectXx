@@ -9,8 +9,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.x.projectxx.R
 import com.x.projectxx.databinding.ActivityChatBinding
-import com.x.projectxx.databinding.ActivityMainBinding
-
 
 class ChatActivity : AppCompatActivity() {
 

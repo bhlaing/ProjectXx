@@ -15,5 +15,4 @@ class ChatFragment() : Fragment(){
         binding = ChatFragmentBinding.inflate(inflater)
         return binding.root
     }
-
 }
