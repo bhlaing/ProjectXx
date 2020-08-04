@@ -1,4 +1,4 @@
-package com.x.projectxx.ui.chat
+package com.x.projectxx.feature.chat.ui
 
 import android.content.Context
 import android.content.Intent
@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import com.x.projectxx.R
 import com.x.projectxx.databinding.ActivityChatBinding
 

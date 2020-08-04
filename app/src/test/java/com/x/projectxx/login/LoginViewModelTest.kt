@@ -7,7 +7,7 @@ import com.facebook.AccessToken
 import com.google.firebase.auth.FirebaseUser
 import com.x.projectxx.global.extensions.Event
 import com.x.projectxx.global.login.LoginManager
-import com.x.projectxx.ui.login.LoginViewModel
+import com.x.projectxx.feature.login.ui.LoginViewModel
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.runBlocking
@@ -37,7 +37,6 @@ class LoginViewModelTest {
     @Mock
     lateinit var observer: Observer<Event<LoginManager.AuthState>>
 
-
     @Captor
     lateinit var captor: ArgumentCaptor<Event<LoginManager.AuthState>>
 
@@ -51,7 +50,8 @@ class LoginViewModelTest {
                 )
             )
         }
-        loginViewModel = LoginViewModel(loginManager)
+        loginViewModel =
+            LoginViewModel(loginManager)
 
         loginViewModel.authState.observeForever(observer)
     }
@@ -67,7 +67,8 @@ class LoginViewModelTest {
                     )
                 )
             }
-            loginViewModel = LoginViewModel(loginManager)
+            loginViewModel =
+                LoginViewModel(loginManager)
             loginViewModel.authState.observeForever(observer)
             verify(observer).onChanged(captor.capture())
 
@@ -85,7 +86,8 @@ class LoginViewModelTest {
                     LoginManager.AuthState.LoggedOut("Some error")
                 )
             }
-            loginViewModel = LoginViewModel(loginManager)
+            loginViewModel =
+                LoginViewModel(loginManager)
             loginViewModel.authState.observeForever(observer)
             verify(observer).onChanged(captor.capture())
 

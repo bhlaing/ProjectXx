@@ -1,4 +1,4 @@
-package com.x.projectxx.ui.chat
+package com.x.projectxx.feature.chat.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

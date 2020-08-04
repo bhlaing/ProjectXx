@@ -1,4 +1,4 @@
-package com.x.projectxx.ui.login
+package com.x.projectxx.feature.login.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,9 +13,8 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.x.projectxx.databinding.LoginFragmentBinding
 import com.x.projectxx.global.extensions.observeEvent
-import com.x.projectxx.global.extensions.observeNonNull
 import com.x.projectxx.global.login.LoginManager
-import com.x.projectxx.ui.chat.ChatActivity
+import com.x.projectxx.feature.chat.ui.ChatActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

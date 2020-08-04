@@ -1,4 +1,4 @@
-package com.x.projectxx.ui.login
+package com.x.projectxx.feature.login.ui
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
