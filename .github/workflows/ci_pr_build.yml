@@ -6,24 +6,18 @@ on: pull_request
 jobs:
   build:
 
-      # Run this on Ubuntu
       runs-on: ubuntu-latest
 
         steps:
-          # Step 1
-          - name: Check out repository
           - uses: actions/checkout@v1
 
-          # Step 2
           - name: Set Up JDK
             uses: actions/setup-java@v1
             with:
               java-version: 1.8
 
-          # Step 3
           - name: Run Tests
             run: ./gradlew test
 
-          # Step 4
           - name: Build Project
             run: ./gradlew assemble
