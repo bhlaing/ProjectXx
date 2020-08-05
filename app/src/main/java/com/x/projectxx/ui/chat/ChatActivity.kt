@@ -3,14 +3,16 @@ package com.x.projectxx.ui.chat
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuInflater
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.x.projectxx.R
 import com.x.projectxx.databinding.ActivityChatBinding
+import com.x.projectxx.ui.BaseActivity
 
-class ChatActivity : AppCompatActivity() {
+class ChatActivity : BaseActivity() {
 
     companion object {
         fun makeChatIntent(context: Context) : Intent {
@@ -28,5 +30,13 @@ class ChatActivity : AppCompatActivity() {
         val navController = findNavController(R.id.chatFlowFragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+
+        setSupportActionBar(binding.toolbar)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
     }
 }
