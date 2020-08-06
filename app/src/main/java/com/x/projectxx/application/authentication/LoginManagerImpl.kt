@@ -1,4 +1,4 @@
-package com.x.projectxx.global.login
+package com.x.projectxx.application.authentication
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,6 +6,7 @@ import com.facebook.AccessToken
 import com.facebook.AccessTokenTracker
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.x.projectxx.application.authentication.userprofile.mapper.toUserProfile
 import javax.inject.Inject
 
 class LoginManagerImpl @Inject constructor(): LoginManager {
@@ -27,7 +28,7 @@ class LoginManagerImpl @Inject constructor(): LoginManager {
     }
 
     private fun getAuthStatusFromFireBase() = auth.currentUser?.let {
-        LoginManager.AuthState.LoggedIn(it)
+        LoginManager.AuthState.LoggedIn(it.toUserProfile())
     } ?: LoginManager.AuthState.LoggedOut("")
 
     override fun getUserLoginStatus(): LiveData<LoginManager.AuthState> = if(authStatus.value != null) {
@@ -44,7 +45,7 @@ class LoginManagerImpl @Inject constructor(): LoginManager {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful && auth.currentUser != null) {
                     auth.currentUser?.run {
-                        authStatus.value = LoginManager.AuthState.LoggedIn(this)
+                        authStatus.value = LoginManager.AuthState.LoggedIn(this.toUserProfile())
                         accessTokenTracker.startTracking()
 
                     }

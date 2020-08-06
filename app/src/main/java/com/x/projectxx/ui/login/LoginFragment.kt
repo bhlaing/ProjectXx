@@ -12,9 +12,8 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.x.projectxx.databinding.LoginFragmentBinding
-import com.x.projectxx.global.extensions.observeEvent
-import com.x.projectxx.global.extensions.observeNonNull
-import com.x.projectxx.global.login.LoginManager
+import com.x.projectxx.application.extensions.observeEvent
+import com.x.projectxx.application.authentication.LoginManager
 import com.x.projectxx.ui.chat.ChatActivity
 import dagger.hilt.android.AndroidEntryPoint
 

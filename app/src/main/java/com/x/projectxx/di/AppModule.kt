@@ -2,8 +2,8 @@ package com.x.projectxx.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.x.projectxx.global.login.LoginManager
-import com.x.projectxx.global.login.LoginManagerImpl
+import com.x.projectxx.application.authentication.LoginManager
+import com.x.projectxx.application.authentication.LoginManagerImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

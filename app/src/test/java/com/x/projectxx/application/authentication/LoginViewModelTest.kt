@@ -1,12 +1,11 @@
-package com.x.projectxx.login
+package com.x.projectxx.application.authentication
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.facebook.AccessToken
-import com.google.firebase.auth.FirebaseUser
-import com.x.projectxx.global.extensions.Event
-import com.x.projectxx.global.login.LoginManager
+import com.x.projectxx.application.extensions.Event
+import com.x.projectxx.application.authentication.userprofile.UserProfile
 import com.x.projectxx.ui.login.LoginViewModel
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
@@ -18,37 +17,24 @@ import org.mockito.*
 import org.mockito.Mockito.*
 import org.mockito.Mockito.`when` as whenever
 
-
 class LoginViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    @Mock
-    lateinit var loginManager: LoginManager
+    @Mock lateinit var loginManager: LoginManager
+    private val mockUserProfile = UserProfile("", "", null)
+    @Mock lateinit var mockAccessToken: AccessToken
+    @Mock lateinit var observer: Observer<Event<LoginManager.AuthState>>
+    @Captor lateinit var captor: ArgumentCaptor<Event<LoginManager.AuthState>>
 
-    @Mock
-    lateinit var mockFireBaseUser: FirebaseUser
-
-    @Mock
-    lateinit var mockAccessToken: AccessToken
-
-    lateinit var loginViewModel: LoginViewModel
-
-    @Mock
-    lateinit var observer: Observer<Event<LoginManager.AuthState>>
-
-
-    @Captor
-    lateinit var captor: ArgumentCaptor<Event<LoginManager.AuthState>>
+    private lateinit var loginViewModel: LoginViewModel
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
         whenever(loginManager.getUserLoginStatus()).then {
             MutableLiveData(
-                LoginManager.AuthState.LoggedIn(
-                    mockFireBaseUser
-                )
+                LoginManager.AuthState.LoggedIn(mockUserProfile)
             )
         }
         loginViewModel = LoginViewModel(loginManager)
@@ -62,9 +48,7 @@ class LoginViewModelTest {
             clearInvocations(observer)
             whenever(loginManager.getUserLoginStatus()).then {
                 MutableLiveData(
-                    LoginManager.AuthState.LoggedIn(
-                        mockFireBaseUser
-                    )
+                    LoginManager.AuthState.LoggedIn(mockUserProfile)
                 )
             }
             loginViewModel = LoginViewModel(loginManager)
@@ -92,9 +76,9 @@ class LoginViewModelTest {
             //TO-DO: After creating user profile model we should assert the user too here
             assertTrue (captor.value.peekContent() is LoginManager.AuthState.LoggedOut)
 
-            val logedOutState = captor.value.peekContent() as LoginManager.AuthState.LoggedOut
+            val loggedOutState = captor.value.peekContent() as LoginManager.AuthState.LoggedOut
 
-            assertEquals(logedOutState.error , "Some error")
+            assertEquals(loggedOutState.error , "Some error")
         }
     }
 
