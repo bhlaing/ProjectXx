@@ -34,6 +34,7 @@ class MainSettingsActivity: BaseActivity() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
         showBackButton(binding.toolbar)
+        title = getString(R.string.settings)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
