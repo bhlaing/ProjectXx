@@ -37,6 +37,16 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    testOptions {
+        /**
+         * Added due to an issue with using Uri.parse("xxx") in test.
+         * Without this using Uri.parse in Mockito mocks throws
+         * Uri not mocked exception
+         * see @link http://tools.android.com/tech-docs/unit-testing-support#TOC-Method-...-not-mocked.-
+         */
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {

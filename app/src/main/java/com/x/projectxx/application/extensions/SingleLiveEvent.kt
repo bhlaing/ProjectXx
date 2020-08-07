@@ -1,4 +1,4 @@
-package com.x.projectxx.global.extensions
+package com.x.projectxx.application.extensions
 
 /*
  *  Copyright 2017 Google Inc.
