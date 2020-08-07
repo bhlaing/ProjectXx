@@ -37,7 +37,7 @@ class LoginManagerImpl @Inject constructor(): LoginManager {
         authStatus.apply { value = getAuthStatusFromFireBase() }
     }
 
-    override fun getFacebookUser() = auth.currentUser
+    override fun getCurrentUser() = auth.currentUser
 
     override fun loginWithFacebookToken(token: AccessToken) {
         val credential = FacebookAuthProvider.getCredential(token.token)

@@ -11,21 +11,21 @@ import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
-import com.x.projectxx.databinding.LoginFragmentBinding
 import com.x.projectxx.application.extensions.observeEvent
 import com.x.projectxx.application.authentication.LoginManager
+import com.x.projectxx.databinding.FragmentLoginBinding
 import com.x.projectxx.ui.chat.ChatActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
     private val callbackManager = CallbackManager.Factory.create()
-    private lateinit var binding: LoginFragmentBinding
+    private lateinit var binding: FragmentLoginBinding
 
     private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = LoginFragmentBinding.inflate(inflater)
+        binding = FragmentLoginBinding.inflate(inflater)
         binding.loginButton.setReadPermissions("email", "public_profile")
         binding.loginButton.fragment = this
         binding.loginButton.registerCallback(

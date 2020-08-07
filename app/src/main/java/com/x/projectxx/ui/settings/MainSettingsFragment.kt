@@ -1,44 +1,28 @@
 package com.x.projectxx.ui.settings
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginResult
-import com.x.projectxx.databinding.LoginFragmentBinding
-import com.x.projectxx.application.extensions.observeEvent
-import com.x.projectxx.application.authentication.LoginManager
-import com.x.projectxx.ui.chat.ChatActivity
+import com.squareup.picasso.Picasso
+import com.x.projectxx.application.authentication.userprofile.UserProfile
+import com.x.projectxx.application.extensions.observeNonNull
+import com.x.projectxx.application.extensions.showLongToast
+import com.x.projectxx.databinding.FragmentSettingsBinding
+import com.x.projectxx.domain.userprofile.model.UserProfileResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainSettingsFragment : Fragment() {
-    private val callbackManager = CallbackManager.Factory.create()
-    private lateinit var binding: LoginFragmentBinding
+    private lateinit var binding: FragmentSettingsBinding
 
-    private val viewModel: LoginViewModel by viewModels()
+    private val viewModel: MainSettingsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = LoginFragmentBinding.inflate(inflater)
-        binding.loginButton.setReadPermissions("email", "public_profile")
-        binding.loginButton.fragment = this
-        binding.loginButton.registerCallback(
-            callbackManager,
-            object : FacebookCallback<LoginResult> {
-                override fun onSuccess(loginResult: LoginResult) {
-                    viewModel.onFacebookLoginSuccess(loginResult.accessToken)
-                }
+        binding = FragmentSettingsBinding.inflate(inflater)
 
-                override fun onCancel() {}
-
-                override fun onError(error: FacebookException) {}
-            })
         return binding.root
     }
 
@@ -48,28 +32,23 @@ class MainSettingsFragment : Fragment() {
     }
 
     private fun setUpObservers() {
-        viewLifecycleOwner.observeEvent(viewModel.authState) { authState ->
-            onAuthStateChanged(authState)
-        }
+        viewLifecycleOwner.observeNonNull(viewModel.currentUser) { onUserProfileResult(it) }
     }
 
-    private fun onAuthStateChanged(authState: LoginManager.AuthState) =
-        when (authState) {
-            is LoginManager.AuthState.LoggedIn -> {
-                navigateToChatScreen()
-
+    private fun onUserProfileResult(userProfileResult: UserProfileResult) =
+        when(userProfileResult) {
+            is UserProfileResult.Success -> {
+                updateUserProfile(userProfileResult.userProfile)
             }
-            is LoginManager.AuthState.LoggedOut -> {
-                binding.displayName.text = "ProjectxX"
+            is UserProfileResult.Error -> {
+                context?.run { showLongToast(getString(userProfileResult.error)) }
             }
         }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    private fun updateUserProfile(userProfile: UserProfile) {
+        binding.profileLayout.nameText.text = userProfile.displayName
+        binding.profileLayout.statusText.text = userProfile.status
 
-        callbackManager.onActivityResult(requestCode, resultCode, data)
+        Picasso.get().load(userProfile.uri).into(binding.profileLayout.profileImage)
     }
-
-    private fun navigateToChatScreen() =
-        startActivity(ChatActivity.makeChatIntent(requireContext()))
 }

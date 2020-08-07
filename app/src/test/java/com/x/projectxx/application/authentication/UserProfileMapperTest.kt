@@ -1,6 +1,5 @@
 package com.x.projectxx.application.authentication
 
-import android.net.Uri
 import com.google.firebase.auth.FirebaseUser
 import com.x.projectxx.application.authentication.userprofile.mapper.toUserProfile
 import com.x.projectxx.application.extensions.toAndroidUri

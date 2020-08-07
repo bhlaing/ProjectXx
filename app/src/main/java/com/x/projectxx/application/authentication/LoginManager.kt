@@ -7,7 +7,7 @@ import com.x.projectxx.application.authentication.userprofile.UserProfile
 
 interface LoginManager {
     fun getUserLoginStatus(): LiveData<AuthState>
-    fun getFacebookUser(): FirebaseUser?
+    fun getCurrentUser(): FirebaseUser?
     fun loginWithFacebookToken(token: AccessToken)
 
     sealed class AuthState {

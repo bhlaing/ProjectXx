@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.x.projectxx.databinding.ChatFragmentBinding
+import com.x.projectxx.databinding.FragmentChatBinding
 
 class ChatFragment() : Fragment(){
 
-    private lateinit var binding: ChatFragmentBinding
+    private lateinit var binding: FragmentChatBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ChatFragmentBinding.inflate(inflater)
+        binding = FragmentChatBinding.inflate(inflater)
         return binding.root
     }
 }
