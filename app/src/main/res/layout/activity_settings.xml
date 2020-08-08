@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.settings.MainSettingsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
@@ -20,11 +20,11 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <fragment
-        android:id="@+id/loginFlowFragment"
+        android:id="@+id/settingsFlowFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/appBar"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/login_nav_graph" />
+        app:navGraph="@navigation/settings_nav_graph" />
 </RelativeLayout>
