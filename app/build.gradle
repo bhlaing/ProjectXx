@@ -97,6 +97,12 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
 
     testImplementation 'org.mockito:mockito-inline:3.4.6'
-
     testImplementation 'android.arch.core:core-testing:1.1.1'
+
+
+    def cardViewVersion = '1.0.0'
+    implementation "androidx.cardview:cardview:$cardViewVersion"
+
+    def picassoVersion = '2.71828'
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
 }
