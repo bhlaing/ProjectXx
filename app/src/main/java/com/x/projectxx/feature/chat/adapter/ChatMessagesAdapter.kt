@@ -14,32 +14,33 @@ class ChatMessagesAdapter :
     private var messages: List<ChatTranscript.Message> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ChatMessageViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_chat_message,parent,false))
+        return ChatMessageViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_chat_message, parent, false)
+        )
     }
 
-    fun submitMessages(messageList: List<ChatTranscript.Message>){
+    fun updateMessages(messageList: List<ChatTranscript.Message>) {
         messages = messageList
     }
 
     override fun getItemCount(): Int = messages.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(holder){
+        when (holder) {
             is ChatMessageViewHolder -> {
                 holder.bind(messages[position])
             }
         }
     }
 
-    class ChatMessageViewHolder
-    constructor(itemView: View
+    internal class ChatMessageViewHolder(
+        itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
 
         private val messageText = itemView.messageTextView
 
-        fun bind(message:ChatTranscript.Message){
+        fun bind(message: ChatTranscript.Message) {
             messageText.text = message.text
         }
     }
-
 }

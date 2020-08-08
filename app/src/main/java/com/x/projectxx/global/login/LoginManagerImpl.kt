@@ -6,7 +6,6 @@ import com.facebook.AccessToken
 import com.facebook.AccessTokenTracker
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.x.projectxx.feature.chat.usecase.GetChatTranscript
 import javax.inject.Inject
 
 class LoginManagerImpl @Inject constructor(): LoginManager {

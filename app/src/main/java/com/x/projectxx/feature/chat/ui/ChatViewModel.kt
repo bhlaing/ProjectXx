@@ -4,6 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.x.projectxx.feature.chat.usecase.GetChatTranscript
 
-class ChatViewModel @ViewModelInject constructor(usecase:GetChatTranscript): ViewModel(){
-    val messages = usecase.invoke(123)
+class ChatViewModel @ViewModelInject constructor(getChatTranscript: GetChatTranscript) :
+    ViewModel() {
+    val messages = getChatTranscript.invoke(123)
 }

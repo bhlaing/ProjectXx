@@ -13,14 +13,17 @@ import com.x.projectxx.global.extensions.observe
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChatFragment : Fragment(){
+class ChatFragment : Fragment() {
 
     private lateinit var binding: ChatFragmentBinding
     private val viewModel: ChatViewModel by viewModels()
     private lateinit var chatMessageAdapter: ChatMessagesAdapter
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = ChatFragmentBinding.inflate(inflater)
         binding.sendButton.setOnClickListener {
             viewModel.messages
@@ -30,11 +33,11 @@ class ChatFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
+        setUpMessageListView()
         setUpObservers()
     }
 
-    private fun setupRecyclerView(){
+    private fun setUpMessageListView() {
         binding.messageList.apply {
             layoutManager = LinearLayoutManager(activity)
             chatMessageAdapter = ChatMessagesAdapter()
@@ -42,12 +45,11 @@ class ChatFragment : Fragment(){
         }
     }
 
-    private fun setUpObservers(){
-        viewLifecycleOwner.observe(viewModel.messages){ chatTranscript ->
+    private fun setUpObservers() {
+        viewLifecycleOwner.observe(viewModel.messages) { chatTranscript ->
             chatTranscript?.messages?.let {
-                chatMessageAdapter.submitMessages(chatTranscript.messages)
+                chatMessageAdapter.updateMessages(chatTranscript.messages)
             }
         }
     }
-
 }

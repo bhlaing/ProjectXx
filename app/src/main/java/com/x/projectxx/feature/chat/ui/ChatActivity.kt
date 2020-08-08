@@ -6,13 +6,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.x.projectxx.R
 import com.x.projectxx.databinding.ActivityChatBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChatActivity : AppCompatActivity() {
 
     companion object {
-        fun makeChatIntent(context: Context) : Intent {
+        fun makeChatIntent(context: Context): Intent {
             return Intent(context, ChatActivity::class.java)
         }
     }
@@ -27,5 +30,6 @@ class ChatActivity : AppCompatActivity() {
         val navController = findNavController(R.id.chatFlowFragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+        setSupportActionBar(binding.toolbar)
     }
 }
