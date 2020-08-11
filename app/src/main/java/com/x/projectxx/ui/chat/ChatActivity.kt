@@ -11,7 +11,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.x.projectxx.R
 import com.x.projectxx.databinding.ActivityChatBinding
 import com.x.projectxx.ui.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChatActivity : BaseActivity() {
 
     companion object {

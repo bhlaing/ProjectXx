@@ -9,11 +9,11 @@ import com.x.projectxx.data.ChatTranscript
 import kotlinx.android.synthetic.main.item_chat_message.view.*
 
 class ChatMessagesAdapter :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<ChatMessagesAdapter.ChatMessageViewHolder>() {
 
-    private var messages: List<ChatTranscript.Message> = ArrayList()
+    private var messages: List<ChatTranscript.Message> = listOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatMessageViewHolder {
         return ChatMessageViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_chat_message, parent, false)
         )
@@ -25,7 +25,7 @@ class ChatMessagesAdapter :
 
     override fun getItemCount(): Int = messages.size
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ChatMessageViewHolder, position: Int) {
         when (holder) {
             is ChatMessageViewHolder -> {
                 holder.bind(messages[position])
@@ -33,14 +33,12 @@ class ChatMessagesAdapter :
         }
     }
 
-    internal class ChatMessageViewHolder(
-        itemView: View
-    ) : RecyclerView.ViewHolder(itemView) {
-
-        private val messageText = itemView.messageTextView
+    inner class ChatMessageViewHolder(
+        private val view: View
+    ) : RecyclerView.ViewHolder(view) {
 
         fun bind(message: ChatTranscript.Message) {
-            messageText.text = message.text
+            view.myselfMessageTextView.text = message.text
         }
     }
 }

@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.x.projectxx.databinding.FragmentChatBinding
 import com.x.projectxx.ui.chat.adapter.ChatMessagesAdapter
-import com.x.projectxx.application.extensions.observe
+import com.x.projectxx.application.extensions.observeNonNull
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,9 +43,10 @@ class ChatFragment : Fragment() {
     }
 
     private fun setUpObservers() {
-        viewLifecycleOwner.observe(viewModel.messages) { chatTranscript ->
+        viewLifecycleOwner.observeNonNull(viewModel.messages) { chatTranscript ->
             chatTranscript?.messages?.let {
                 chatMessageAdapter.updateMessages(chatTranscript.messages)
+                chatMessageAdapter.notifyDataSetChanged()
             }
         }
     }

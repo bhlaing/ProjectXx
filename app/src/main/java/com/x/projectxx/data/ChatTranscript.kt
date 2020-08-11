@@ -1,6 +1,6 @@
 package com.x.projectxx.data
 
-import java.util.*
+import java.util.Date
 
 data class ChatTranscript(val messages: List<Message>) {
 
