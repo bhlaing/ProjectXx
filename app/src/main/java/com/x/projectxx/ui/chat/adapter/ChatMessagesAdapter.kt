@@ -21,6 +21,7 @@ class ChatMessagesAdapter :
 
     fun updateMessages(messageList: List<ChatTranscript.Message>) {
         messages = messageList
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = messages.size
