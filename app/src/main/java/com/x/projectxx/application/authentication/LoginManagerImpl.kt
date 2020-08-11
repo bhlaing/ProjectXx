@@ -26,6 +26,7 @@ class LoginManagerImpl @Inject constructor(
 
             // This is how we know user has logged out if we use facebook login
             if (currentAccessToken == null) {
+
                 auth.signOut()
                 authStatus.value = LoginManager.AuthState.LoggedOut()
             }
