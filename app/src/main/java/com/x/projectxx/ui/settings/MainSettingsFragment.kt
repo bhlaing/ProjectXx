@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.squareup.picasso.Picasso
-import com.x.projectxx.data.identity.userprofile.UserProfile
 import com.x.projectxx.application.extensions.observeNonNull
 import com.x.projectxx.application.extensions.showLongToast
 import com.x.projectxx.databinding.FragmentSettingsBinding
-import com.x.projectxx.domain.userprofile.model.UserProfileResult
+import com.x.projectxx.domain.userprofile.model.User
+import com.x.projectxx.domain.userprofile.usecase.UserProfileResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,20 +38,19 @@ class MainSettingsFragment : Fragment() {
     private fun onUserProfileResult(userProfileResult: UserProfileResult) =
         when(userProfileResult) {
             is UserProfileResult.Success -> {
-                updateUserProfile(userProfileResult.userProfile)
+                updateUserProfile(userProfileResult.user)
             }
             is UserProfileResult.Error -> {
                 context?.run { showLongToast(getString(userProfileResult.error)) }
             }
         }
 
-    private fun updateUserProfile(userProfile: UserProfile) {
+    private fun updateUserProfile(userProfile: User) {
         binding.profileLayout.nameText.text = userProfile.displayName
         binding.profileLayout.statusText.text = userProfile.status
 
-        userProfile.uri?.run {
+        userProfile.image?.run {
             Picasso.get().load(this).into(binding.profileLayout.profileImage)
-
         }
     }
 }

@@ -4,7 +4,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.x.projectxx.data.identity.userprofile.UserProfile
-import com.x.projectxx.data.identity.userprofile.mapper.toUserProfile
+import com.x.projectxx.domain.userprofile.toUserProfile
 import java.io.InvalidObjectException
 import javax.inject.Inject
 import kotlin.coroutines.resume

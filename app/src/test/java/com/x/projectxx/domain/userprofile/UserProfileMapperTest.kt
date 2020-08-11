@@ -1,11 +1,12 @@
-package com.x.projectxx.application.authentication
+package com.x.projectxx.domain.userprofile
 
 import com.google.firebase.auth.FirebaseUser
-import com.x.projectxx.data.identity.userprofile.mapper.toUserProfile
 import com.x.projectxx.application.extensions.toAndroidUri
+import com.x.projectxx.data.identity.userprofile.UserProfile
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.mockito.Mockito
+import java.io.InvalidObjectException
 import org.mockito.Mockito.`when` as whenever
 
 class UserProfileMapperTest {
@@ -22,8 +23,13 @@ class UserProfileMapperTest {
 
         with(userProfile) {
             assertEquals("", displayName)
-            assertEquals("google.com".toAndroidUri(), uri)
+            assertEquals("google.com".toAndroidUri(), image)
             assertEquals("uid", userId)
         }
+    }
+
+    @Test(expected = InvalidObjectException::class)
+    fun `when user id is null throw InvalidObjectException` () {
+        UserProfile().toUser()
     }
 }
