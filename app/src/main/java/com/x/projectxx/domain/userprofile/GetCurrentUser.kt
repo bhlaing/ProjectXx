@@ -2,7 +2,7 @@ package com.x.projectxx.domain.userprofile
 
 import com.x.projectxx.R
 import com.x.projectxx.application.authentication.LoginManager
-import com.x.projectxx.application.authentication.userprofile.mapper.toUserProfile
+import com.x.projectxx.data.identity.userprofile.mapper.toUserProfile
 import com.x.projectxx.domain.userprofile.model.UserProfileResult
 import javax.inject.Inject
 
