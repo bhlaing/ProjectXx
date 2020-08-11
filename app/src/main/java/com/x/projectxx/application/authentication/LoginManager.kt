@@ -3,7 +3,7 @@ package com.x.projectxx.application.authentication
 import androidx.lifecycle.LiveData
 import com.facebook.AccessToken
 import com.google.firebase.auth.FirebaseUser
-import com.x.projectxx.application.authentication.userprofile.UserProfile
+import com.x.projectxx.data.identity.userprofile.UserProfile
 
 interface LoginManager {
     fun getUserLoginStatus(): LiveData<AuthState>

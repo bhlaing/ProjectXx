@@ -1,5 +1,8 @@
 package com.x.projectxx.di
 
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.x.projectxx.application.authentication.LoginManager
@@ -19,4 +22,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideLoginManager(loginManagerImpl: LoginManagerImpl): LoginManager = loginManagerImpl
+
+    @Singleton
+    @Provides
+    fun provideCloudFirebaseFirestoreDatabase(): FirebaseFirestore = Firebase.firestore
 }

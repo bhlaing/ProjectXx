@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.squareup.picasso.Picasso
-import com.x.projectxx.application.authentication.userprofile.UserProfile
+import com.x.projectxx.data.identity.userprofile.UserProfile
 import com.x.projectxx.application.extensions.observeNonNull
 import com.x.projectxx.application.extensions.showLongToast
 import com.x.projectxx.databinding.FragmentSettingsBinding
@@ -49,6 +49,9 @@ class MainSettingsFragment : Fragment() {
         binding.profileLayout.nameText.text = userProfile.displayName
         binding.profileLayout.statusText.text = userProfile.status
 
-        Picasso.get().load(userProfile.uri).into(binding.profileLayout.profileImage)
+        userProfile.uri?.run {
+            Picasso.get().load(this).into(binding.profileLayout.profileImage)
+
+        }
     }
 }

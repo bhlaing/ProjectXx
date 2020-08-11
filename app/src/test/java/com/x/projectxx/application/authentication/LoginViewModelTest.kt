@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.facebook.AccessToken
 import com.x.projectxx.application.extensions.Event
-import com.x.projectxx.application.authentication.userprofile.UserProfile
+import com.x.projectxx.data.identity.userprofile.UserProfile
 import com.x.projectxx.ui.login.LoginViewModel
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue

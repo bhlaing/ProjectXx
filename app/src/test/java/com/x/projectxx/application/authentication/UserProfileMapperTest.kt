@@ -1,7 +1,7 @@
 package com.x.projectxx.application.authentication
 
 import com.google.firebase.auth.FirebaseUser
-import com.x.projectxx.application.authentication.userprofile.mapper.toUserProfile
+import com.x.projectxx.data.identity.userprofile.mapper.toUserProfile
 import com.x.projectxx.application.extensions.toAndroidUri
 import junit.framework.Assert.assertEquals
 import org.junit.Test

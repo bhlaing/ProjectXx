@@ -6,10 +6,15 @@ import com.facebook.AccessToken
 import com.facebook.AccessTokenTracker
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.x.projectxx.application.authentication.userprofile.mapper.toUserProfile
+import com.google.firebase.auth.FirebaseUser
+import com.x.projectxx.data.identity.IdentityService
+import com.x.projectxx.data.identity.userprofile.mapper.toUserProfile
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class LoginManagerImpl @Inject constructor(): LoginManager {
+class LoginManagerImpl @Inject constructor(
+    private val identityService: IdentityService): LoginManager {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val authStatus: MutableLiveData<LoginManager.AuthState> = MutableLiveData()
 
@@ -34,7 +39,8 @@ class LoginManagerImpl @Inject constructor(): LoginManager {
     override fun getUserLoginStatus(): LiveData<LoginManager.AuthState> = if(authStatus.value != null) {
         authStatus
     } else {
-        authStatus.apply { value = getAuthStatusFromFireBase() }
+        authStatus.apply {
+            value = getAuthStatusFromFireBase() }
     }
 
     override fun getCurrentUser() = auth.currentUser
@@ -43,15 +49,27 @@ class LoginManagerImpl @Inject constructor(): LoginManager {
         val credential = FacebookAuthProvider.getCredential(token.token)
         auth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
-                if (task.isSuccessful && auth.currentUser != null) {
-                    auth.currentUser?.run {
-                        authStatus.value = LoginManager.AuthState.LoggedIn(this.toUserProfile())
-                        accessTokenTracker.startTracking()
+                if (task.isSuccessful) {
+                    auth.currentUser?.let { firebaseUser ->
 
+                        GlobalScope.launch {
+                            val userProfile = getUserProfile(firebaseUser.uid) ?: createUserProfile(firebaseUser)
+
+                            authStatus.postValue(LoginManager.AuthState.LoggedIn(userProfile))
+
+                            accessTokenTracker.startTracking()
+                        }
                     }
                 } else {
-                    authStatus.value = LoginManager.AuthState.LoggedOut("Unable to log in")
+                    authStatus.value = LoginManager.AuthState.LoggedOut("Unable to sign-in")
                 }
             }
     }
+
+
+    private suspend fun createUserProfile(firebaseUser: FirebaseUser) =
+        identityService.createUserProfile(firebaseUser)
+
+    private suspend fun getUserProfile(userId: String) =
+        identityService.getUserProfile(userId)
 }
