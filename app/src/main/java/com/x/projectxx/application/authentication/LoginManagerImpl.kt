@@ -8,7 +8,8 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.x.projectxx.data.identity.IdentityService
-import com.x.projectxx.data.identity.userprofile.mapper.toUserProfile
+import com.x.projectxx.domain.userprofile.toUser
+import com.x.projectxx.domain.userprofile.toUserProfile
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,7 +35,9 @@ class LoginManagerImpl @Inject constructor(
     }
 
     private fun getAuthStatusFromFireBase() = auth.currentUser?.let {
-        LoginManager.AuthState.LoggedIn(it.toUserProfile())
+        // TO-DO this auth state is tied to App initialisation card
+        // Once app is initialised User should never be null!
+        LoginManager.AuthState.LoggedIn(it.toUserProfile().toUser())
     } ?: LoginManager.AuthState.LoggedOut("")
 
     override fun getUserLoginStatus(): LiveData<LoginManager.AuthState> = if(authStatus.value != null) {
@@ -44,7 +47,8 @@ class LoginManagerImpl @Inject constructor(
             value = getAuthStatusFromFireBase() }
     }
 
-    override fun getCurrentUser() = auth.currentUser
+    // TO-DO We will get this current user from SessionManager down the track
+    override fun getCurrentUser() = auth.currentUser?.toUserProfile()?.toUser()
 
     override fun loginWithFacebookToken(token: AccessToken) {
         val credential = FacebookAuthProvider.getCredential(token.token)
@@ -56,7 +60,7 @@ class LoginManagerImpl @Inject constructor(
                         GlobalScope.launch {
                             val userProfile = getUserProfile(firebaseUser.uid) ?: createUserProfile(firebaseUser)
 
-                            authStatus.postValue(LoginManager.AuthState.LoggedIn(userProfile))
+                            authStatus.postValue(LoginManager.AuthState.LoggedIn(userProfile.toUser()))
 
                             accessTokenTracker.startTracking()
                         }

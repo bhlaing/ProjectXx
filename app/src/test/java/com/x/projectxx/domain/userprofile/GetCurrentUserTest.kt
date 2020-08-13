@@ -1,17 +1,16 @@
 package com.x.projectxx.domain.userprofile
 
 
-import com.google.firebase.auth.FirebaseUser
 import com.x.projectxx.R
 import com.x.projectxx.application.authentication.LoginManager
-import com.x.projectxx.application.extensions.toAndroidUri
-import com.x.projectxx.domain.userprofile.model.UserProfileResult
+import com.x.projectxx.domain.userprofile.model.User
+import com.x.projectxx.domain.userprofile.usecase.UserProfileResult
+import com.x.projectxx.domain.userprofile.usecase.GetCurrentUser
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.Mockito.`when` as whenever
 
@@ -23,27 +22,31 @@ class GetCurrentUserTest {
     fun setUp() {
         MockitoAnnotations.openMocks(this)
 
-        getCurrentUser = GetCurrentUser(loginManager)
+        getCurrentUser =
+            GetCurrentUser(
+                loginManager
+            )
 
     }
 
     @Test
     fun `when there is valid user logged in currently then return success result` () {
-        val mockFireBaseUser = Mockito.mock(FirebaseUser::class.java)
+        val mockUser = User(displayName = "ProjectXx",
+            image = "google.com",
+            userId = "uid",
+                email = "a@b.c")
 
-        whenever(mockFireBaseUser.displayName).thenReturn("ProjectXx")
-        whenever(mockFireBaseUser.photoUrl).thenReturn("google.com".toAndroidUri())
-        whenever(mockFireBaseUser.uid).thenReturn("uid")
-
-        whenever(loginManager.getCurrentUser()).thenReturn(mockFireBaseUser)
+        whenever(loginManager.getCurrentUser()).thenReturn(mockUser)
 
 
         val profileResult  = getCurrentUser()
         assertTrue (profileResult is UserProfileResult.Success)
 
         with(profileResult as UserProfileResult.Success) {
-            assertEquals("ProjectXx", userProfile.displayName)
-            assertEquals("google.com".toAndroidUri(), userProfile.uri)
+            assertEquals("ProjectXx", user.displayName)
+            assertEquals("google.com", user.image)
+            assertEquals("uid", user.userId)
+            assertEquals("a@b.c", user.email)
         }
     }
 

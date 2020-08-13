@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.facebook.AccessToken
 import com.x.projectxx.application.extensions.Event
-import com.x.projectxx.data.identity.userprofile.UserProfile
+import com.x.projectxx.domain.userprofile.model.User
 import com.x.projectxx.ui.login.LoginViewModel
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
@@ -22,7 +22,7 @@ class LoginViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     @Mock lateinit var loginManager: LoginManager
-    private val mockUserProfile = UserProfile("", "", null)
+    private val mockUser = User("", "", null, "email")
     @Mock lateinit var mockAccessToken: AccessToken
     @Mock lateinit var observer: Observer<Event<LoginManager.AuthState>>
     @Captor lateinit var captor: ArgumentCaptor<Event<LoginManager.AuthState>>
@@ -34,7 +34,7 @@ class LoginViewModelTest {
         MockitoAnnotations.openMocks(this)
         whenever(loginManager.getUserLoginStatus()).then {
             MutableLiveData(
-                LoginManager.AuthState.LoggedIn(mockUserProfile)
+                LoginManager.AuthState.LoggedIn(mockUser)
             )
         }
         loginViewModel = LoginViewModel(loginManager)
@@ -48,7 +48,7 @@ class LoginViewModelTest {
             clearInvocations(observer)
             whenever(loginManager.getUserLoginStatus()).then {
                 MutableLiveData(
-                    LoginManager.AuthState.LoggedIn(mockUserProfile)
+                    LoginManager.AuthState.LoggedIn(mockUser)
                 )
             }
             loginViewModel = LoginViewModel(loginManager)
