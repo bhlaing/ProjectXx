@@ -5,12 +5,16 @@ import androidx.lifecycle.*
 import com.facebook.AccessToken
 import com.x.projectxx.application.extensions.Event
 import com.x.projectxx.application.authentication.LoginManager
+import kotlinx.coroutines.launch
 
-class LoginViewModel @ViewModelInject constructor(private val loginManager: LoginManager) : ViewModel() {
+class LoginViewModel @ViewModelInject constructor(private val loginManager: LoginManager) :
+    ViewModel() {
 
-    val authState: LiveData<Event<LoginManager.AuthState>> = loginManager.getUserLoginStatus().map {
-        Event(it)
-    }
+    private val _authState: MutableLiveData<Event<LoginManager.AuthState>> = MutableLiveData()
+    val authState: LiveData<Event<LoginManager.AuthState>> = _authState
 
-    fun onFacebookLoginSuccess(token: AccessToken) = loginManager.loginWithFacebookToken(token)
+    fun onFacebookLoginSuccess(token: AccessToken) =
+        viewModelScope.launch {
+            loginManager.loginWithFacebookToken(token) { _authState.postValue(Event(it)) }
+        }
 }

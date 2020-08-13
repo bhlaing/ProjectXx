@@ -1,7 +1,5 @@
 package com.x.projectxx.application.authentication
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.facebook.AccessToken
 import com.facebook.AccessTokenTracker
 import com.google.firebase.auth.FacebookAuthProvider
@@ -17,7 +15,7 @@ import javax.inject.Inject
 class LoginManagerImpl @Inject constructor(
     private val identityService: IdentityService): LoginManager {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val authStatus: MutableLiveData<LoginManager.AuthState> = MutableLiveData()
+    private var authStatus: LoginManager.AuthState? = null
 
     private var accessTokenTracker: AccessTokenTracker = object : AccessTokenTracker() {
         override fun onCurrentAccessTokenChanged(
@@ -29,44 +27,52 @@ class LoginManagerImpl @Inject constructor(
             if (currentAccessToken == null) {
 
                 auth.signOut()
-                authStatus.value = LoginManager.AuthState.LoggedOut()
+                authStatus = LoginManager.AuthState.LoggedOut()
             }
         }
     }
 
-    private fun getAuthStatusFromFireBase() = auth.currentUser?.let {
-        // TO-DO this auth state is tied to App initialisation card
-        // Once app is initialised User should never be null!
-        LoginManager.AuthState.LoggedIn(it.toUserProfile().toUser())
-    } ?: LoginManager.AuthState.LoggedOut("")
 
-    override fun getUserLoginStatus(): LiveData<LoginManager.AuthState> = if(authStatus.value != null) {
-        authStatus
-    } else {
-        authStatus.apply {
-            value = getAuthStatusFromFireBase() }
+    private suspend fun initLoginStatusWithFireBaseuser(firebaseUser: FirebaseUser) {
+        val userProfile = getUserProfile(firebaseUser.uid) ?: createUserProfile(firebaseUser)
+        authStatus = LoginManager.AuthState.LoggedIn(userProfile.toUser())
+    }
+
+    override suspend fun getUserLoginStatus(): LoginManager.AuthState? {
+        if(authStatus != null) {
+            return authStatus
+        } else {
+            // User is logged in but have not initialise user profile yet
+            if(auth.currentUser != null) {
+                // Login and initialise user profile
+                initLoginStatusWithFireBaseuser((auth.currentUser!!))
+            } else {
+                authStatus = LoginManager.AuthState.LoggedOut()
+            }
+        }
+
+        return authStatus;
     }
 
     // TO-DO We will get this current user from SessionManager down the track
     override fun getCurrentUser() = auth.currentUser?.toUserProfile()?.toUser()
 
-    override fun loginWithFacebookToken(token: AccessToken) {
+    override suspend fun loginWithFacebookToken(token: AccessToken,
+                                                onCompleteListener: (LoginManager.AuthState) -> Unit) {
         val credential = FacebookAuthProvider.getCredential(token.token)
         auth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     auth.currentUser?.let { firebaseUser ->
-
                         GlobalScope.launch {
-                            val userProfile = getUserProfile(firebaseUser.uid) ?: createUserProfile(firebaseUser)
-
-                            authStatus.postValue(LoginManager.AuthState.LoggedIn(userProfile.toUser()))
-
+                            initLoginStatusWithFireBaseuser(firebaseUser)
+                            onCompleteListener(authStatus!!)
                             accessTokenTracker.startTracking()
                         }
                     }
                 } else {
-                    authStatus.value = LoginManager.AuthState.LoggedOut("Unable to sign-in")
+                    authStatus = LoginManager.AuthState.LoggedOut("Unable to sign-in")
+                    onCompleteListener(authStatus!!)
                 }
             }
     }
