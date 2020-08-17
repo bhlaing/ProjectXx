@@ -11,6 +11,8 @@ import com.x.projectxx.domain.userprofile.toUserProfile
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class LoginManagerImpl @Inject constructor(
     private val identityService: IdentityService): LoginManager {
@@ -57,25 +59,25 @@ class LoginManagerImpl @Inject constructor(
     // TO-DO We will get this current user from SessionManager down the track
     override fun getCurrentUser() = auth.currentUser?.toUserProfile()?.toUser()
 
-    override suspend fun loginWithFacebookToken(token: AccessToken,
-                                                onCompleteListener: (LoginManager.AuthState) -> Unit) {
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    auth.currentUser?.let { firebaseUser ->
-                        GlobalScope.launch {
-                            initLoginStatusWithFireBaseuser(firebaseUser)
-                            onCompleteListener(authStatus!!)
-                            accessTokenTracker.startTracking()
+    override suspend fun loginWithFacebookToken(token: AccessToken): LoginManager.AuthState =
+        suspendCoroutine<LoginManager.AuthState> {
+            val credential = FacebookAuthProvider.getCredential(token.token)
+            auth.signInWithCredential(credential)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        auth.currentUser?.let { firebaseUser ->
+                            GlobalScope.launch {
+                                initLoginStatusWithFireBaseuser(firebaseUser)
+                                it.resume(authStatus!!)
+                                accessTokenTracker.startTracking()
+                            }
                         }
+                    } else {
+                        authStatus = LoginManager.AuthState.LoggedOut("Unable to sign-in")
+                        it.resume(authStatus!!)
                     }
-                } else {
-                    authStatus = LoginManager.AuthState.LoggedOut("Unable to sign-in")
-                    onCompleteListener(authStatus!!)
                 }
-            }
-    }
+        }
 
 
     private suspend fun createUserProfile(firebaseUser: FirebaseUser) =
