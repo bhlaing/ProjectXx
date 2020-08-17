@@ -16,4 +16,7 @@
 
     <!-- Exception messages-->
     <string name="generic_error_message">Oops..Something went wrong!</string>
+
+    <!-- Exception messages-->
+    <string name="login_welcome_message">Please login to continue</string>
 </resources>

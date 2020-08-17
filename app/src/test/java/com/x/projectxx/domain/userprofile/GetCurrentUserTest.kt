@@ -22,11 +22,7 @@ class GetCurrentUserTest {
     fun setUp() {
         MockitoAnnotations.openMocks(this)
 
-        getCurrentUser =
-            GetCurrentUser(
-                loginManager
-            )
-
+        getCurrentUser = GetCurrentUser(loginManager)
     }
 
     @Test
