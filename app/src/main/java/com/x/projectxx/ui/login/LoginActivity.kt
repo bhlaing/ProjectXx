@@ -1,5 +1,7 @@
 package com.x.projectxx.ui.login
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -16,6 +18,10 @@ class LoginActivity : BaseActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
+
+        fun makeChatIntent(context: Context) : Intent {
+            return Intent(context, LoginActivity::class.java)
+        }
     }
 
     val db = Firebase.firestore
