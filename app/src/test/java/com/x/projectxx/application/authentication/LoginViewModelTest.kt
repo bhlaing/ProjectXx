@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.facebook.AccessToken
 import com.x.projectxx.domain.userprofile.model.User
 import com.x.projectxx.ui.login.LoginViewModel
+import com.x.projectxx.ui.login.model.LoginState
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -11,7 +12,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.*
 import org.mockito.Mockito.`when` as whenever
-
 
 class LoginViewModelTest {
     @get:Rule
@@ -43,7 +43,7 @@ class LoginViewModelTest {
             loginViewModel = LoginViewModel(loginManager)
             loginViewModel.onFacebookLoginSuccess(mockAccessToken)
 
-            assertTrue(loginViewModel.authState.value?.peekContent() is LoginManager.AuthState.LoggedIn )
+            assertTrue(loginViewModel.authState.value?.peekContent() is LoginState.Success)
         }
     }
 
@@ -59,7 +59,7 @@ class LoginViewModelTest {
             loginViewModel = LoginViewModel(loginManager)
             loginViewModel.onFacebookLoginSuccess(mockAccessToken)
 
-            assertTrue(loginViewModel.authState.value?.peekContent() is LoginManager.AuthState.LoggedOut )
+            assertTrue(loginViewModel.authState.value?.peekContent() is LoginState.Failed)
         }
     }
 }

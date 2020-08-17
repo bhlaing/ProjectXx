@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.*
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.facebook.CallbackManager
@@ -15,6 +16,7 @@ import com.x.projectxx.application.extensions.observeEvent
 import com.x.projectxx.application.authentication.LoginManager
 import com.x.projectxx.databinding.FragmentLoginBinding
 import com.x.projectxx.ui.chat.ChatActivity
+import com.x.projectxx.ui.login.model.LoginState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,14 +55,27 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun onAuthStateChanged(authState: LoginManager.AuthState) =
-        when (authState) {
-            is LoginManager.AuthState.LoggedIn -> {
-                navigateToChatScreen()
+    private fun onAuthStateChanged(loginState: LoginState) =
+        when (loginState) {
+            is LoginState.Loading ->  {
+                binding.loginButton.visibility = INVISIBLE
+                binding.loginToContinue.visibility = INVISIBLE
 
+                binding.loading.visibility = VISIBLE
             }
-            is LoginManager.AuthState.LoggedOut -> {
-                binding.displayName.text = "ProjectxX"
+            is LoginState.Success -> {
+                binding.loading.visibility = GONE
+
+                navigateToChatScreen()
+            }
+            is LoginState.Failed -> {
+                binding.loading.visibility = GONE
+
+                binding.loginButton.visibility = VISIBLE
+                binding.loginToContinue.visibility = VISIBLE
+
+                binding.loginToContinue.text = loginState.error
+
             }
         }
 

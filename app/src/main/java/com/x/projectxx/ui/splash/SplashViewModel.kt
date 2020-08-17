@@ -9,6 +9,6 @@ import com.x.projectxx.application.authentication.LoginManager
 class SplashViewModel @ViewModelInject constructor(private val loginManager: LoginManager): ViewModel() {
 
     val authStatus: LiveData<LoginManager.AuthState> = liveData {
-        loginManager.getUserLoginStatus()?.let { emit(it) }
+        emit(loginManager.getUserLoginStatus())
     }
 }

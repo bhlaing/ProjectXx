@@ -35,46 +35,46 @@ class LoginManagerImpl @Inject constructor(
     }
 
 
-    private suspend fun initLoginStatusWithFireBaseuser(firebaseUser: FirebaseUser) {
+    private suspend fun initLoginStatusWithFireBaseUser(firebaseUser: FirebaseUser) {
         val userProfile = getUserProfile(firebaseUser.uid) ?: createUserProfile(firebaseUser)
         authStatus = LoginManager.AuthState.LoggedIn(userProfile.toUser())
     }
 
-    override suspend fun getUserLoginStatus(): LoginManager.AuthState? {
-        if(authStatus != null) {
-            return authStatus
+    override suspend fun getUserLoginStatus(): LoginManager.AuthState {
+        return if(authStatus != null) {
+            authStatus!!
         } else {
             // User is logged in but have not initialise user profile yet
             if(auth.currentUser != null) {
                 // Login and initialise user profile
-                initLoginStatusWithFireBaseuser((auth.currentUser!!))
+                initLoginStatusWithFireBaseUser((auth.currentUser!!))
             } else {
                 authStatus = LoginManager.AuthState.LoggedOut()
             }
+            authStatus!!
         }
-
-        return authStatus;
     }
 
     // TO-DO We will get this current user from SessionManager down the track
     override fun getCurrentUser() = auth.currentUser?.toUserProfile()?.toUser()
 
     override suspend fun loginWithFacebookToken(token: AccessToken): LoginManager.AuthState =
-        suspendCoroutine<LoginManager.AuthState> {
+        suspendCoroutine { cont ->
             val credential = FacebookAuthProvider.getCredential(token.token)
             auth.signInWithCredential(credential)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         auth.currentUser?.let { firebaseUser ->
                             GlobalScope.launch {
-                                initLoginStatusWithFireBaseuser(firebaseUser)
-                                it.resume(authStatus!!)
+                                initLoginStatusWithFireBaseUser(firebaseUser)
+
+                                cont.resume(authStatus!!)
                                 accessTokenTracker.startTracking()
                             }
                         }
                     } else {
                         authStatus = LoginManager.AuthState.LoggedOut("Unable to sign-in")
-                        it.resume(authStatus!!)
+                        cont.resume(authStatus!!)
                     }
                 }
         }
