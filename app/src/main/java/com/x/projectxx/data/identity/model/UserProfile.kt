@@ -1,4 +1,4 @@
-package com.x.projectxx.data.identity.userprofile
+package com.x.projectxx.data.identity.model
 
 data class UserProfile(
     val userId: String? = null,

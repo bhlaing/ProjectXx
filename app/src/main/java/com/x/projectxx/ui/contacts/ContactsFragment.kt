@@ -6,13 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.squareup.picasso.Picasso
 import com.x.projectxx.application.extensions.observeNonNull
-import com.x.projectxx.application.extensions.showLongToast
 import com.x.projectxx.databinding.FragmentContactsBinding
-import com.x.projectxx.databinding.FragmentSettingsBinding
-import com.x.projectxx.domain.userprofile.model.User
-import com.x.projectxx.domain.userprofile.usecase.UserProfileResult
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,7 +28,8 @@ class ContactsFragment : Fragment() {
     }
 
     private fun setUpObservers() {
+        viewLifecycleOwner.observeNonNull(viewModel.contactList) {
+            val a = it
+        }
     }
-
-
 }

@@ -1,7 +1,7 @@
 package com.x.projectxx.ui
 
 import com.x.projectxx.application.authentication.LoginManager
-import com.x.projectxx.domain.userprofile.model.User
+import com.x.projectxx.domain.user.model.User
 import com.x.projectxx.ui.login.model.LoginState
 import com.x.projectxx.ui.login.model.toLoginState
 import junit.framework.Assert.assertEquals

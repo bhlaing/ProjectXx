@@ -1,24 +1,23 @@
 package com.x.projectxx.data.identity
 
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.x.projectxx.data.identity.userprofile.UserProfile
-import com.x.projectxx.domain.userprofile.toUserProfile
+import com.x.projectxx.data.identity.model.UserProfile
 import java.io.InvalidObjectException
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class IdentityService @Inject constructor(private val cloudFirestoreDb: FirebaseFirestore) {
+class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore): IdentityRepository {
      companion object {
         private const val COLLECTION_USERS = "users"
     }
 
-    suspend fun getUserProfile(userId: String) = suspendCoroutine<UserProfile?> { cont ->
-        cloudFirestoreDb.collection(COLLECTION_USERS)
-            .document(userId)
+    private val userCollection =  cloudFirestoreDb.collection(COLLECTION_USERS)
+
+    override suspend fun getUserProfile(userId: String) = suspendCoroutine<UserProfile?> { cont ->
+        userCollection.document(userId)
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                         task.result?.let {
@@ -27,7 +26,7 @@ class IdentityService @Inject constructor(private val cloudFirestoreDb: Firebase
 
                 } else {
                     cont.resumeWithException(
-                        task.exception ?: Exception("Unknown exception occured! ")
+                        task.exception ?: Exception("Unknown exception occurred! ")
                     )
                 }
             }.addOnFailureListener {
@@ -38,11 +37,8 @@ class IdentityService @Inject constructor(private val cloudFirestoreDb: Firebase
     private fun parseSnapshotToUserProfile(documentSnapshot: DocumentSnapshot) =
     documentSnapshot.toObject(UserProfile::class.java)
 
-    suspend fun createUserProfile(firebaseUser: FirebaseUser) = suspendCoroutine<UserProfile> { cont ->
-            val userProfile = firebaseUser.toUserProfile()
-
-            cloudFirestoreDb.collection(COLLECTION_USERS)
-                .document(userProfile.userId!!)
+    override suspend fun createUserProfile(userProfile: UserProfile) = suspendCoroutine<UserProfile> { cont ->
+        userCollection.document(userProfile.userId!!)
                 .set(userProfile)
                 .addOnSuccessListener {
                     cont.resume(userProfile)

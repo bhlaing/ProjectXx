@@ -1,4 +1,4 @@
-package com.x.projectxx.data
+package com.x.projectxx.data.chat
 
 import java.util.Date
 
