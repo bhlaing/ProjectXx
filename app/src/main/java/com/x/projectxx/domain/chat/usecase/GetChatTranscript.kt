@@ -1,4 +1,4 @@
-package com.x.projectxx.ui.chat.usecase
+package com.x.projectxx.domain.chat.usecase
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData

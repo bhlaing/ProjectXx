@@ -38,5 +38,4 @@ class SplashActivity : BaseActivity() {
     private fun navigateToChat() {
         startActivity(ChatActivity.makeChatIntent(this))
     }
-
 }
