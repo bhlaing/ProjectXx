@@ -5,9 +5,8 @@ import com.facebook.AccessTokenTracker
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.x.projectxx.data.identity.IdentityService
-import com.x.projectxx.domain.userprofile.toUser
-import com.x.projectxx.domain.userprofile.toUserProfile
+import com.x.projectxx.data.identity.IdentityRepository
+import com.x.projectxx.domain.user.mappers.toUser
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,7 +14,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class LoginManagerImpl @Inject constructor(
-    private val identityService: IdentityService): LoginManager {
+    private val identityRepository: IdentityRepository): LoginManager {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var authStatus: LoginManager.AuthState? = null
 
@@ -56,7 +55,7 @@ class LoginManagerImpl @Inject constructor(
     }
 
     // TO-DO We will get this current user from SessionManager down the track
-    override fun getCurrentUser() = auth.currentUser?.toUserProfile()?.toUser()
+    override fun getCurrentUserId() = auth.currentUser?.uid
 
     override suspend fun loginWithFacebookToken(token: AccessToken): LoginManager.AuthState =
         suspendCoroutine { cont ->
@@ -81,8 +80,8 @@ class LoginManagerImpl @Inject constructor(
 
 
     private suspend fun createUserProfile(firebaseUser: FirebaseUser) =
-        identityService.createUserProfile(firebaseUser)
+        identityRepository.createUserProfile(firebaseUser.toUserProfile())
 
     private suspend fun getUserProfile(userId: String) =
-        identityService.getUserProfile(userId)
+        identityRepository.getUserProfile(userId)
 }

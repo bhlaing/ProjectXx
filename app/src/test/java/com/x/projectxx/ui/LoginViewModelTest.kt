@@ -1,8 +1,9 @@
-package com.x.projectxx.application.authentication
+package com.x.projectxx.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.facebook.AccessToken
-import com.x.projectxx.domain.userprofile.model.User
+import com.x.projectxx.application.authentication.LoginManager
+import com.x.projectxx.domain.user.model.User
 import com.x.projectxx.ui.login.LoginViewModel
 import com.x.projectxx.ui.login.model.LoginState
 import junit.framework.Assert.assertTrue

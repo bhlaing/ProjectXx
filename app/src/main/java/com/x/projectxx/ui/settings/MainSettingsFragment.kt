@@ -10,8 +10,8 @@ import com.squareup.picasso.Picasso
 import com.x.projectxx.application.extensions.observeNonNull
 import com.x.projectxx.application.extensions.showLongToast
 import com.x.projectxx.databinding.FragmentSettingsBinding
-import com.x.projectxx.domain.userprofile.model.User
-import com.x.projectxx.domain.userprofile.usecase.UserProfileResult
+import com.x.projectxx.domain.user.GetCurrentUser.UserProfileResult
+import com.x.projectxx.domain.user.model.User
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

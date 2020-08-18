@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.x.projectxx.R
-import com.x.projectxx.data.ChatTranscript
+import com.x.projectxx.data.chat.ChatTranscript
 import kotlinx.android.synthetic.main.item_chat_message.view.*
 
 class ChatMessagesAdapter :
