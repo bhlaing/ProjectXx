@@ -5,4 +5,8 @@ data class UserProfile(
     val displayName: String = "",
     val image: String? = null,
     val email: String? = null,
-    val status: String = "Life is good!")
+    val status: String = "Life is good!",
+    val contacts: List<Contact> = listOf(Contact(userId = "m8aHtBZvdzXYCqkdtmRTHxcsYEH3"))) {
+
+    data class Contact(val userId: String? = null)
+}

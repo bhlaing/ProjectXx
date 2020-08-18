@@ -12,7 +12,7 @@
     <!--Menu-->
     <string name="log_out">Log out</string>
     <string name="settings">Settings</string>
-
+    <string name="contacts">Contacts</string>
 
     <!-- Exception messages-->
     <string name="generic_error_message">Oops..Something went wrong!</string>
