@@ -11,7 +11,7 @@ private fun mapFireBaseUserToUserProfile(firebaseUser: FirebaseUser) =
         UserProfile(
             it.uid,
             it.displayName ?: "",
-            it.photoUrl?.toString()
-            , it.email
+            it.photoUrl?.toString(),
+            it.email
         )
     }

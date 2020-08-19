@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
-import com.x.projectxx.domain.contacts.model.ContactDetails
+import com.x.projectxx.domain.user.model.ContactDetails
 import com.x.projectxx.domain.user.GetContactDetails
 import com.x.projectxx.domain.user.GetContactDetails.*
 import com.x.projectxx.domain.user.GetCurrentUser
@@ -38,6 +38,5 @@ class ContactsViewModel @ViewModelInject constructor(
             getContactDetails(contactDetailsParam).takeIf { result ->
                 result is ContactDetailsResult.Success
             } as ContactDetailsResult.Success
-
         }
 }

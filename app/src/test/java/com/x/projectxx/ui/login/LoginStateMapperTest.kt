@@ -1,4 +1,4 @@
-package com.x.projectxx.ui
+package com.x.projectxx.ui.login
 
 import com.x.projectxx.application.authentication.LoginManager
 import com.x.projectxx.domain.user.model.User
