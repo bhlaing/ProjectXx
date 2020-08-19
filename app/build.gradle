@@ -98,7 +98,7 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:1.0.0-alpha02"
 
     testImplementation 'org.mockito:mockito-inline:3.4.6'
-    testImplementation 'android.arch.core:core-testing:1.1.1'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
 
 
     def cardViewVersion = '1.0.0'
@@ -106,4 +106,7 @@ dependencies {
 
     def picassoVersion = '2.71828'
     implementation "com.squareup.picasso:picasso:$picassoVersion"
+
+    def materialVersion = '1.2.0'
+    implementation "com.google.android.material:material:$materialVersion"
 }
