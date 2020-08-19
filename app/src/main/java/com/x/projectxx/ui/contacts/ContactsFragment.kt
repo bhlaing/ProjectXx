@@ -6,18 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.squareup.picasso.Picasso
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.x.projectxx.application.extensions.observeNonNull
-import com.x.projectxx.application.extensions.showLongToast
 import com.x.projectxx.databinding.FragmentContactsBinding
-import com.x.projectxx.databinding.FragmentSettingsBinding
-import com.x.projectxx.domain.userprofile.model.User
-import com.x.projectxx.domain.userprofile.usecase.UserProfileResult
+import com.x.projectxx.ui.contacts.adapter.ContactListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ContactsFragment : Fragment() {
     private lateinit var binding: FragmentContactsBinding
+    private lateinit var contactListAdapter: ContactListAdapter
 
     private val viewModel: ContactsViewModel by viewModels()
 
@@ -30,10 +28,20 @@ class ContactsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpObservers()
+        setUpContactListView()
+    }
+
+    private fun setUpContactListView() {
+        contactListAdapter = ContactListAdapter()
+        binding.contactsListView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = contactListAdapter
+        }
     }
 
     private fun setUpObservers() {
+        viewLifecycleOwner.observeNonNull(viewModel.contactList) {
+            contactListAdapter.updateContacts(it)
+        }
     }
-
-
 }

@@ -1,4 +1,4 @@
-package com.x.projectxx.data.identity.userprofile
+package com.x.projectxx.data.identity.model
 
 data class UserProfile(
     val userId: String? = null,
@@ -6,7 +6,7 @@ data class UserProfile(
     val image: String? = null,
     val email: String? = null,
     val status: String = "Life is good!",
-    val contacts: List<Contact> = listOf(Contact(userId = "m8aHtBZvdzXYCqkdtmRTHxcsYEH3"))) {
+    val contacts: List<Contact> = emptyList()) {
 
     data class Contact(val userId: String? = null)
 }

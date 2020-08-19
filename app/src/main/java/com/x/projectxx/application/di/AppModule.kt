@@ -1,4 +1,4 @@
-package com.x.projectxx.di
+package com.x.projectxx.application.di
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
