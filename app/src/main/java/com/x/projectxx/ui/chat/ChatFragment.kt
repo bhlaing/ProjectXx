@@ -43,7 +43,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun setUpObservers() {
-        viewLifecycleOwner.observeNonNull(viewModel.messages) {chatTranscript->
+        viewLifecycleOwner.observeNonNull(viewModel.messages) {chatTranscript ->
             chatMessageAdapter.updateMessages(chatTranscript.messages)
         }
     }
