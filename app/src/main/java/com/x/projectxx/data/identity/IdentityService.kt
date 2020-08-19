@@ -16,7 +16,7 @@ class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore): 
 
     private val userCollection =  cloudFirestoreDb.collection(COLLECTION_USERS)
 
-    override suspend fun getUserProfile(userId: String) = suspendCoroutine<UserProfile?> { cont ->
+    override suspend fun getUserProfile(userId: String): UserProfile? = suspendCoroutine { cont ->
         userCollection.document(userId)
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -33,6 +33,27 @@ class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore): 
                 cont.resumeWithException(it)
             }
     }
+
+    override suspend fun getUserProfileByEmail(email: String): UserProfile? =
+        suspendCoroutine { cont ->
+            userCollection.whereEqualTo("email", email)
+                .get().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        task.result?.let {
+                            // we doing it.documents.first() because we expect only 1 profile per email at this point
+                            cont.resume(parseSnapshotToUserProfile(it.documents.first()))
+                        }
+                            ?: cont.resumeWithException(InvalidObjectException("Error parsing UserProfileDocument to UserProfile"))
+
+                    } else {
+                        cont.resumeWithException(
+                            task.exception ?: Exception("Unknown exception occurred! ")
+                        )
+                    }
+                }.addOnFailureListener {
+                    cont.resumeWithException(it)
+                }
+        }
 
     private fun parseSnapshotToUserProfile(documentSnapshot: DocumentSnapshot) =
     documentSnapshot.toObject(UserProfile::class.java)

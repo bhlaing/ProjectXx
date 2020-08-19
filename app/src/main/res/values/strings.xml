@@ -12,6 +12,7 @@
     <!--Search Screen-->
     <string name="hint_email">Search by email..</string>
     <string name="search">Search</string>
+    <string name="no_matching_profile">No matching profile.</string>
 
     <!--Menu-->
     <string name="log_out">Log out</string>

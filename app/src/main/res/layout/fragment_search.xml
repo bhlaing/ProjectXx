@@ -15,9 +15,9 @@
             android:id="@+id/input_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="email"
             android:hint="@string/hint_email"
-            android:inputType="textEmailAddress"
-            android:autofillHints="email" />
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -28,13 +28,23 @@
         android:layout_marginTop="4dp"
         android:text="@string/search" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchButton"
+        android:indeterminateOnly="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
     <include
         android:id="@+id/profileLayout"
         layout="@layout/view_profile"
-        android:layout_marginTop="4dp"
-        android:layout_below="@id/searchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/searchButton"
+        android:layout_marginTop="4dp"
         android:visibility="invisible"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 </RelativeLayout>
