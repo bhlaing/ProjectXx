@@ -2,9 +2,9 @@ package com.x.projectxx.domain.chat.usecase
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import com.x.projectxx.data.ChatTranscript
-import com.x.projectxx.data.ChatTranscript.Sender.Other
-import com.x.projectxx.data.ChatTranscript.Message.Text
+import com.x.projectxx.data.chat.ChatTranscript
+import com.x.projectxx.data.chat.ChatTranscript.Sender.Other
+import com.x.projectxx.data.chat.ChatTranscript.Message.Text
 import kotlinx.coroutines.Dispatchers
 import java.util.*
 import javax.inject.Inject
