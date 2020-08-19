@@ -1,6 +1,6 @@
 package com.x.projectxx.domain.user
 
-
+import com.x.projectxx.BaseTest
 import com.x.projectxx.R
 import com.x.projectxx.application.authentication.LoginManager
 import com.x.projectxx.data.identity.IdentityRepository
@@ -9,13 +9,11 @@ import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.MockitoAnnotations
-import org.mockito.Mockito.`when` as whenever
 import com.x.projectxx.domain.user.GetCurrentUser.UserProfileResult
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 
-class GetCurrentUserTest {
+class GetCurrentUserTest: BaseTest() {
     @Mock
     lateinit var loginManager: LoginManager
     @Mock
@@ -31,9 +29,8 @@ class GetCurrentUserTest {
     )
 
     @Before
-    fun setUp() {
-        MockitoAnnotations.openMocks(this)
-
+    override fun setUp() {
+        super.setUp()
         getCurrentUser = GetCurrentUser(loginManager, identityRepository)
     }
 

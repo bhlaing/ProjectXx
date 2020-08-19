@@ -1,24 +1,19 @@
 package com.x.projectxx.ui.login
 
+import com.x.projectxx.BaseTest
 import com.x.projectxx.application.authentication.LoginManager
 import com.x.projectxx.domain.user.model.User
 import com.x.projectxx.ui.login.model.LoginState
 import com.x.projectxx.ui.login.model.toLoginState
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
-import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 
-class LoginStateMapperTest {
+class LoginStateMapperTest: BaseTest() {
     @Mock
     lateinit var mockUser: User
 
-    @Before
-    fun setUp() {
-        MockitoAnnotations.openMocks(this)
-    }
 
     @Test
     fun `maps auth state logged in to LoginState Success`() {
@@ -26,7 +21,6 @@ class LoginStateMapperTest {
 
         assertTrue(authSate.toLoginState() is LoginState.Success)
     }
-
 
     @Test
     fun `maps auth state logged out to LoginState Failed`() {
