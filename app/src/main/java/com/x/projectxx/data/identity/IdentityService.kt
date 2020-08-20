@@ -23,8 +23,7 @@ class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore) :
                 if (task.isSuccessful) {
                     task.result?.let {
                         cont.resume(parseSnapshotToUserProfile(it))
-                    }
-                        ?: cont.resumeWithException(InvalidObjectException("Error parsing UserProfileDocument to UserProfile"))
+                    } ?: cont.resumeWithException(InvalidObjectException("Error parsing UserProfileDocument to UserProfile"))
 
                 } else {
                     cont.resumeWithException(
@@ -47,8 +46,7 @@ class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore) :
                             } else {
                                 cont.resume(null)
                             }
-                        }
-                            ?: cont.resumeWithException(InvalidObjectException("Error parsing UserProfileDocument to UserProfile"))
+                        } ?: cont.resumeWithException(InvalidObjectException("Error parsing UserProfileDocument to UserProfile"))
 
                     } else {
                         cont.resumeWithException(
