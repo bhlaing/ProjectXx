@@ -16,7 +16,7 @@ class SearchUserByEmail @Inject constructor(private val identityRepository: Iden
 
     override val dispatcher: CoroutineDispatcher = Dispatchers.IO
 
-    override suspend fun doWork(params: Param) = identityRepository.getUserProfile(params.email)?.let {
+    override suspend fun doWork(params: Param) = identityRepository.getUserProfileByEmail(params.email)?.let {
         SearchResult.Success(it.toUser())
     } ?: SearchResult.Error(R.string.no_matching_profile)
 

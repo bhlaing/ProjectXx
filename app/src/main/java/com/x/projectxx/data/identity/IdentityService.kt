@@ -9,20 +9,22 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore): IdentityRepository {
-     companion object {
+class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore) :
+    IdentityRepository {
+    companion object {
         private const val COLLECTION_USERS = "users"
     }
 
-    private val userCollection =  cloudFirestoreDb.collection(COLLECTION_USERS)
+    private val userCollection = cloudFirestoreDb.collection(COLLECTION_USERS)
 
     override suspend fun getUserProfile(userId: String): UserProfile? = suspendCoroutine { cont ->
         userCollection.document(userId)
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                        task.result?.let {
-                            cont.resume(parseSnapshotToUserProfile(it))
-                        } ?: cont.resumeWithException(InvalidObjectException("Error parsing UserProfileDocument to UserProfile"))
+                    task.result?.let {
+                        cont.resume(parseSnapshotToUserProfile(it))
+                    }
+                        ?: cont.resumeWithException(InvalidObjectException("Error parsing UserProfileDocument to UserProfile"))
 
                 } else {
                     cont.resumeWithException(
@@ -40,8 +42,11 @@ class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore): 
                 .get().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         task.result?.let {
-                            // we doing it.documents.first() because we expect only 1 profile per email at this point
-                            cont.resume(parseSnapshotToUserProfile(it.documents.first()))
+                            if(it.documents.size > 0) {
+                                cont.resume(parseSnapshotToUserProfile(it.documents.first()))
+                            } else {
+                                cont.resume(null)
+                            }
                         }
                             ?: cont.resumeWithException(InvalidObjectException("Error parsing UserProfileDocument to UserProfile"))
 
@@ -56,10 +61,11 @@ class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore): 
         }
 
     private fun parseSnapshotToUserProfile(documentSnapshot: DocumentSnapshot) =
-    documentSnapshot.toObject(UserProfile::class.java)
+        documentSnapshot.toObject(UserProfile::class.java)
 
-    override suspend fun createUserProfile(userProfile: UserProfile) = suspendCoroutine<UserProfile> { cont ->
-        userCollection.document(userProfile.userId!!)
+    override suspend fun createUserProfile(userProfile: UserProfile) =
+        suspendCoroutine<UserProfile> { cont ->
+            userCollection.document(userProfile.userId!!)
                 .set(userProfile)
                 .addOnSuccessListener {
                     cont.resume(userProfile)

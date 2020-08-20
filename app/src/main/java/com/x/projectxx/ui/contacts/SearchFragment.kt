@@ -2,8 +2,7 @@ package com.x.projectxx.ui.contacts
 
 import android.os.Bundle
 import android.view.*
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import android.view.View.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.squareup.picasso.Picasso
@@ -61,12 +60,15 @@ class SearchFragment : Fragment() {
             Picasso.get().load(user.image).into(this.profileImage)
         }
 
+        binding.profileLayout.root.visibility = VISIBLE
+
         binding.progressBar.visibility = GONE
     }
 
     private fun onFailSearchState(error: Int?) {
         error?.let { binding.inputLayoutEmail.error = getString(it) }
         binding.progressBar.visibility = GONE
+        binding.profileLayout.root.visibility = INVISIBLE
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
