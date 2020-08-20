@@ -5,7 +5,6 @@ import androidx.lifecycle.*
 import com.x.projectxx.domain.user.SearchUserByEmail
 import com.x.projectxx.domain.user.SearchUserByEmail.*
 import com.x.projectxx.ui.contacts.model.SearchState
-import com.x.projectxx.ui.login.model.LoginState
 import kotlinx.coroutines.launch
 
 class SearchViewModel @ViewModelInject constructor(private val searchUserByEmail: SearchUserByEmail) : ViewModel() {
@@ -16,11 +15,11 @@ class SearchViewModel @ViewModelInject constructor(private val searchUserByEmail
 
     fun onSearch(email: String) {
         viewModelScope.launch {
-            searchByEmailResult.postValue(SearchState.Searching)
+            searchByEmailResult.value = SearchState.Searching
 
             when(val result = searchUserByEmail(Param(email))) {
-                is SearchResult.Success -> searchByEmailResult.postValue(SearchState.Success(result.user))
-                is SearchResult.Error -> searchByEmailResult.postValue(SearchState.Fail(result.error))
+                is SearchResult.Success -> searchByEmailResult.value = SearchState.Success(result.user)
+                is SearchResult.Error -> searchByEmailResult.value = SearchState.Fail(result.error)
             }
         }
     }

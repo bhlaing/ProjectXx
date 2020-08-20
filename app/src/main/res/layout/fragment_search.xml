@@ -40,11 +40,13 @@
 
     <include
         android:id="@+id/profileLayout"
-        layout="@layout/view_profile"
+        layout="@layout/view_profile_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/searchButton"
         android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:visibility="invisible"
         tools:visibility="visible" />
 </RelativeLayout>
