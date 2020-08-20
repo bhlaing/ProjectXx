@@ -1,21 +1,17 @@
 package com.x.projectxx.ui.login
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.facebook.AccessToken
+import com.x.projectxx.BaseCoroutineTest
 import com.x.projectxx.application.authentication.LoginManager
 import com.x.projectxx.domain.user.model.User
 import com.x.projectxx.ui.login.model.LoginState
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.mockito.*
-import org.mockito.Mockito.`when` as whenever
 
-class LoginViewModelTest {
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
+class LoginViewModelTest: BaseCoroutineTest() {
 
     @Mock
     lateinit var loginManager: LoginManager
@@ -25,8 +21,8 @@ class LoginViewModelTest {
     private lateinit var loginViewModel: LoginViewModel
 
     @Before
-    fun setUp() {
-        MockitoAnnotations.openMocks(this)
+    override fun setUp() {
+        super.setUp()
         loginViewModel = LoginViewModel(loginManager)
 
     }

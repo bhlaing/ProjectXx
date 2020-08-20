@@ -12,24 +12,10 @@ import javax.inject.Inject
 class GetChatTranscript @Inject constructor() {
      operator fun invoke(userId :Int): LiveData<ChatTranscript> {
         return liveData (Dispatchers.IO) {
-             emit(
-                 ChatTranscript(
-                     listOf(
-                         buildChatTextMessage(
-                             "Hi",
-                             Date("1/1/2000"),
-                             Other("Billy"),
-                             "someImageUrl"
-                         ),
-                         buildChatTextMessage(
-                             "How are you?",
-                             Date("1/1/2000"),
-                             Other("Billy"),
-                             "someImageUrl"
-                         )
-                     )
-                 )
-             )
+             emit(ChatTranscript(listOf(
+                 buildChatTextMessage("Hi", Date("1/1/2000"), Other("Billy"), "someImageUrl"),
+                 buildChatTextMessage("How are you?", Date("1/1/2000"), Other("Billy"), "someImageUrl")
+             )))
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.x.projectxx.ui.contact
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.x.projectxx.BaseCoroutineTest
 import com.x.projectxx.MockitoHelper
 import com.x.projectxx.domain.user.model.ContactDetails
 import com.x.projectxx.domain.user.GetContactDetails
@@ -13,25 +13,15 @@ import com.x.projectxx.ui.contacts.ContactsViewModel
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import java.util.concurrent.TimeoutException
-import org.mockito.Mockito.`when` as whenever
 
-class ContactsViewModelTest {
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
-
+class ContactsViewModelTest: BaseCoroutineTest() {
     @Mock
     lateinit var getCurrentUser: GetCurrentUser
-
     @Mock
     lateinit var getContactDetails: GetContactDetails
-
-    @Mock
-    lateinit var userProfileSuccess: UserProfileResult.Success
 
     lateinit var contactsViewModel: ContactsViewModel
 
@@ -52,8 +42,8 @@ class ContactsViewModelTest {
         )
 
     @Before
-    fun setUp() {
-        MockitoAnnotations.openMocks(this)
+    override fun setUp() {
+      super.setUp()
         contactsViewModel = ContactsViewModel(getCurrentUser, getContactDetails)
     }
 
