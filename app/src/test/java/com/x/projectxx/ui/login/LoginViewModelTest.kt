@@ -15,7 +15,7 @@ class LoginViewModelTest: BaseCoroutineTest() {
 
     @Mock
     lateinit var loginManager: LoginManager
-    private val mockUser = User("", "", null, "email")
+
     @Mock
     lateinit var mockAccessToken: AccessToken
     private lateinit var loginViewModel: LoginViewModel
@@ -24,16 +24,13 @@ class LoginViewModelTest: BaseCoroutineTest() {
     override fun setUp() {
         super.setUp()
         loginViewModel = LoginViewModel(loginManager)
-
     }
 
     @Test
     fun `when user login is successful, then update authState to logged in`() {
         runBlocking {
-            whenever(loginManager.loginWithFacebookToken(mockAccessToken)).thenReturn(
-                LoginManager.AuthState.LoggedIn(
-                    mockUser
-                )
+            whenever(loginManager.signUpWithFacebookToken(mockAccessToken)).thenReturn(
+                LoginManager.AuthState.LoggedIn
             )
 
             loginViewModel = LoginViewModel(loginManager)
@@ -46,7 +43,7 @@ class LoginViewModelTest: BaseCoroutineTest() {
     @Test
     fun `when login failed, then update authState to logged out`() {
         runBlocking {
-            whenever(loginManager.loginWithFacebookToken(mockAccessToken)).thenReturn(
+            whenever(loginManager.signUpWithFacebookToken(mockAccessToken)).thenReturn(
                 LoginManager.AuthState.LoggedOut(
                     "error"
                 )
