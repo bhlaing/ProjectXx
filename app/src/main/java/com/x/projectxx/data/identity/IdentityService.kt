@@ -3,7 +3,6 @@ package com.x.projectxx.data.identity
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.x.projectxx.data.identity.model.UserProfile
-import java.io.InvalidObjectException
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -18,17 +17,12 @@ class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore) :
     private val userCollection = cloudFirestoreDb.collection(COLLECTION_USERS)
 
     override suspend fun getUserProfile(userId: String): UserProfile? = suspendCoroutine { cont ->
-        userCollection.document(userId)
-            .get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    task.result?.let {
-                        cont.resume(parseSnapshotToUserProfile(it))
-                    } ?: cont.resumeWithException(InvalidObjectException("Error parsing UserProfileDocument to UserProfile"))
-
+        userCollection.document("22")
+            .get().addOnSuccessListener {
+                if(it.exists()) {
+                    cont.resume(parseSnapshotToUserProfile(it))
                 } else {
-                    cont.resumeWithException(
-                        task.exception ?: Exception("Unknown exception occurred! ")
-                    )
+                    cont.resume(null)
                 }
             }.addOnFailureListener {
                 cont.resumeWithException(it)
@@ -38,20 +32,11 @@ class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore) :
     override suspend fun getUserProfileByEmail(email: String): UserProfile? =
         suspendCoroutine { cont ->
             userCollection.whereEqualTo("email", email)
-                .get().addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        task.result?.let {
-                            if(it.documents.size > 0) {
-                                cont.resume(parseSnapshotToUserProfile(it.documents.first()))
-                            } else {
-                                cont.resume(null)
-                            }
-                        } ?: cont.resumeWithException(InvalidObjectException("Error parsing UserProfileDocument to UserProfile"))
-
+                .get().addOnSuccessListener {
+                    if(!it.isEmpty) {
+                        cont.resume(parseSnapshotToUserProfile(it.documents.first()))
                     } else {
-                        cont.resumeWithException(
-                            task.exception ?: Exception("Unknown exception occurred! ")
-                        )
+                        cont.resume(null)
                     }
                 }.addOnFailureListener {
                     cont.resumeWithException(it)
