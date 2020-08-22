@@ -8,9 +8,7 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class LoginManagerImpl @Inject constructor(
-    private val identityRepository: IdentityRepository
-) : LoginManager {
+class LoginManagerImpl @Inject constructor() : LoginManager {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
 //    private var accessTokenTracker: AccessTokenTracker = object : AccessTokenTracker() {
