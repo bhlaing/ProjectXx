@@ -17,7 +17,7 @@ class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore) :
     private val userCollection = cloudFirestoreDb.collection(COLLECTION_USERS)
 
     override suspend fun getUserProfile(userId: String): UserProfile? = suspendCoroutine { cont ->
-        userCollection.document("22")
+        userCollection.document(userId)
             .get().addOnSuccessListener {
                 if(it.exists()) {
                     cont.resume(parseSnapshotToUserProfile(it))
