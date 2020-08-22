@@ -60,15 +60,4 @@ class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore) :
 
     private fun parseSnapshotToUserProfile(documentSnapshot: DocumentSnapshot) =
         documentSnapshot.toObject(UserProfile::class.java)
-
-    override suspend fun createUserProfile(userProfile: UserProfile) =
-        suspendCoroutine<UserProfile> { cont ->
-            userCollection.document(userProfile.userId!!)
-                .set(userProfile)
-                .addOnSuccessListener {
-                    cont.resume(userProfile)
-                }.addOnFailureListener {
-                    cont.resumeWithException(it)
-                }
-        }
 }

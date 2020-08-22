@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.squareup.picasso.Picasso
 import com.x.projectxx.application.extensions.observeNonNull
+import com.x.projectxx.application.extensions.setTextOrGone
 import com.x.projectxx.application.extensions.showLongToast
 import com.x.projectxx.databinding.FragmentSettingsBinding
 import com.x.projectxx.domain.user.GetCurrentUser.UserProfileResult
@@ -47,7 +48,7 @@ class MainSettingsFragment : Fragment() {
 
     private fun updateUserProfile(userProfile: User) {
         binding.profileLayout.nameText.text = userProfile.displayName
-        binding.profileLayout.statusText.text = userProfile.status
+        binding.profileLayout.statusText.setTextOrGone(userProfile.status)
 
         userProfile.image?.run {
             Picasso.get().load(this).into(binding.profileLayout.profileImage)

@@ -17,7 +17,7 @@ class LoginStateMapperTest: BaseTest() {
 
     @Test
     fun `maps auth state logged in to LoginState Success`() {
-        val authSate = LoginManager.AuthState.LoggedIn(mockUser)
+        val authSate = LoginManager.AuthState.LoggedIn
 
         assertTrue(authSate.toLoginState() is LoginState.Success)
     }
