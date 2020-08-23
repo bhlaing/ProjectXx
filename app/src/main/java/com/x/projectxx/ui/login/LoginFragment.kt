@@ -26,11 +26,16 @@ class LoginFragment : Fragment() {
 
     private val viewModel: LoginViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentLoginBinding.inflate(inflater)
-        binding.loginButton.setReadPermissions("email", "public_profile")
-        binding.loginButton.fragment = this
-        binding.loginButton.registerCallback(
+        binding.loginFacebookButton.setReadPermissions("email", "public_profile")
+        binding.loginFacebookButton.fragment = this
+        binding.facebookIcon.setOnClickListener { binding.loginFacebookButton.callOnClick() }
+        binding.loginFacebookButton.registerCallback(
             callbackManager,
             object : FacebookCallback<LoginResult> {
                 override fun onSuccess(loginResult: LoginResult) {
@@ -57,8 +62,8 @@ class LoginFragment : Fragment() {
 
     private fun onAuthStateChanged(loginState: LoginState) =
         when (loginState) {
-            is LoginState.Loading ->  {
-                binding.loginButton.visibility = INVISIBLE
+            is LoginState.Loading -> {
+                binding.loginFacebookButton.visibility = INVISIBLE
                 binding.loginToContinue.visibility = INVISIBLE
 
                 binding.loading.visibility = VISIBLE
@@ -71,7 +76,7 @@ class LoginFragment : Fragment() {
             is LoginState.Failed -> {
                 binding.loading.visibility = GONE
 
-                binding.loginButton.visibility = VISIBLE
+                binding.loginFacebookButton.visibility = VISIBLE
                 binding.loginToContinue.visibility = VISIBLE
 
                 binding.loginToContinue.text = loginState.error
