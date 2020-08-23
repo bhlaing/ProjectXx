@@ -34,6 +34,8 @@ class SearchFragment : Fragment() {
 
         binding.searchButton.setOnClickListener { viewModel.onSearch(binding.inputEmail.text.toString()) }
 
+        binding.profileLayout.profileSearchContainer.setOnClickListener { viewModel.onAddContact() }
+
         return binding.root
     }
 
@@ -45,7 +47,7 @@ class SearchFragment : Fragment() {
 
     private fun setUpObservers() {
         viewLifecycleOwner.observeNonNull(viewModel.searchResult) { searchState ->
-            when(searchState) {
+            when (searchState) {
                 is SearchState.Searching -> binding.progressBar.visibility = VISIBLE
                 is SearchState.Success -> onSuccessSearchState(searchState.user)
                 is SearchState.Fail -> onFailSearchState(searchState.error)
@@ -57,7 +59,11 @@ class SearchFragment : Fragment() {
         binding.profileLayout.apply {
             this.nameText.text = user.displayName
             this.statusText.setTextOrGone(user.status)
-            Picasso.get().load(user.image).into(this.profileImage)
+
+            if (!user.image.isNullOrEmpty()) {
+                Picasso.get().load(user.image).into(this.profileImage)
+            }
+
         }
 
         binding.profileLayout.root.visibility = VISIBLE
