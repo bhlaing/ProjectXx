@@ -14,6 +14,11 @@
     <string name="search">Search</string>
     <string name="no_matching_profile">No matching profile.</string>
 
+    <!--Login Screen-->
+    <string name="login">Login</string>
+    <string name="sign_in">Sign In</string>
+    <string name="login_with">Or Sign in With</string>
+
     <!--Menu-->
     <string name="log_out">Log out</string>
     <string name="settings">Settings</string>

@@ -7,7 +7,7 @@
     tools:context=".ui.login.LoginFragment">
 
     <TextView
-        android:id="@+id/titleTextView"
+        android:id="@+id/title_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -26,7 +26,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="360dp"
-        android:layout_below="@+id/titleTextView"
+        android:layout_below="@+id/title_text_view"
         android:layout_margin="36dp"
         android:background="@drawable/rounded_bg"
         android:backgroundTint="@color/colorWhite">
@@ -44,9 +44,9 @@
             android:hint="@string/hint_email"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
-            android:padding="12dp"
+            android:padding="8dp"
             android:textColor="@color/colorBlack"
-            android:textColorHint="@color/browser_actions_divider_color"/>
+            android:textColorHint="@color/browser_actions_divider_color" />
 
         <EditText
             android:id="@+id/input_password"
@@ -61,7 +61,7 @@
             android:hint="@string/hint_password"
             android:importantForAutofill="no"
             android:inputType="textPassword"
-            android:padding="12dp"
+            android:padding="8dp"
             android:textColor="@color/colorBlack"
             android:textColorHint="@color/browser_actions_divider_color" />
 
