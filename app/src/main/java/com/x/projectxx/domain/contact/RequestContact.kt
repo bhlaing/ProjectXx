@@ -1,6 +1,7 @@
 package com.x.projectxx.domain.contact
 
 import com.x.projectxx.data.contacts.ContactService
+import com.x.projectxx.data.contacts.model.Contact
 import com.x.projectxx.data.contacts.model.ContactRelationshipType
 import com.x.projectxx.data.contacts.model.SetContactRequest
 import com.x.projectxx.domain.shared.RetrieveResultInteractor
@@ -22,6 +23,7 @@ class RequestContact @Inject constructor(private val contactService: ContactServ
         contactService.setContact(
             SetContactRequest(
                 params.requesterId,
-                SetContactRequest.Contact(params.contactId, ContactRelationshipType.PENDING))
+                Contact(params.contactId, ContactRelationshipType.PENDING)
+            )
         )
 }

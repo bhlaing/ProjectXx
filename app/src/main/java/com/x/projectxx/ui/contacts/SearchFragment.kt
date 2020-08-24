@@ -12,6 +12,7 @@ import com.x.projectxx.databinding.FragmentSearchBinding
 import com.x.projectxx.domain.user.model.User
 import com.x.projectxx.ui.contacts.model.SearchState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.view_profile_search.view.*
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -34,7 +35,7 @@ class SearchFragment : Fragment() {
 
         binding.searchButton.setOnClickListener { viewModel.onSearch(binding.inputEmail.text.toString()) }
 
-        binding.profileLayout.profileSearchContainer.setOnClickListener { viewModel.onAddContact() }
+        binding.profileLayout.profileSearchContainer.addIcon.setOnClickListener { viewModel.onAddContact() }
 
         return binding.root
     }

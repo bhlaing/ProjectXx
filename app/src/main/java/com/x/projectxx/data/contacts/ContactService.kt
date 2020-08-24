@@ -1,7 +1,9 @@
 package com.x.projectxx.data.contacts
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.x.projectxx.data.contacts.model.Contact
 import com.x.projectxx.data.contacts.model.SetContactRequest
+import com.x.projectxx.data.contacts.model.UserContactsResult
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -16,8 +18,8 @@ class ContactService @Inject constructor(cloudFirestoreDb: FirebaseFirestore) : 
 
     override suspend fun setContact(request: SetContactRequest): Boolean =
         suspendCoroutine { cont ->
-            getContactColletion(request.requesterId)
-                .document(request.contact.userId)
+            getContactCollection(request.requesterId)
+                .document(request.contact.userId!!)
                 .set(request.contact)
                 .addOnSuccessListener {
                     cont.resume(true)
@@ -26,8 +28,25 @@ class ContactService @Inject constructor(cloudFirestoreDb: FirebaseFirestore) : 
                 }
         }
 
+    override suspend fun getUserContacts(userId: String): UserContactsResult =
+        suspendCoroutine { cont ->
+            getContactCollection(userId)
+                .get()
+                .addOnSuccessListener { documents ->
+                    val contacts = mutableListOf<Contact>()
 
-    private fun getContactColletion(userId: String) = userCollection.document(userId)
+                    documents.forEach {
+                        contacts.add(it.toObject(Contact::class.java))
+                    }
+
+                    cont.resume(UserContactsResult.Success(contacts))
+                }.addOnFailureListener {
+                    cont.resume(UserContactsResult.Fail(it.message))
+                }
+
+        }
+
+
+    private fun getContactCollection(userId: String) = userCollection.document(userId)
         .collection(COLLECTION_CONTACTS)
-
 }

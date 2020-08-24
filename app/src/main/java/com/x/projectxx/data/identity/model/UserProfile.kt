@@ -1,12 +1,12 @@
 package com.x.projectxx.data.identity.model
 
+import com.x.projectxx.data.contacts.model.Contact
+
 data class UserProfile(
     val userId: String? = null,
     val displayName: String = "",
     val image: String? = null,
     val email: String? = null,
     val status: String = "Life is good!",
-    val contacts: List<Contact> = emptyList()) {
-
-    data class Contact(val userId: String? = null)
+    var contacts: List<Contact> = emptyList()) {
 }

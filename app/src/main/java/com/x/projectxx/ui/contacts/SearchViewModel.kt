@@ -19,7 +19,6 @@ class SearchViewModel @ViewModelInject constructor(
     private val searchByEmailResult: MutableLiveData<SearchState> = MutableLiveData()
 
     val searchResult: LiveData<SearchState> = searchByEmailResult
-    var user: User? = null
 
     fun onSearch(email: String) {
         viewModelScope.launch {
@@ -27,8 +26,7 @@ class SearchViewModel @ViewModelInject constructor(
 
             when (val result = searchUserByEmail(Param(email))) {
                 is SearchResult.Success -> {
-                    user = result.user
-                    searchByEmailResult.value = SearchState.Success(user!!)
+                    searchByEmailResult.value = SearchState.Success(result.user)
                 }
                 is SearchResult.Error -> searchByEmailResult.value = SearchState.Fail(result.error)
             }
