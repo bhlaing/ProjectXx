@@ -61,20 +61,19 @@ class SearchViewModel @ViewModelInject constructor(
     private suspend fun onSearchSuccess(user: User) {
         val param = UserContactsParam(loginManager.getCurrentUserId()!!)
         when (val retrieveContactsResult = retrieveUserContacts(param)) {
-            is RetrieveContactResult.Success -> mapToSearchUserProfile(
-                retrieveContactsResult.contacts,
-                user
-            )
+            is RetrieveContactResult.Success -> {
+                val profileItem = mapToSearchUserProfile(retrieveContactsResult.contacts, user)
+                searchByEmailResult.value = SearchState.Success(profileItem)
+            }
+
             is RetrieveContactResult.Error -> searchByEmailResult.value =
                 SearchState.Fail(retrieveContactsResult.error)
         }
     }
 
-    private fun mapToSearchUserProfile(currentUserContacts: List<User.Contact>, user: User) {
-        val contactStatus =
-            getUserContactStatusInRelationToCurrentUser(currentUserContacts, user.userId)
-        searchByEmailResult.value =
-            SearchState.Success(user.toSearchUserProfileItem(contactStatus?.status))
+    private fun mapToSearchUserProfile(currentUserContacts: List<User.Contact>, user: User): ContactProfileItem {
+        val contactStatus = getUserContactStatusInRelationToCurrentUser(currentUserContacts, user.userId)
+        return user.toSearchUserProfileItem(contactStatus?.status)
     }
 
     private fun getUserContactStatusInRelationToCurrentUser(

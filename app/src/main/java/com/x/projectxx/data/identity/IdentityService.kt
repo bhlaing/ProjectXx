@@ -45,9 +45,6 @@ class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore) :
                 }
         }
 
-
-
-
     private fun parseSnapshotToUserProfile(documentSnapshot: DocumentSnapshot) =
         documentSnapshot.toObject(UserProfile::class.java)
 }
