@@ -55,7 +55,7 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/addIcon"
+            android:id="@+id/statusIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

@@ -1,5 +1,7 @@
 package com.x.projectxx.ui.contacts
 
+import android.R
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.view.View.*
@@ -9,8 +11,8 @@ import com.squareup.picasso.Picasso
 import com.x.projectxx.application.extensions.observeNonNull
 import com.x.projectxx.application.extensions.setTextOrGone
 import com.x.projectxx.databinding.FragmentSearchBinding
-import com.x.projectxx.domain.user.model.User
 import com.x.projectxx.ui.contacts.model.SearchState
+import com.x.projectxx.ui.contacts.model.ContactProfileItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.view_profile_search.view.*
 
@@ -35,7 +37,8 @@ class SearchFragment : Fragment() {
 
         binding.searchButton.setOnClickListener { viewModel.onSearch(binding.inputEmail.text.toString()) }
 
-        binding.profileLayout.profileSearchContainer.addIcon.setOnClickListener { viewModel.onAddContact() }
+        binding.profileLayout.profileSearchContainer.statusIcon.setOnClickListener { showConfirmationDialog()  }
+
 
         return binding.root
     }
@@ -49,22 +52,24 @@ class SearchFragment : Fragment() {
     private fun setUpObservers() {
         viewLifecycleOwner.observeNonNull(viewModel.searchResult) { searchState ->
             when (searchState) {
-                is SearchState.Searching -> binding.progressBar.visibility = VISIBLE
+                is SearchState.Searching ->{
+                    binding.profileLayout.root.visibility = GONE
+                    binding.progressBar.visibility = VISIBLE
+                }
                 is SearchState.Success -> onSuccessSearchState(searchState.user)
                 is SearchState.Fail -> onFailSearchState(searchState.error)
             }
         }
     }
 
-    private fun onSuccessSearchState(user: User) {
+    private fun onSuccessSearchState(user: ContactProfileItem) {
         binding.profileLayout.apply {
             this.nameText.text = user.displayName
             this.statusText.setTextOrGone(user.status)
-
+            this.statusIcon.setImageResource(user.icon)
             if (!user.image.isNullOrEmpty()) {
                 Picasso.get().load(user.image).into(this.profileImage)
             }
-
         }
 
         binding.profileLayout.root.visibility = VISIBLE
@@ -80,8 +85,18 @@ class SearchFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-
-        // hide the menu options
         menu.clear()
+    }
+
+    private fun showConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Add contact")
+            .setMessage("Please confirm to request as contact ")
+            // The dialog is automatically dismissed when a dialog button is clicked.
+            .setPositiveButton(R.string.yes)
+            { _, _ -> viewModel.onStatusAction() }
+            .setNegativeButton(R.string.no, null)
+            .setIcon(R.drawable.ic_dialog_alert)
+            .show()
     }
 }

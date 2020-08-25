@@ -2,8 +2,6 @@ package com.x.projectxx.domain.user
 
 import androidx.annotation.StringRes
 import com.x.projectxx.R
-import com.x.projectxx.data.contacts.ContactRepository
-import com.x.projectxx.data.contacts.model.UserContactsResult
 import com.x.projectxx.data.identity.IdentityRepository
 import com.x.projectxx.domain.shared.RetrieveResultInteractor
 import com.x.projectxx.domain.user.SearchUserByEmail.*
@@ -13,23 +11,14 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
-class SearchUserByEmail @Inject constructor(
-    private val identityRepository: IdentityRepository,
-    private val contactRepository: ContactRepository
-) :
+class SearchUserByEmail @Inject constructor(private val identityRepository: IdentityRepository) :
     RetrieveResultInteractor<Param, SearchResult>() {
 
     override val dispatcher: CoroutineDispatcher = Dispatchers.IO
 
-    override suspend fun doWork(params: Param) =
-        identityRepository.getUserProfileByEmail(params.email)?.let {
-
-            when(val contacts = contactRepository.getUserContacts(it.userId!!)) {
-                is UserContactsResult.Success -> it.contacts = contacts.contacts
-            }
-
-            SearchResult.Success(it.toUser())
-        } ?: SearchResult.Error(R.string.no_matching_profile)
+    override suspend fun doWork(params: Param) = identityRepository.getUserProfileByEmail(params.email)?.let {
+        SearchResult.Success(it.toUser())
+    } ?: SearchResult.Error(R.string.no_matching_profile)
 
 
     class Param(val email: String)
