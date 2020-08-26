@@ -13,6 +13,7 @@
     <string name="hint_search_email">Search by email..</string>
     <string name="search">Search</string>
     <string name="no_matching_profile">No matching profile.</string>
+    <string name="add_contact_dialog_title">Confirm add contact</string>
 
     <!--Login Screen-->
     <string name="login">Login</string>
@@ -34,4 +35,7 @@
     <!-- Exception messages-->
     <string name="generic_error_message">Oops..Something went wrong!</string>
     <string name="login_welcome_message">Please login to continue</string>
+
+    <!-- Generic actions-->
+    <string name="cancel">Cancel</string>
 </resources>

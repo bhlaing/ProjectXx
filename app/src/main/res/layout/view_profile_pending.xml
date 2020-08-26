@@ -54,15 +54,15 @@
                 tools:text="Feeling Awesome!" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/statusIcon"
+        <Button
+            android:id="@+id/actionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="48dp"
             android:layout_toEndOf="@+id/profileInfoContainer"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_person_add_24" />
+            android:text="Pending Request"
+            android:drawableStart="@drawable/ic_person_pending_24" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

@@ -6,5 +6,5 @@ val image: String?,
 val email: String?,
 val status: String = "Life is good!",
 val contacts: List<Contact> = emptyList()) {
-    data class Contact(val userId: String)
+    data class Contact(val userId: String, val status: ContactStatus)
 }

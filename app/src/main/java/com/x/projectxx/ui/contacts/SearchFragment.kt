@@ -1,16 +1,22 @@
 package com.x.projectxx.ui.contacts
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.view.View.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.squareup.picasso.Picasso
+import com.x.projectxx.R
 import com.x.projectxx.application.extensions.observeNonNull
 import com.x.projectxx.application.extensions.setTextOrGone
 import com.x.projectxx.databinding.FragmentSearchBinding
-import com.x.projectxx.domain.user.model.User
+import com.x.projectxx.databinding.ViewProfileAddBinding
+import com.x.projectxx.databinding.ViewProfilePendingBinding
+import com.x.projectxx.databinding.ViewProfileRequestBinding
 import com.x.projectxx.ui.contacts.model.SearchState
+import com.x.projectxx.ui.contacts.model.ContactProfileItem
+import com.x.projectxx.ui.contacts.model.ContactProfileItem.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -34,6 +40,9 @@ class SearchFragment : Fragment() {
 
         binding.searchButton.setOnClickListener { viewModel.onSearch(binding.inputEmail.text.toString()) }
 
+//        binding.profileLayout.profileSearchContainer.statusIcon.setOnClickListener { showConfirmationDialog() }
+
+
         return binding.root
     }
 
@@ -45,36 +54,102 @@ class SearchFragment : Fragment() {
 
     private fun setUpObservers() {
         viewLifecycleOwner.observeNonNull(viewModel.searchResult) { searchState ->
-            when(searchState) {
-                is SearchState.Searching -> binding.progressBar.visibility = VISIBLE
+            when (searchState) {
+                is SearchState.Searching -> {
+                    binding.profileLayout.visibility = GONE
+                    binding.progressBar.visibility = VISIBLE
+                }
                 is SearchState.Success -> onSuccessSearchState(searchState.user)
                 is SearchState.Fail -> onFailSearchState(searchState.error)
             }
         }
     }
 
-    private fun onSuccessSearchState(user: User) {
-        binding.profileLayout.apply {
-            this.nameText.text = user.displayName
-            this.statusText.setTextOrGone(user.status)
-            Picasso.get().load(user.image).into(this.profileImage)
+    private fun onSuccessSearchState(user: ContactProfileItem) {
+        when (user) {
+            is PendingContact -> showPendingContact(user)
+            is RequestConfirmContact -> showRequestConfirmContact(user)
+            is UnknownContact -> showUnknownContact(user)
         }
-
-        binding.profileLayout.root.visibility = VISIBLE
+        binding.profileLayout.visibility = VISIBLE
 
         binding.progressBar.visibility = GONE
+    }
+
+    private fun showPendingContact(user: PendingContact) {
+        val profileContainer = binding.profileLayout
+
+        val binding = ViewProfilePendingBinding.inflate(
+            LayoutInflater.from(profileContainer.context),
+            profileContainer,
+            true
+        )
+
+        binding.apply {
+            this.nameText.text = user.displayName
+            this.statusText.setTextOrGone(user.status)
+            if (!user.image.isNullOrEmpty()) {
+                Picasso.get().load(user.image).into(this.profileImage)
+            }
+        }
+    }
+
+    private fun showRequestConfirmContact(user: RequestConfirmContact) {
+        val profileContainer = binding.profileLayout
+
+        val binding = ViewProfileRequestBinding.inflate(
+            LayoutInflater.from(profileContainer.context),
+            profileContainer,
+            true
+        )
+
+        binding.apply {
+            this.nameText.text = user.displayName
+            this.statusText.setTextOrGone(user.status)
+            if (!user.image.isNullOrEmpty()) {
+                Picasso.get().load(user.image).into(this.profileImage)
+            }
+        }
+    }
+
+    private fun showUnknownContact(user: UnknownContact) {
+        val profileContainer = binding.profileLayout
+
+        val binding = ViewProfileAddBinding.inflate(
+            LayoutInflater.from(profileContainer.context),
+            profileContainer,
+            true
+        )
+
+        binding.apply {
+            this.nameText.text = user.displayName
+            this.statusText.setTextOrGone(user.status)
+            if (!user.image.isNullOrEmpty()) {
+                Picasso.get().load(user.image).into(this.profileImage)
+            }
+        }
     }
 
     private fun onFailSearchState(error: Int?) {
         error?.let { binding.inputLayoutEmail.error = getString(it) }
         binding.progressBar.visibility = GONE
-        binding.profileLayout.root.visibility = INVISIBLE
+        binding.profileLayout.visibility = INVISIBLE
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-
-        // hide the menu options
         menu.clear()
+    }
+
+    private fun showConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Add contact")
+            .setMessage("Please confirm to request as contact ")
+            // The dialog is automatically dismissed when a dialog button is clicked.
+            .setPositiveButton(R.string.add_contact)
+            { _, _ -> viewModel.onStatusAction() }
+            .setNegativeButton(R.string.cancel, null)
+            .setIcon(R.drawable.ic_person_add_24)
+            .show()
     }
 }

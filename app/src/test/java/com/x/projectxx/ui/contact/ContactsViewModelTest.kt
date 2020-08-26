@@ -7,6 +7,7 @@ import com.x.projectxx.domain.user.GetContactDetails
 import com.x.projectxx.domain.user.GetContactDetails.*
 import com.x.projectxx.domain.user.GetCurrentUser
 import com.x.projectxx.domain.user.GetCurrentUser.UserProfileResult
+import com.x.projectxx.domain.user.model.ContactStatus
 import com.x.projectxx.domain.user.model.User
 import com.x.projectxx.getOrAwaitValue
 import com.x.projectxx.ui.contacts.ContactsViewModel
@@ -30,7 +31,7 @@ class ContactsViewModelTest: BaseCoroutineTest() {
         "aa",
         "",
         "",
-        contacts = listOf(User.Contact("1111"))
+        contacts = listOf(User.Contact("1111", ContactStatus.PENDING))
     )
 
     private val mockContactDetails =
