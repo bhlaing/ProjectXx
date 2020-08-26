@@ -13,6 +13,7 @@
 
         <EditText
             android:id="@+id/input_email"
+            android:textCursorDrawable="@drawable/ic_search_24"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="email"
@@ -38,15 +39,16 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <include
+    <LinearLayout
         android:id="@+id/profileLayout"
-        layout="@layout/view_profile_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/searchButton"
         android:layout_marginTop="4dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:gravity="center_vertical"
         android:visibility="invisible"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:orientation="vertical" />
 </RelativeLayout>
