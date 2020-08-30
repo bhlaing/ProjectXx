@@ -3,6 +3,7 @@ package com.x.projectxx.ui.search
 import com.x.projectxx.BaseCoroutineTest
 import com.x.projectxx.MockitoHelper
 import com.x.projectxx.application.authentication.LoginManager
+import com.x.projectxx.domain.contact.AcceptContact
 import com.x.projectxx.domain.contact.RequestContact
 import com.x.projectxx.domain.contact.RetrieveUserContacts
 import com.x.projectxx.domain.contact.RetrieveUserContacts.*
@@ -30,7 +31,8 @@ class SearchViewModelTest: BaseCoroutineTest() {
     lateinit var loginManager: LoginManager
     @Mock
     lateinit var retrieveUserContacts: RetrieveUserContacts
-
+    @Mock
+    lateinit var acceptContact: AcceptContact
     @Mock
     lateinit var searchUserByEmail: SearchUserByEmail
 
@@ -44,7 +46,8 @@ class SearchViewModelTest: BaseCoroutineTest() {
             searchUserByEmail,
             requestContact,
             loginManager,
-            retrieveUserContacts
+            retrieveUserContacts,
+            acceptContact
         )
     }
 

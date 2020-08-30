@@ -14,7 +14,12 @@
     <string name="search">Search</string>
     <string name="no_matching_profile">No matching profile.</string>
     <string name="add_contact_dialog_title">Confirm add contact</string>
-
+    <string name="add_contact_dialog_body">Would you like to request as contact?</string>
+    <string name="request_sent">Request sent</string>
+    <string name="confirm_accept_dialog_title">Confirm accept</string>
+    <string name="confirm_accept_dialog_body">Please confirm to accept contact</string>
+    <string name="confirm_accept_contact">Confirm</string>
+    <string name="confirm_accept_success">Contact accepted</string>
     <!--Login Screen-->
     <string name="login">Login</string>
     <string name="sign_in">Sign In</string>

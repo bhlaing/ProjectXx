@@ -1,6 +1,5 @@
 package com.x.projectxx.ui.contacts.model
 
-import com.x.projectxx.R
 
 sealed class ContactProfileItem(
     val userId: String,
