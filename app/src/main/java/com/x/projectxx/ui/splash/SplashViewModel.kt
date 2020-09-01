@@ -12,7 +12,6 @@ class SplashViewModel @ViewModelInject constructor(private val loginManager: Log
 private val contactRepository: ContactRepository): ViewModel() {
 
     val authStatus: LiveData<LoginManager.AuthState> = liveData {
-        contactRepository.acceptContactRequest("waitingRequestConfirmation")
         emit(loginManager.getUserLoginStatus())
     }
 }
