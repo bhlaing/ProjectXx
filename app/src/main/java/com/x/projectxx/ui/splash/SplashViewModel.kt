@@ -8,8 +8,7 @@ import com.x.projectxx.application.authentication.LoginManager
 import com.x.projectxx.data.contacts.ContactRepository
 import com.x.projectxx.data.identity.IdentityRepository
 
-class SplashViewModel @ViewModelInject constructor(private val loginManager: LoginManager,
-private val contactRepository: ContactRepository): ViewModel() {
+class SplashViewModel @ViewModelInject constructor(private val loginManager: LoginManager): ViewModel() {
 
     val authStatus: LiveData<LoginManager.AuthState> = liveData {
         emit(loginManager.getUserLoginStatus())
