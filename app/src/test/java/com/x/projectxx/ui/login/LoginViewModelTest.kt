@@ -5,6 +5,7 @@ import com.x.projectxx.BaseCoroutineTest
 import com.x.projectxx.application.authentication.LoginManager
 import com.x.projectxx.domain.user.model.User
 import com.x.projectxx.ui.login.model.LoginState
+import com.x.projectxx.ui.login.model.LoginToken
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -17,7 +18,7 @@ class LoginViewModelTest: BaseCoroutineTest() {
     lateinit var loginManager: LoginManager
 
     @Mock
-    lateinit var mockAccessToken: AccessToken
+    lateinit var mockAccessToken : LoginToken
     private lateinit var loginViewModel: LoginViewModel
 
     @Before
@@ -29,12 +30,12 @@ class LoginViewModelTest: BaseCoroutineTest() {
     @Test
     fun `when user login is successful, then update authState to logged in`() {
         runBlocking {
-            whenever(loginManager.signUpWithFacebookToken(mockAccessToken)).thenReturn(
+            whenever(loginManager.signUpWithToken(mockAccessToken)).thenReturn(
                 LoginManager.AuthState.LoggedIn
             )
 
             loginViewModel = LoginViewModel(loginManager)
-            loginViewModel.onFacebookLoginSuccess(mockAccessToken)
+            loginViewModel.onLoginSuccess(mockAccessToken)
 
             assertTrue(loginViewModel.authState.value?.peekContent() is LoginState.Success)
         }
@@ -43,14 +44,14 @@ class LoginViewModelTest: BaseCoroutineTest() {
     @Test
     fun `when login failed, then update authState to logged out`() {
         runBlocking {
-            whenever(loginManager.signUpWithFacebookToken(mockAccessToken)).thenReturn(
+            whenever(loginManager.signUpWithToken(mockAccessToken)).thenReturn(
                 LoginManager.AuthState.LoggedOut(
                     "error"
                 )
             )
 
             loginViewModel = LoginViewModel(loginManager)
-            loginViewModel.onFacebookLoginSuccess(mockAccessToken)
+            loginViewModel.onLoginSuccess(mockAccessToken)
 
             assertTrue(loginViewModel.authState.value?.peekContent() is LoginState.Failed)
         }

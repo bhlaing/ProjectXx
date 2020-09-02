@@ -3,7 +3,9 @@ package com.x.projectxx.application.authentication
 import com.facebook.AccessToken
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.x.projectxx.data.identity.IdentityRepository
+import com.x.projectxx.ui.login.model.LoginToken
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -26,7 +28,7 @@ class LoginManagerImpl @Inject constructor() : LoginManager {
 //    }
 
     override suspend fun getUserLoginStatus(): LoginManager.AuthState {
-        return auth.currentUser?.let{
+        return auth.currentUser?.let {
             LoginManager.AuthState.LoggedIn
         } ?: LoginManager.AuthState.LoggedOut()
     }
@@ -41,10 +43,9 @@ class LoginManagerImpl @Inject constructor() : LoginManager {
      * if sign up fails
      *
      */
-    override suspend fun signUpWithFacebookToken(token: AccessToken): LoginManager.AuthState =
+    override suspend fun signUpWithToken(token: LoginToken?): LoginManager.AuthState =
         suspendCoroutine { cont ->
-            val credential = FacebookAuthProvider.getCredential(token.token)
-            auth.signInWithCredential(credential)
+            auth.signInWithCredential(getCredential(token)!!)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         cont.resume(LoginManager.AuthState.LoggedIn)
@@ -55,4 +56,12 @@ class LoginManagerImpl @Inject constructor() : LoginManager {
                 }
         }
 
+    private fun getCredential(token: LoginToken?) =
+        token.let {
+            when (token) {
+                is LoginToken.FacebookToken -> FacebookAuthProvider.getCredential(token.loginResult.accessToken!!.token)
+                is LoginToken.GoogleToken -> GoogleAuthProvider.getCredential(token.idToken, null)
+                else -> null
+            }
+        }
 }
