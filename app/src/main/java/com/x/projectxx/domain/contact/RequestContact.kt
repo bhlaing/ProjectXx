@@ -4,13 +4,13 @@ import com.x.projectxx.data.contacts.ContactService
 import com.x.projectxx.data.contacts.model.Contact
 import com.x.projectxx.data.contacts.model.ContactRelationshipType
 import com.x.projectxx.data.contacts.model.SetContactRequest
-import com.x.projectxx.domain.shared.RetrieveResultInteractor
+import com.x.projectxx.domain.shared.ResultInteractor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class RequestContact @Inject constructor(private val contactService: ContactService) :
-    RetrieveResultInteractor<RequestContact.Param, Boolean>() {
+    ResultInteractor<RequestContact.Param, Boolean>() {
 
     override val dispatcher: CoroutineDispatcher = Dispatchers.IO
 

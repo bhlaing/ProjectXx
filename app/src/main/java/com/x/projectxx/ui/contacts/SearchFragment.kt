@@ -56,7 +56,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun onActionResultChanged(actionState: UserActionState) {
-        when(actionState) {
+        when (actionState) {
             is UserActionState.Loading -> {
                 binding.loading.visibility = VISIBLE
             }
@@ -67,7 +67,7 @@ class SearchFragment : Fragment() {
 
             is UserActionState.Fail -> {
                 binding.loading.visibility = GONE
-                actionState.error?.let { context?.showShortToast(it) }
+                actionState.error?.let { context?.showShortToast(getString(it)) }
             }
         }
     }
@@ -117,6 +117,8 @@ class SearchFragment : Fragment() {
             if (!user.image.isNullOrEmpty()) {
                 Picasso.get().load(user.image).into(this.profileImage)
             }
+
+            this.cancelButton.setOnClickListener { showConfirmCancelRequestDialog() }
         }
     }
 
@@ -136,7 +138,7 @@ class SearchFragment : Fragment() {
                 Picasso.get().load(user.image).into(this.profileImage)
             }
 
-            this.positiveButton.setOnClickListener {showConfirmAcceptDialog() }
+            this.positiveButton.setOnClickListener { showConfirmAcceptDialog() }
         }
     }
 
@@ -189,12 +191,25 @@ class SearchFragment : Fragment() {
         menu.clear()
     }
 
+    private fun showConfirmCancelRequestDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.cancel_request_title)
+            .setMessage(R.string.cancel_request_body)
+            // The dialog is automatically dismissed when a dialog button is clicked.
+            .setPositiveButton(R.string.confirm)
+            { _, _ -> viewModel.onCancelContact() }
+            .setNegativeButton(R.string.no, null)
+            .setIcon(R.drawable.ic_person_add_24)
+            .show()
+    }
+
+
     private fun showConfirmAcceptDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.confirm_accept_dialog_title)
             .setMessage(R.string.confirm_accept_dialog_body)
             // The dialog is automatically dismissed when a dialog button is clicked.
-            .setPositiveButton(R.string.confirm_accept_contact)
+            .setPositiveButton(R.string.confirm)
             { _, _ -> viewModel.onAcceptContact() }
             .setNegativeButton(R.string.cancel, null)
             .setIcon(R.drawable.ic_person_add_24)

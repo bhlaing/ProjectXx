@@ -54,15 +54,35 @@
                 tools:text="Feeling Awesome!" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/actionButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/actionsContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/profileInfoContainer"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="Pending Request"
-            android:drawableStart="@drawable/ic_person_pending_24" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:gravity="center"
+                android:text="@string/pending"
+                android:textSize="12sp"
+                android:textAllCaps="false"
+                app:drawableStartCompat="@drawable/ic_person_pending_24" />
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="4dp"
+                android:background="@color/dark_gray"
+                android:text="@string/cancel"
+                android:textSize="12sp"
+                android:textAllCaps="false" />
+        </LinearLayout>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

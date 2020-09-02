@@ -4,6 +4,7 @@ import com.x.projectxx.BaseCoroutineTest
 import com.x.projectxx.MockitoHelper
 import com.x.projectxx.application.authentication.LoginManager
 import com.x.projectxx.domain.contact.AcceptContact
+import com.x.projectxx.domain.contact.DeleteContact
 import com.x.projectxx.domain.contact.RequestContact
 import com.x.projectxx.domain.contact.RetrieveUserContacts
 import com.x.projectxx.domain.contact.RetrieveUserContacts.*
@@ -36,6 +37,8 @@ class SearchViewModelTest: BaseCoroutineTest() {
     lateinit var acceptContact: AcceptContact
     @Mock
     lateinit var searchUserByEmail: SearchUserByEmail
+    @Mock
+    lateinit var deleteContact: DeleteContact
 
     private val mockUser = User("aaa", "dd", "image", "email")
 
@@ -48,7 +51,8 @@ class SearchViewModelTest: BaseCoroutineTest() {
             requestContact,
             loginManager,
             retrieveUserContacts,
-            acceptContact
+            acceptContact,
+            deleteContact
         )
     }
 
