@@ -109,4 +109,10 @@ dependencies {
 
     def materialVersion = '1.2.0'
     implementation "com.google.android.material:material:$materialVersion"
+
+    def functionsVersion = '19.0.2'
+    implementation "com.google.firebase:firebase-functions-ktx:$functionsVersion"
+
+//    implementation 'com.google.firebase:firebase-functions-ktx:19.0.2'
+
 }

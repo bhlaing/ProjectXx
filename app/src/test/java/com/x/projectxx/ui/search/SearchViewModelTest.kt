@@ -3,6 +3,7 @@ package com.x.projectxx.ui.search
 import com.x.projectxx.BaseCoroutineTest
 import com.x.projectxx.MockitoHelper
 import com.x.projectxx.application.authentication.LoginManager
+import com.x.projectxx.domain.contact.AcceptContact
 import com.x.projectxx.domain.contact.RequestContact
 import com.x.projectxx.domain.contact.RetrieveUserContacts
 import com.x.projectxx.domain.contact.RetrieveUserContacts.*
@@ -19,10 +20,11 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
+import org.mockito.Mockito.verify
 
 class SearchViewModelTest: BaseCoroutineTest() {
 
-    lateinit var viewModel: SearchViewModel
+    private lateinit var viewModel: SearchViewModel
 
     @Mock
     lateinit var requestContact: RequestContact
@@ -30,7 +32,8 @@ class SearchViewModelTest: BaseCoroutineTest() {
     lateinit var loginManager: LoginManager
     @Mock
     lateinit var retrieveUserContacts: RetrieveUserContacts
-
+    @Mock
+    lateinit var acceptContact: AcceptContact
     @Mock
     lateinit var searchUserByEmail: SearchUserByEmail
 
@@ -44,7 +47,8 @@ class SearchViewModelTest: BaseCoroutineTest() {
             searchUserByEmail,
             requestContact,
             loginManager,
-            retrieveUserContacts
+            retrieveUserContacts,
+            acceptContact
         )
     }
 
@@ -99,7 +103,6 @@ class SearchViewModelTest: BaseCoroutineTest() {
             }
         }
     }
-
 
     @Test
     fun `when search is successful and user profile matches confirmed status, then displays confirmed item`() {
@@ -179,6 +182,26 @@ class SearchViewModelTest: BaseCoroutineTest() {
 
             with(viewModel.searchResult.value as SearchState.Fail) {
                 assertEquals(-1, error)
+            }
+        }
+    }
+
+    @Test
+    fun `when accepting contact invoke accept contact` () {
+        runBlocking {
+            runBlocking {
+                whenever(loginManager.getCurrentUserId()).then { "aaa" }
+                whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then { SearchResult.Success(mockUser) }
+                whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then { RetrieveContactResult.Success(
+                    listOf(User.Contact("aaa", ContactStatus.REQUEST))) }
+
+
+                viewModel.onSearch("some@some.com")
+                viewModel.onAcceptContact()
+
+
+                assertTrue(viewModel.searchResult.value is SearchState.Success)
+                verify(acceptContact).invoke(MockitoHelper.anyObject())
             }
         }
     }
