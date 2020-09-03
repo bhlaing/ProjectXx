@@ -1,15 +1,12 @@
 package com.x.projectxx.data.contacts
 
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.functions.FirebaseFunctions
 import com.x.projectxx.data.contacts.model.*
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class ContactService @Inject constructor(
@@ -25,35 +22,27 @@ class ContactService @Inject constructor(
     private val userCollection = cloudFirestoreDb.collection(COLLECTION_USER)
 
 
-
     override suspend fun setContact(request: SetContactRequest): Boolean {
         return try {
             getContactCollection(request.requesterId)
                 .document(request.contact.userId!!)
                 .set(request.contact)
             true
-        } catch(e: FirebaseFirestoreException) {
+        } catch (e: FirebaseFirestoreException) {
             false
         }
     }
 
-    override suspend fun getUserContacts(userId: String): UserContactsResult =
-        suspendCoroutine { cont ->
-            getContactCollection(userId)
-                .get()
-                .addOnSuccessListener { documents ->
-                    val contacts = mutableListOf<Contact>()
+    override suspend fun getUserContacts(userId: String): UserContactsResult {
+        return try {
+            val documents = getContactCollection(userId).get().await()
+            val contacts = documents.map { it.toObject(Contact::class.java) }
 
-                    documents.forEach {
-                        contacts.add(it.toObject(Contact::class.java))
-                    }
-
-                    cont.resume(UserContactsResult.Success(contacts))
-                }.addOnFailureListener {
-                    cont.resume(UserContactsResult.Fail(it.message))
-                }
-
+            UserContactsResult.Success(contacts)
+        } catch (e: FirebaseFirestoreException) {
+            UserContactsResult.Fail(e.message)
         }
+    }
 
     override suspend fun acceptContactRequest(userId: String): SimpleResult =
         suspendCoroutine { cont ->
@@ -67,19 +56,17 @@ class ContactService @Inject constructor(
                 }
         }
 
-    override suspend fun deleteContact(request: DeleteContactRequest): SimpleResult =
-        suspendCoroutine { cont ->
+    override suspend fun deleteContact(request: DeleteContactRequest): SimpleResult {
+        return try {
             getContactCollection(request.userId)
                 .document(request.contactId)
                 .delete()
-                .addOnSuccessListener {
-                    cont.resume(SimpleResult.Success)
-                }
-                .addOnFailureListener {
-                    cont.resume(SimpleResult.Fail(it))
-                }
-        }
 
+            SimpleResult.Success
+        } catch (exception: FirebaseFirestoreException) {
+            SimpleResult.Fail(exception)
+        }
+    }
 
     private fun getAcceptContactFunction() = functions.getHttpsCallable(FUNCTION_ACCEPT_CONTACT)
 

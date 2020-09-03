@@ -19,17 +19,18 @@ class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore) :
 
     private val userCollection = cloudFirestoreDb.collection(COLLECTION_USERS)
 
-    override suspend fun getUserProfile(userId: String): UserProfile? = suspendCoroutine { cont ->
-        userCollection.document(userId)
-            .get().addOnSuccessListener {
-                if(it.exists()) {
-                    cont.resume(parseSnapshotToUserProfile(it))
-                } else {
-                    cont.resume(null)
-                }
-            }.addOnFailureListener {
-                cont.resumeWithException(it)
+    override suspend fun getUserProfile(userId: String): UserProfile? {
+        return try {
+            val document = userCollection.document(userId).get().await()
+
+            if (document.exists()) {
+                return document.toObject(UserProfile::class.java)
             }
+            null
+        } catch (e: FirebaseFirestoreException) {
+            null
+        }
+
     }
 
     override suspend fun getUserProfileByEmail(email: String): UserProfile? {
@@ -38,7 +39,7 @@ class IdentityService @Inject constructor(cloudFirestoreDb: FirebaseFirestore) :
                 .get()
                 .await()
 
-            if(querySnapshot.isEmpty) {
+            if (querySnapshot.isEmpty) {
                 null
             } else {
                 parseSnapshotToUserProfile(querySnapshot.documents.first())
