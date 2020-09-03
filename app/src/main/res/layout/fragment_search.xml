@@ -51,4 +51,13 @@
         android:visibility="invisible"
         tools:visibility="visible"
         android:orientation="vertical" />
+
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 </RelativeLayout>

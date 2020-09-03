@@ -6,7 +6,7 @@ import kotlinx.coroutines.withContext
 /**
  * Base domain usecase for retrieving stuffs using coroutine
  */
-abstract class RetrieveResultInteractor<in P, R> {
+abstract class ResultInteractor<in P, R> {
     abstract val dispatcher: CoroutineDispatcher
 
     suspend operator fun invoke(params: P): R {

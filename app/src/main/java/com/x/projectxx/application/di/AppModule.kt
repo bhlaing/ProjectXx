@@ -2,6 +2,8 @@ package com.x.projectxx.application.di
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.functions.FirebaseFunctions
+import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -26,4 +28,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideCloudFirebaseFirestoreDatabase(): FirebaseFirestore = Firebase.firestore
+
+    @Singleton
+    @Provides
+    fun provideCloudFirestoreFunction(): FirebaseFunctions = Firebase.functions
 }

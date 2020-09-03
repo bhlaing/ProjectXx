@@ -10,14 +10,14 @@ import com.squareup.picasso.Picasso
 import com.x.projectxx.R
 import com.x.projectxx.application.extensions.observeNonNull
 import com.x.projectxx.application.extensions.setTextOrGone
-import com.x.projectxx.databinding.FragmentSearchBinding
-import com.x.projectxx.databinding.ViewProfileAddBinding
-import com.x.projectxx.databinding.ViewProfilePendingBinding
-import com.x.projectxx.databinding.ViewProfileRequestBinding
+import com.x.projectxx.application.extensions.showShortToast
+import com.x.projectxx.databinding.*
 import com.x.projectxx.ui.contacts.model.SearchState
 import com.x.projectxx.ui.contacts.model.ContactProfileItem
 import com.x.projectxx.ui.contacts.model.ContactProfileItem.*
+import com.x.projectxx.ui.contacts.model.UserActionState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.view_profile_add.view.*
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -40,9 +40,6 @@ class SearchFragment : Fragment() {
 
         binding.searchButton.setOnClickListener { viewModel.onSearch(binding.inputEmail.text.toString()) }
 
-//        binding.profileLayout.profileSearchContainer.statusIcon.setOnClickListener { showConfirmationDialog() }
-
-
         return binding.root
     }
 
@@ -53,27 +50,56 @@ class SearchFragment : Fragment() {
     }
 
     private fun setUpObservers() {
-        viewLifecycleOwner.observeNonNull(viewModel.searchResult) { searchState ->
-            when (searchState) {
-                is SearchState.Searching -> {
-                    binding.profileLayout.visibility = GONE
-                    binding.progressBar.visibility = VISIBLE
-                }
-                is SearchState.Success -> onSuccessSearchState(searchState.user)
-                is SearchState.Fail -> onFailSearchState(searchState.error)
+        viewLifecycleOwner.observeNonNull(viewModel.searchResult) { onSearchStateChanged(it) }
+
+        viewLifecycleOwner.observeNonNull(viewModel.actionResult) { onActionResultChanged(it) }
+    }
+
+    private fun onActionResultChanged(actionState: UserActionState) {
+        when (actionState) {
+            is UserActionState.Loading -> {
+                binding.loading.visibility = VISIBLE
+            }
+            is UserActionState.Success -> {
+                binding.loading.visibility = GONE
+                actionState.message?.let { context?.showShortToast(getString(it)) }
+            }
+
+            is UserActionState.Fail -> {
+                binding.loading.visibility = GONE
+                actionState.error?.let { context?.showShortToast(getString(it)) }
             }
         }
     }
 
+    private fun onSearchStateChanged(searchState: SearchState) {
+        when (searchState) {
+            is SearchState.Searching -> {
+                binding.profileLayout.visibility = GONE
+                binding.progressBar.visibility = VISIBLE
+            }
+            is SearchState.Success -> onSuccessSearchState(searchState.user)
+            is SearchState.Fail -> onFailSearchState(searchState.error)
+        }
+    }
+
     private fun onSuccessSearchState(user: ContactProfileItem) {
+        resetProfileLayout()
+
         when (user) {
             is PendingContact -> showPendingContact(user)
             is RequestConfirmContact -> showRequestConfirmContact(user)
             is UnknownContact -> showUnknownContact(user)
+            is ConfirmedContact -> showConfirmedContact(user)
         }
         binding.profileLayout.visibility = VISIBLE
 
         binding.progressBar.visibility = GONE
+    }
+
+    private fun resetProfileLayout() {
+        val profileContainer = binding.profileLayout
+        profileContainer.removeAllViews()
     }
 
     private fun showPendingContact(user: PendingContact) {
@@ -91,6 +117,8 @@ class SearchFragment : Fragment() {
             if (!user.image.isNullOrEmpty()) {
                 Picasso.get().load(user.image).into(this.profileImage)
             }
+
+            this.cancelButton.setOnClickListener { showConfirmCancelRequestDialog() }
         }
     }
 
@@ -109,6 +137,8 @@ class SearchFragment : Fragment() {
             if (!user.image.isNullOrEmpty()) {
                 Picasso.get().load(user.image).into(this.profileImage)
             }
+
+            this.positiveButton.setOnClickListener { showConfirmAcceptDialog() }
         }
     }
 
@@ -116,6 +146,26 @@ class SearchFragment : Fragment() {
         val profileContainer = binding.profileLayout
 
         val binding = ViewProfileAddBinding.inflate(
+            LayoutInflater.from(profileContainer.context),
+            profileContainer,
+            true
+        )
+
+        binding.apply {
+            this.nameText.text = user.displayName
+            this.statusText.setTextOrGone(user.status)
+            if (!user.image.isNullOrEmpty()) {
+                Picasso.get().load(user.image).into(this.profileImage)
+            }
+        }
+
+        binding.profileAddContainer.actionButton.setOnClickListener { showConfirmAddDialog() }
+    }
+
+    private fun showConfirmedContact(user: ConfirmedContact) {
+        val profileContainer = binding.profileLayout
+
+        val binding = ViewProfileConfirmedBinding.inflate(
             LayoutInflater.from(profileContainer.context),
             profileContainer,
             true
@@ -141,13 +191,38 @@ class SearchFragment : Fragment() {
         menu.clear()
     }
 
-    private fun showConfirmationDialog() {
+    private fun showConfirmCancelRequestDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Add contact")
-            .setMessage("Please confirm to request as contact ")
+            .setTitle(R.string.cancel_request_title)
+            .setMessage(R.string.cancel_request_body)
+            // The dialog is automatically dismissed when a dialog button is clicked.
+            .setPositiveButton(R.string.confirm)
+            { _, _ -> viewModel.onCancelContact() }
+            .setNegativeButton(R.string.no, null)
+            .setIcon(R.drawable.ic_person_add_24)
+            .show()
+    }
+
+
+    private fun showConfirmAcceptDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.confirm_accept_dialog_title)
+            .setMessage(R.string.confirm_accept_dialog_body)
+            // The dialog is automatically dismissed when a dialog button is clicked.
+            .setPositiveButton(R.string.confirm)
+            { _, _ -> viewModel.onAcceptContact() }
+            .setNegativeButton(R.string.cancel, null)
+            .setIcon(R.drawable.ic_person_add_24)
+            .show()
+    }
+
+    private fun showConfirmAddDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.add_contact_dialog_title)
+            .setMessage(R.string.add_contact_dialog_body)
             // The dialog is automatically dismissed when a dialog button is clicked.
             .setPositiveButton(R.string.add_contact)
-            { _, _ -> viewModel.onStatusAction() }
+            { _, _ -> viewModel.onAddContact() }
             .setNegativeButton(R.string.cancel, null)
             .setIcon(R.drawable.ic_person_add_24)
             .show()

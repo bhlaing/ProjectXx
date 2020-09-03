@@ -54,16 +54,14 @@
                 tools:text="Feeling Awesome!" />
         </LinearLayout>
 
-        <Button
+        <ImageView
             android:id="@+id/actionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:layout_toEndOf="@+id/profileInfoContainer"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="Add"
-            android:drawableStart="@drawable/ic_person_add_24" />
+            android:src="@drawable/ic_baseline_contacts_24" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

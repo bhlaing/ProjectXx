@@ -21,4 +21,4 @@ private fun mapContactStatus(relationshipType: ContactRelationshipType?) = relat
         ContactRelationshipType.REQUEST -> ContactStatus.REQUEST
         ContactRelationshipType.PENDING -> ContactStatus.PENDING
     }
-} ?: throw InvalidObjectException("Contact userid cannot be null!")
+} ?: throw InvalidObjectException("Relationship status cannot be null!")

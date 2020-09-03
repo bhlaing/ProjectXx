@@ -4,15 +4,14 @@ import androidx.annotation.StringRes
 import com.x.projectxx.R
 import com.x.projectxx.data.contacts.ContactRepository
 import com.x.projectxx.data.contacts.model.UserContactsResult
-import com.x.projectxx.domain.shared.RetrieveResultInteractor
-import com.x.projectxx.domain.user.mappers.toUser
+import com.x.projectxx.domain.shared.ResultInteractor
 import com.x.projectxx.domain.user.model.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class RetrieveUserContacts @Inject constructor(private val contactRepository: ContactRepository) :
-    RetrieveResultInteractor<RetrieveUserContacts.Param, RetrieveUserContacts.RetrieveContactResult>() {
+    ResultInteractor<RetrieveUserContacts.Param, RetrieveUserContacts.RetrieveContactResult>() {
 
     override val dispatcher: CoroutineDispatcher = Dispatchers.IO
 

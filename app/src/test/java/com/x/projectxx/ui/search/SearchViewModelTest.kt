@@ -3,6 +3,10 @@ package com.x.projectxx.ui.search
 import com.x.projectxx.BaseCoroutineTest
 import com.x.projectxx.MockitoHelper
 import com.x.projectxx.application.authentication.LoginManager
+import com.x.projectxx.domain.contact.AcceptContact
+import com.x.projectxx.domain.contact.AcceptContact.*
+import com.x.projectxx.domain.contact.DeleteContact
+import com.x.projectxx.domain.contact.DeleteContact.*
 import com.x.projectxx.domain.contact.RequestContact
 import com.x.projectxx.domain.contact.RetrieveUserContacts
 import com.x.projectxx.domain.contact.RetrieveUserContacts.*
@@ -19,20 +23,30 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 
-class SearchViewModelTest: BaseCoroutineTest() {
+class SearchViewModelTest : BaseCoroutineTest() {
 
-    lateinit var viewModel: SearchViewModel
+    private lateinit var viewModel: SearchViewModel
 
     @Mock
     lateinit var requestContact: RequestContact
+
     @Mock
     lateinit var loginManager: LoginManager
+
     @Mock
     lateinit var retrieveUserContacts: RetrieveUserContacts
 
     @Mock
+    lateinit var acceptContact: AcceptContact
+
+    @Mock
     lateinit var searchUserByEmail: SearchUserByEmail
+
+    @Mock
+    lateinit var deleteContact: DeleteContact
 
     private val mockUser = User("aaa", "dd", "image", "email")
 
@@ -44,7 +58,9 @@ class SearchViewModelTest: BaseCoroutineTest() {
             searchUserByEmail,
             requestContact,
             loginManager,
-            retrieveUserContacts
+            retrieveUserContacts,
+            acceptContact,
+            deleteContact
         )
     }
 
@@ -53,9 +69,16 @@ class SearchViewModelTest: BaseCoroutineTest() {
 
         runBlocking {
             whenever(loginManager.getCurrentUserId()).then { "aaa" }
-            whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then { SearchResult.Success(mockUser) }
-            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then { RetrieveContactResult.Success(
-                listOf(User.Contact("aaa", ContactStatus.PENDING))) }
+            whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then {
+                SearchResult.Success(
+                    mockUser
+                )
+            }
+            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+                RetrieveContactResult.Success(
+                    listOf(User.Contact("aaa", ContactStatus.PENDING))
+                )
+            }
 
 
             viewModel.onSearch("some@some.com")
@@ -79,9 +102,16 @@ class SearchViewModelTest: BaseCoroutineTest() {
 
         runBlocking {
             whenever(loginManager.getCurrentUserId()).then { "aaa" }
-            whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then { SearchResult.Success(mockUser) }
-            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then { RetrieveContactResult.Success(
-                listOf(User.Contact("aaa", ContactStatus.REQUEST))) }
+            whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then {
+                SearchResult.Success(
+                    mockUser
+                )
+            }
+            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+                RetrieveContactResult.Success(
+                    listOf(User.Contact("aaa", ContactStatus.REQUEST))
+                )
+            }
 
 
             viewModel.onSearch("some@some.com")
@@ -100,15 +130,21 @@ class SearchViewModelTest: BaseCoroutineTest() {
         }
     }
 
-
     @Test
     fun `when search is successful and user profile matches confirmed status, then displays confirmed item`() {
 
         runBlocking {
             whenever(loginManager.getCurrentUserId()).then { "aaa" }
-            whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then { SearchResult.Success(mockUser) }
-            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then { RetrieveContactResult.Success(
-                listOf(User.Contact("aaa", ContactStatus.CONFIRMED))) }
+            whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then {
+                SearchResult.Success(
+                    mockUser
+                )
+            }
+            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+                RetrieveContactResult.Success(
+                    listOf(User.Contact("aaa", ContactStatus.CONFIRMED))
+                )
+            }
 
             viewModel.onSearch("some@some.com")
 
@@ -126,15 +162,21 @@ class SearchViewModelTest: BaseCoroutineTest() {
         }
     }
 
-
     @Test
     fun `when search is successful and result is not a friend, then displays unknown item`() {
 
         runBlocking {
             whenever(loginManager.getCurrentUserId()).then { "aaa" }
-            whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then { SearchResult.Success(mockUser) }
-            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then { RetrieveContactResult.Success(
-                listOf(User.Contact("bbb", ContactStatus.CONFIRMED))) }
+            whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then {
+                SearchResult.Success(
+                    mockUser
+                )
+            }
+            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+                RetrieveContactResult.Success(
+                    listOf(User.Contact("bbb", ContactStatus.CONFIRMED))
+                )
+            }
 
             viewModel.onSearch("some@some.com")
 
@@ -155,8 +197,16 @@ class SearchViewModelTest: BaseCoroutineTest() {
     fun `if unable to fetch current user contacts then display error`() {
         runBlocking {
             whenever(loginManager.getCurrentUserId()).then { "aaa" }
-            whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then { SearchResult.Success(mockUser) }
-            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then { RetrieveContactResult.Error(-1) }
+            whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then {
+                SearchResult.Success(
+                    mockUser
+                )
+            }
+            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+                RetrieveContactResult.Error(
+                    -1
+                )
+            }
 
             viewModel.onSearch("some@some.com")
 
@@ -171,7 +221,11 @@ class SearchViewModelTest: BaseCoroutineTest() {
     @Test
     fun `when search fails, then displays error message`() {
         runBlocking {
-            whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then { SearchResult.Error(-1) }
+            whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then {
+                SearchResult.Error(
+                    -1
+                )
+            }
 
             viewModel.onSearch("some@some.com")
 
@@ -180,6 +234,62 @@ class SearchViewModelTest: BaseCoroutineTest() {
             with(viewModel.searchResult.value as SearchState.Fail) {
                 assertEquals(-1, error)
             }
+        }
+    }
+
+    @Test
+    fun `when accepting contact invoke accept contact`() {
+        runBlocking {
+            runBlocking {
+                whenever(loginManager.getCurrentUserId()).then { "aaa" }
+                whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then {
+                    SearchResult.Success(
+                        mockUser
+                    )
+                }
+                whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+                    RetrieveContactResult.Success(
+                        listOf(User.Contact("aaa", ContactStatus.REQUEST))
+                    )
+                }
+                whenever(acceptContact.invoke(MockitoHelper.anyObject())).thenReturn(AcceptResult.Success)
+
+                viewModel.onSearch("some@some.com")
+                viewModel.onAcceptContact()
+
+
+                assertTrue(viewModel.searchResult.value is SearchState.Success)
+                verify(acceptContact).invoke(MockitoHelper.anyObject())
+
+                verify(searchUserByEmail, times(2)).invoke(MockitoHelper.anyObject())
+            }
+        }
+    }
+
+    @Test
+    fun `when cancelling contact request invoke delete contact`() {
+        runBlocking {
+            whenever(loginManager.getCurrentUserId()).then { "aaa" }
+            whenever(searchUserByEmail.invoke(MockitoHelper.anyObject())).then {
+                SearchResult.Success(
+                    mockUser
+                )
+            }
+            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+                RetrieveContactResult.Success(
+                    listOf(User.Contact("aaa", ContactStatus.PENDING))
+                )
+            }
+            whenever(deleteContact.invoke(MockitoHelper.anyObject())).thenReturn(DeleteResult.Success)
+
+            viewModel.onSearch("some@some.com")
+            viewModel.onCancelContact()
+
+
+            assertTrue(viewModel.searchResult.value is SearchState.Success)
+            verify(deleteContact).invoke(MockitoHelper.anyObject())
+
+            verify(searchUserByEmail, times(2)).invoke(MockitoHelper.anyObject())
         }
     }
 }
