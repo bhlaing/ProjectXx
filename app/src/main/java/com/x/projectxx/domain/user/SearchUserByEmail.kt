@@ -3,7 +3,7 @@ package com.x.projectxx.domain.user
 import androidx.annotation.StringRes
 import com.x.projectxx.R
 import com.x.projectxx.data.identity.IdentityRepository
-import com.x.projectxx.domain.shared.RetrieveResultInteractor
+import com.x.projectxx.domain.shared.ResultInteractor
 import com.x.projectxx.domain.user.SearchUserByEmail.*
 import com.x.projectxx.domain.user.mappers.toUser
 import com.x.projectxx.domain.user.model.User
@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class SearchUserByEmail @Inject constructor(private val identityRepository: IdentityRepository) :
-    RetrieveResultInteractor<Param, SearchResult>() {
+    ResultInteractor<Param, SearchResult>() {
 
     override val dispatcher: CoroutineDispatcher = Dispatchers.IO
 

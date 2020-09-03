@@ -18,14 +18,16 @@ import com.x.projectxx.ui.contacts.model.toSearchUserProfileItem
 import kotlinx.coroutines.launch
 import com.x.projectxx.domain.contact.RequestContact as RequestContact
 import com.x.projectxx.R
-import timber.log.Timber
+import com.x.projectxx.domain.contact.DeleteContact
+import com.x.projectxx.domain.contact.DeleteContact.DeleteResult
 
 class SearchViewModel @ViewModelInject constructor(
     private val searchUserByEmail: SearchUserByEmail,
     private val requestContact: RequestContact,
     private val loginManager: LoginManager,
     private val retrieveUserContacts: RetrieveUserContacts,
-    private val acceptContact: AcceptContact
+    private val acceptContact: AcceptContact,
+    private val deleteContact: DeleteContact
 ) : ViewModel() {
 
     private val searchByEmailResult: MutableLiveData<SearchState> = MutableLiveData()
@@ -50,6 +52,32 @@ class SearchViewModel @ViewModelInject constructor(
         result?.user?.let {
             if (it is ContactProfileItem.RequestConfirmContact) {
                 acceptContactForUser(it)
+            }
+        }
+    }
+
+    fun onCancelContact() {
+        val result = searchResult.value as? SearchState.Success
+        result?.user?.let {
+            if (it is ContactProfileItem.PendingContact) {
+                deleteUserContact(it)
+            }
+        }
+    }
+
+    private fun deleteUserContact(user: ContactProfileItem) {
+        viewModelScope.launch {
+            userAction.value = UserActionState.Loading
+
+            val param = DeleteContact.Param(loginManager.getCurrentUserId()!!, user.userId)
+
+            when (val result = deleteContact(param)) {
+                is DeleteResult.Success -> {
+                    userAction.value = UserActionState.Success(R.string.confirm_cancel_success)
+                    searchUserByEmail(user.email!!)
+                }
+                is DeleteResult.Fail -> userAction.value =
+                    UserActionState.Fail(result.error)
             }
         }
     }

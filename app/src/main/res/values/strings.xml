@@ -5,6 +5,9 @@
     <string name="fb_login_protocol_scheme">fb322319125813749</string>
 
     <string name="send">Send</string>
+    <!--Status-->
+    <string name="pending">Pending</string>
+    <string name="accept">Accept</string>
 
     <!--Chat Screen-->
     <string name="type_message">Type your message</string>
@@ -18,8 +21,12 @@
     <string name="request_sent">Request sent</string>
     <string name="confirm_accept_dialog_title">Confirm accept</string>
     <string name="confirm_accept_dialog_body">Please confirm to accept contact</string>
-    <string name="confirm_accept_contact">Confirm</string>
+    <string name="confirm">Confirm</string>
     <string name="confirm_accept_success">Contact accepted</string>
+    <string name="contact_accepted">Contact accepted</string>
+    <string name="cancel_request_title">Cancel contact request</string>
+    <string name="cancel_request_body">Please confirm to cancel contact request</string>
+    <string name="confirm_cancel_success">Request has been canceled</string>
     <!--Login Screen-->
     <string name="login">Login</string>
     <string name="sign_in">Sign In</string>
@@ -43,4 +50,5 @@
 
     <!-- Generic actions-->
     <string name="cancel">Cancel</string>
+    <string name="no">No</string>
 </resources>

@@ -4,14 +4,14 @@ import androidx.annotation.StringRes
 import com.x.projectxx.R
 import com.x.projectxx.data.identity.IdentityRepository
 import com.x.projectxx.domain.user.model.ContactDetails
-import com.x.projectxx.domain.shared.RetrieveResultInteractor
+import com.x.projectxx.domain.shared.ResultInteractor
 import com.x.projectxx.domain.user.mappers.toContactDetails
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class GetContactDetails @Inject constructor(private val identityRepository: IdentityRepository):
-    RetrieveResultInteractor<GetContactDetails.Param, GetContactDetails.ContactDetailsResult>() {
+    ResultInteractor<GetContactDetails.Param, GetContactDetails.ContactDetailsResult>() {
 
     override val dispatcher: CoroutineDispatcher = Dispatchers.IO
 
