@@ -43,9 +43,9 @@ class LoginManagerImpl @Inject constructor() : LoginManager {
      * if sign up fails
      *
      */
-    override suspend fun signUpWithToken(token: LoginToken?): LoginManager.AuthState =
+    override suspend fun signUpWithToken(token: LoginToken): LoginManager.AuthState =
         suspendCoroutine { cont ->
-            auth.signInWithCredential(getCredential(token)!!)
+            auth.signInWithCredential(getCredential(token))
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         cont.resume(LoginManager.AuthState.LoggedIn)
@@ -56,12 +56,10 @@ class LoginManagerImpl @Inject constructor() : LoginManager {
                 }
         }
 
-    private fun getCredential(token: LoginToken?) =
-        token.let {
-            when (token) {
-                is LoginToken.FacebookToken -> FacebookAuthProvider.getCredential(token.loginResult.accessToken!!.token)
-                is LoginToken.GoogleToken -> GoogleAuthProvider.getCredential(token.idToken, null)
-                else -> null
-            }
+    private fun getCredential(token: LoginToken) =
+        when (token) {
+            is LoginToken.FacebookToken -> FacebookAuthProvider.getCredential(token.loginResult.accessToken.token)
+            is LoginToken.GoogleToken -> GoogleAuthProvider.getCredential(token.idToken, null)
         }
+
 }

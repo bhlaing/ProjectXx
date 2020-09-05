@@ -6,7 +6,7 @@ import com.x.projectxx.ui.login.model.LoginToken
 
 interface LoginManager {
     suspend fun getUserLoginStatus(): AuthState
-    suspend fun signUpWithToken(token:LoginToken?): AuthState
+    suspend fun signUpWithToken(token:LoginToken): AuthState
 
     fun getCurrentUserId(): String?
 

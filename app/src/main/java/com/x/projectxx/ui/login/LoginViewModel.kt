@@ -19,7 +19,7 @@ class LoginViewModel @ViewModelInject constructor(private val loginManager: Logi
         viewModelScope.launch {
             _authState.postValue(Event(LoginState.Loading))
 
-            val loginResult = loginManager.signUpWithToken(loginToken)
+            val loginResult = loginManager.signUpWithToken(loginToken!!)
             _authState.postValue(Event(loginResult.toLoginState()))
         }
 }

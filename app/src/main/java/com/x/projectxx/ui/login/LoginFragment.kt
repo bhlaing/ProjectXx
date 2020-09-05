@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -64,7 +65,7 @@ class LoginFragment : Fragment() {
             .requestEmail()
             .build()
 
-        activity?.let { activity -> googleSignInClient = GoogleSignIn.getClient(activity,gso); }
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         return binding.root
     }
@@ -107,21 +108,23 @@ class LoginFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        callbackManager.onActivityResult(requestCode, resultCode, data)
-        //If Google Sign In
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)!!
-                viewModel.onLoginSuccess(LoginToken.GoogleToken(account.idToken!!))
-            } catch (e: ApiException) {
-
+        when (requestCode) {
+            RC_SIGN_IN -> {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+                try {
+                    val account = task.getResult(ApiException::class.java)!!
+                    viewModel.onLoginSuccess(LoginToken.GoogleToken(account.idToken!!))
+                } catch (e: ApiException) {
+                    Toast.makeText(activity,e.message,Toast.LENGTH_SHORT)
+                }
+            }
+            else -> {
+                callbackManager.onActivityResult(requestCode, resultCode, data)
             }
         }
     }
 
-    private fun logInWithGoogle(){
+    private fun logInWithGoogle() {
         val signInIntent = googleSignInClient?.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
