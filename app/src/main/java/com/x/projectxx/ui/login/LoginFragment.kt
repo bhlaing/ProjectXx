@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.*
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -19,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.x.projectxx.R
 import com.x.projectxx.application.extensions.observeEvent
+import com.x.projectxx.application.extensions.showShortToast
 import com.x.projectxx.databinding.FragmentLoginBinding
 import com.x.projectxx.ui.chat.ChatActivity
 import com.x.projectxx.ui.login.model.LoginState
@@ -115,7 +115,7 @@ class LoginFragment : Fragment() {
                     val account = task.getResult(ApiException::class.java)!!
                     viewModel.onLoginSuccess(LoginToken.GoogleToken(account.idToken!!))
                 } catch (e: ApiException) {
-                    Toast.makeText(activity,e.message,Toast.LENGTH_SHORT)
+                    context?.showShortToast(getString(R.string.generic_error_message))
                 }
             }
             else -> {
@@ -125,8 +125,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun logInWithGoogle() {
-        val signInIntent = googleSignInClient?.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
+        startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
     }
 
     private fun navigateToChatScreen() =
