@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2E3032"
-    tools:context=".ui.contacts.ContactsActivity">
+    tools:context=".ui.home.contacts.ContactsActivity">
 
 <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/contactsListView"

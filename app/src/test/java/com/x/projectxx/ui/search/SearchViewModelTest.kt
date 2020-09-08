@@ -14,9 +14,9 @@ import com.x.projectxx.domain.user.SearchUserByEmail
 import com.x.projectxx.domain.user.SearchUserByEmail.*
 import com.x.projectxx.domain.user.model.ContactStatus
 import com.x.projectxx.domain.user.model.User
-import com.x.projectxx.ui.contacts.SearchViewModel
-import com.x.projectxx.ui.contacts.model.ContactProfileItem
-import com.x.projectxx.ui.contacts.model.SearchState
+import com.x.projectxx.ui.home.contacts.SearchViewModel
+import com.x.projectxx.ui.home.contacts.model.ContactProfileItem
+import com.x.projectxx.ui.home.contacts.model.SearchState
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.runBlocking

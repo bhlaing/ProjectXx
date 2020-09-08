@@ -17,7 +17,7 @@ class LoginActivity : BaseActivity() {
     companion object {
         private const val TAG = "Login Activity"
 
-        fun makeChatIntent(context: Context) : Intent {
+        fun makeLoginIntent(context: Context) : Intent {
             return Intent(context, LoginActivity::class.java)
         }
     }

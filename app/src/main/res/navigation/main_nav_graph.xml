@@ -1,11 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/contactsNavGraph"
-    app:startDestination="@id/contactsFragment">
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
 
     <fragment
-        android:id="@+id/contactsFragment"
+        android:id="@+id/navigation_home"
+        android:name="com.x.projectxx.ui.home.stuff.StuffsFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+
+    <fragment
+        android:id="@+id/navigation_contacts"
         android:name="com.x.projectxx.ui.home.contacts.ContactsFragment"
         tools:layout="@layout/fragment_contacts" >
         <action android:id="@+id/contact_to_search"
@@ -29,4 +37,10 @@
             app:popUpTo="@+id/contactsFragment"
             app:popUpToInclusive="true"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.x.projectxx.ui.home.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
 </navigation>

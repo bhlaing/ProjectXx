@@ -13,9 +13,8 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.x.projectxx.application.extensions.observeEvent
-import com.x.projectxx.application.authentication.LoginManager
 import com.x.projectxx.databinding.FragmentLoginBinding
-import com.x.projectxx.ui.chat.ChatActivity
+import com.x.projectxx.ui.home.HomeActivity
 import com.x.projectxx.ui.login.model.LoginState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -71,7 +70,7 @@ class LoginFragment : Fragment() {
             is LoginState.Success -> {
                 binding.loading.visibility = GONE
 
-                navigateToChatScreen()
+                navigateToHomeScreen()
             }
             is LoginState.Failed -> {
                 binding.loading.visibility = GONE
@@ -90,6 +89,5 @@ class LoginFragment : Fragment() {
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun navigateToChatScreen() =
-        startActivity(ChatActivity.makeChatIntent(requireContext()))
+    private fun navigateToHomeScreen() = startActivity(HomeActivity.makeHomeIntent(requireContext()))
 }

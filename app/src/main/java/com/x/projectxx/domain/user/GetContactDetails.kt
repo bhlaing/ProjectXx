@@ -3,7 +3,7 @@ package com.x.projectxx.domain.user
 import androidx.annotation.StringRes
 import com.x.projectxx.R
 import com.x.projectxx.data.identity.IdentityRepository
-import com.x.projectxx.domain.user.model.ContactDetails
+import com.x.projectxx.domain.contact.model.ContactDetails
 import com.x.projectxx.domain.shared.ResultInteractor
 import com.x.projectxx.domain.user.mappers.toContactDetails
 import kotlinx.coroutines.CoroutineDispatcher

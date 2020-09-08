@@ -6,7 +6,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.x.projectxx.R
-import com.x.projectxx.ui.contacts.ContactsActivity
+import com.x.projectxx.ui.home.contacts.ContactsActivity
 import com.x.projectxx.ui.settings.MainSettingsActivity
 
 open class BaseActivity: AppCompatActivity() {
