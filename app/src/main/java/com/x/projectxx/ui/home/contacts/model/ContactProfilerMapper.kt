@@ -16,7 +16,7 @@ private fun mapToSearchUserProfileItem(contactStatus: ContactStatus?, user: User
 
 
 private fun mapAsPendingContact(user: User) = user.let {
-    ContactProfileItem.PendingContact(
+    SearchProfileItem.Pending(
         it.userId,
         it.displayName,
         it.image,
@@ -26,7 +26,7 @@ private fun mapAsPendingContact(user: User) = user.let {
 }
 
 private fun mapAsRequestConfirm(user: User) = user.let {
-    ContactProfileItem.RequestConfirmContact(
+    SearchProfileItem.RequestConfirm(
         it.userId,
         it.displayName,
         it.image,
@@ -36,7 +36,7 @@ private fun mapAsRequestConfirm(user: User) = user.let {
 }
 
 private fun mapAsConfirmedContact(user: User) = user.let {
-    ContactProfileItem.ConfirmedContact(
+    SearchProfileItem.Confirmed(
         it.userId,
         it.displayName,
         it.image,
@@ -46,7 +46,7 @@ private fun mapAsConfirmedContact(user: User) = user.let {
 }
 
 private fun mapAsUnknownContact(user: User) = user.let {
-    ContactProfileItem.UnknownContact(
+    SearchProfileItem.Unknown(
         it.userId,
         it.displayName,
         it.image,

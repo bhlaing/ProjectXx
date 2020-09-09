@@ -3,8 +3,6 @@ package com.x.projectxx.ui.contact
 import com.x.projectxx.BaseCoroutineTest
 import com.x.projectxx.MockitoHelper
 import com.x.projectxx.domain.contact.model.ContactDetails
-import com.x.projectxx.domain.user.GetContactDetails
-import com.x.projectxx.domain.user.GetContactDetails.*
 import com.x.projectxx.domain.user.GetCurrentUser
 import com.x.projectxx.domain.user.GetCurrentUser.UserProfileResult
 import com.x.projectxx.domain.user.model.ContactStatus

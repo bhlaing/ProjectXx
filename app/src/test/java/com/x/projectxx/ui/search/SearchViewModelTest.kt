@@ -15,7 +15,7 @@ import com.x.projectxx.domain.user.SearchUserByEmail.*
 import com.x.projectxx.domain.user.model.ContactStatus
 import com.x.projectxx.domain.user.model.User
 import com.x.projectxx.ui.home.contacts.SearchViewModel
-import com.x.projectxx.ui.home.contacts.model.ContactProfileItem
+import com.x.projectxx.ui.home.contacts.model.SearchProfileItem
 import com.x.projectxx.ui.home.contacts.model.SearchState
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
@@ -87,7 +87,7 @@ class SearchViewModelTest : BaseCoroutineTest() {
 
             with(viewModel.searchResult.value as SearchState.Success) {
 
-                assertTrue(user is ContactProfileItem.PendingContact)
+                assertTrue(user is SearchProfileItem.Pending)
                 assertEquals("aaa", user.userId)
                 assertEquals("dd", user.displayName)
                 assertEquals("image", user.image)
@@ -120,7 +120,7 @@ class SearchViewModelTest : BaseCoroutineTest() {
 
             with(viewModel.searchResult.value as SearchState.Success) {
 
-                assertTrue(user is ContactProfileItem.RequestConfirmContact)
+                assertTrue(user is SearchProfileItem.RequestConfirm)
                 assertEquals("aaa", user.userId)
                 assertEquals("dd", user.displayName)
                 assertEquals("image", user.image)
@@ -152,7 +152,7 @@ class SearchViewModelTest : BaseCoroutineTest() {
 
             with(viewModel.searchResult.value as SearchState.Success) {
 
-                assertTrue(user is ContactProfileItem.ConfirmedContact)
+                assertTrue(user is SearchProfileItem.Confirmed)
                 assertEquals("aaa", user.userId)
                 assertEquals("dd", user.displayName)
                 assertEquals("image", user.image)
@@ -184,7 +184,7 @@ class SearchViewModelTest : BaseCoroutineTest() {
 
             with(viewModel.searchResult.value as SearchState.Success) {
 
-                assertTrue(user is ContactProfileItem.UnknownContact)
+                assertTrue(user is SearchProfileItem.Unknown)
                 assertEquals("aaa", user.userId)
                 assertEquals("dd", user.displayName)
                 assertEquals("image", user.image)

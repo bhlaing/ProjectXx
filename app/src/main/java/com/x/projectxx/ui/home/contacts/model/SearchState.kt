@@ -4,6 +4,6 @@ import androidx.annotation.StringRes
 
 sealed class SearchState {
     object Searching: SearchState()
-    class Success(val user: ContactProfileItem): SearchState()
+    class Success(val user: SearchProfileItem): SearchState()
     class Fail(@StringRes val error: Int?): SearchState()
 }

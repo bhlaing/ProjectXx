@@ -12,7 +12,7 @@ import com.x.projectxx.domain.user.SearchUserByEmail.Param as SearchUserByEmailP
 import com.x.projectxx.domain.user.SearchUserByEmail.*
 import com.x.projectxx.domain.user.model.User
 import com.x.projectxx.ui.home.contacts.model.SearchState
-import com.x.projectxx.ui.home.contacts.model.ContactProfileItem
+import com.x.projectxx.ui.home.contacts.model.SearchProfileItem
 import com.x.projectxx.ui.home.contacts.model.UserActionState
 import com.x.projectxx.ui.home.contacts.model.toSearchUserProfileItem
 import kotlinx.coroutines.launch
@@ -41,7 +41,7 @@ class SearchViewModel @ViewModelInject constructor(
     fun onAddContact() {
         val result = searchResult.value as? SearchState.Success
         result?.user?.let {
-            if (it is ContactProfileItem.UnknownContact) {
+            if (it is SearchProfileItem.Unknown) {
                 requestContact(it)
             }
         }
@@ -50,7 +50,7 @@ class SearchViewModel @ViewModelInject constructor(
     fun onAcceptContact() {
         val result = searchResult.value as? SearchState.Success
         result?.user?.let {
-            if (it is ContactProfileItem.RequestConfirmContact) {
+            if (it is SearchProfileItem.RequestConfirm) {
                 acceptContactForUser(it)
             }
         }
@@ -59,13 +59,13 @@ class SearchViewModel @ViewModelInject constructor(
     fun onCancelContact() {
         val result = searchResult.value as? SearchState.Success
         result?.user?.let {
-            if (it is ContactProfileItem.PendingContact) {
+            if (it is SearchProfileItem.Pending) {
                 deleteUserContact(it)
             }
         }
     }
 
-    private fun deleteUserContact(user: ContactProfileItem) {
+    private fun deleteUserContact(user: SearchProfileItem) {
         viewModelScope.launch {
             userAction.value = UserActionState.Loading
 
@@ -82,7 +82,7 @@ class SearchViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun acceptContactForUser(user: ContactProfileItem) {
+    private fun acceptContactForUser(user: SearchProfileItem) {
         viewModelScope.launch {
             userAction.value = UserActionState.Loading
 
@@ -99,7 +99,7 @@ class SearchViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun requestContact(user: ContactProfileItem) {
+    private fun requestContact(user: SearchProfileItem) {
         viewModelScope.launch {
             userAction.value = UserActionState.Loading
 
@@ -139,7 +139,7 @@ class SearchViewModel @ViewModelInject constructor(
     private fun mapToSearchUserProfile(
         currentUserContacts: List<User.Contact>,
         user: User
-    ): ContactProfileItem {
+    ): SearchProfileItem {
         val contactStatus =
             getUserContactStatusInRelationToCurrentUser(currentUserContacts, user.userId)
         return user.toSearchUserProfileItem(contactStatus?.status)

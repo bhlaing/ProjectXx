@@ -9,8 +9,9 @@
     <string name="pending">Pending</string>
     <string name="accept">Accept</string>
 
-    <!--Chat Screen-->
+    <!--Contact-->
     <string name="type_message">Type your message</string>
+    <string name="contact_generic_error">Error retrieving contacts. Please try again.</string>
 
     <!--Search Screen-->
     <string name="hint_search_email">Search by email..</string>

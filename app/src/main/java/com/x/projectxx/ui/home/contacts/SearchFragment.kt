@@ -13,8 +13,8 @@ import com.x.projectxx.application.extensions.setTextOrGone
 import com.x.projectxx.application.extensions.showShortToast
 import com.x.projectxx.databinding.*
 import com.x.projectxx.ui.home.contacts.model.SearchState
-import com.x.projectxx.ui.home.contacts.model.ContactProfileItem
-import com.x.projectxx.ui.home.contacts.model.ContactProfileItem.*
+import com.x.projectxx.ui.home.contacts.model.SearchProfileItem
+import com.x.projectxx.ui.home.contacts.model.SearchProfileItem.*
 import com.x.projectxx.ui.home.contacts.model.UserActionState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.view_profile_add.view.*
@@ -83,14 +83,14 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun onSuccessSearchState(user: ContactProfileItem) {
+    private fun onSuccessSearchState(user: SearchProfileItem) {
         resetProfileLayout()
 
         when (user) {
-            is PendingContact -> showPendingContact(user)
-            is RequestConfirmContact -> showRequestConfirmContact(user)
-            is UnknownContact -> showUnknownContact(user)
-            is ConfirmedContact -> showConfirmedContact(user)
+            is Pending -> showPendingContact(user)
+            is RequestConfirm -> showRequestConfirmContact(user)
+            is Unknown -> showUnknownContact(user)
+            is Confirmed -> showConfirmedContact(user)
         }
         binding.profileLayout.visibility = VISIBLE
 
@@ -102,7 +102,7 @@ class SearchFragment : Fragment() {
         profileContainer.removeAllViews()
     }
 
-    private fun showPendingContact(user: PendingContact) {
+    private fun showPendingContact(user: Pending) {
         val profileContainer = binding.profileLayout
 
         val binding = ViewProfilePendingBinding.inflate(
@@ -122,7 +122,7 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun showRequestConfirmContact(user: RequestConfirmContact) {
+    private fun showRequestConfirmContact(user: RequestConfirm) {
         val profileContainer = binding.profileLayout
 
         val binding = ViewProfileRequestBinding.inflate(
@@ -142,7 +142,7 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun showUnknownContact(user: UnknownContact) {
+    private fun showUnknownContact(user: Unknown) {
         val profileContainer = binding.profileLayout
 
         val binding = ViewProfileAddBinding.inflate(
@@ -162,7 +162,7 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun showConfirmedContact(user: ConfirmedContact) {
+    private fun showConfirmedContact(user: Confirmed) {
         val profileContainer = binding.profileLayout
 
         val binding = ViewProfileConfirmedBinding.inflate(

@@ -5,8 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.x.projectxx.R
 import com.x.projectxx.application.extensions.observeNonNull
 import com.x.projectxx.databinding.FragmentContactsBinding
 import com.x.projectxx.ui.home.contacts.adapter.ContactListAdapter
@@ -19,7 +22,11 @@ class ContactsFragment : Fragment() {
 
     private val viewModel: ContactsViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentContactsBinding.inflate(inflater)
 
         return binding.root
@@ -33,10 +40,14 @@ class ContactsFragment : Fragment() {
 
     private fun setUpContactListView() {
         contactListAdapter = ContactListAdapter()
-        binding.contactsListView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = contactListAdapter
-        }
+        binding.contactsListView.apply { layoutManager = LinearLayoutManager(requireContext()) }
+        val separator =   DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL)
+        separator.setDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.seperator_vertical_white)!!)
+
+
+        binding.contactsListView.addItemDecoration(separator)
+
+        binding.contactsListView.adapter = contactListAdapter
     }
 
     private fun setUpObservers() {
