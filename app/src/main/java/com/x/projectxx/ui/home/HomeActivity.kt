@@ -32,6 +32,9 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         bindings = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(bindings.root)
+
+        setSupportActionBar(bindings.toolbar)
+
         setUpNavigation()
     }
 

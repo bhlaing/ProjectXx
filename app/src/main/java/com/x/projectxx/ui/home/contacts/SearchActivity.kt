@@ -11,47 +11,32 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.x.projectxx.R
-import com.x.projectxx.databinding.ActivityContactsBinding
-import com.x.projectxx.databinding.ActivitySettingsBinding
+import com.x.projectxx.databinding.ActivitySearchBinding
 import com.x.projectxx.ui.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ContactsActivity: BaseActivity() {
+class SearchActivity: BaseActivity() {
     companion object {
-        fun makeContactsIntent(context: Context) : Intent {
-            return Intent(context, ContactsActivity::class.java)
+        fun makeSearchIntent(context: Context) : Intent {
+            return Intent(context, SearchActivity::class.java)
         }
     }
 
-    lateinit var binding: ActivityContactsBinding
+    lateinit var binding: ActivitySearchBinding
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityContactsBinding.inflate(layoutInflater)
+        binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        navController = findNavController(R.id.contactsFlowFragment)
+        navController = findNavController(R.id.searchFlowFragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
         showBackButton(binding.toolbar)
-        title = getString(R.string.contacts)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.addContactItem -> navController.navigate(R.id.contact_to_search)
-        }
-        return super.onOptionsItemSelected(item)
-
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_contact, menu)
-        return true
+        title = getString(R.string.search)
     }
 }

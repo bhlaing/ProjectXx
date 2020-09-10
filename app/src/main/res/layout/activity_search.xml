@@ -20,11 +20,11 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <fragment
-        android:id="@+id/contactsFlowFragment"
+        android:id="@+id/searchFlowFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/appBar"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/contacts_nav_graph" />
+        app:navGraph="@navigation/search_nav_graph" />
 </RelativeLayout>

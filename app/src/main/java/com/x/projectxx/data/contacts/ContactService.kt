@@ -4,6 +4,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.functions.FirebaseFunctions
 import com.x.projectxx.data.contacts.model.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -67,6 +72,28 @@ class ContactService @Inject constructor(
             SimpleResult.Fail(exception)
         }
     }
+
+    @ExperimentalCoroutinesApi
+    override suspend fun observeUserContacts(userId: String): Flow<List<Contact>> =
+        callbackFlow{
+            val listener = getContactCollection(userId).addSnapshotListener { documents, firebaseException ->
+                if (documents != null) {
+                    val contacts = documents.map { it.toObject(Contact::class.java) }
+                    offer(contacts)
+                } else {
+                    offer(emptyList<Contact>())
+                }
+                firebaseException?.let {
+                    cancel(it.message.toString())
+                    throw Exception(it.message)
+                }
+            }
+
+            awaitClose {
+                listener.remove()
+                cancel()
+            }
+        }
 
     private fun getAcceptContactFunction() = functions.getHttpsCallable(FUNCTION_ACCEPT_CONTACT)
 

@@ -24,7 +24,7 @@
         </activity>
         <activity android:name=".ui.login.LoginActivity" />
         <activity android:name=".ui.settings.MainSettingsActivity" />
-        <activity android:name="com.x.projectxx.ui.home.contacts.ContactsActivity" />
+        <activity android:name="com.x.projectxx.ui.home.contacts.SearchActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

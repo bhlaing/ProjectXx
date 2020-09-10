@@ -10,8 +10,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
-class RetrieveUserContacts @Inject constructor(private val contactRepository: ContactRepository) :
-    ResultInteractor<RetrieveUserContacts.Param, RetrieveUserContacts.RetrieveContactResult>() {
+class RetrieveUserContactsStatus @Inject constructor(private val contactRepository: ContactRepository) :
+    ResultInteractor<RetrieveUserContactsStatus.Param, RetrieveUserContactsStatus.RetrieveContactResult>() {
 
     override val dispatcher: CoroutineDispatcher = Dispatchers.IO
 

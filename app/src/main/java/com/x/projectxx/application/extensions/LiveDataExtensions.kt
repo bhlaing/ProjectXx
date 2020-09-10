@@ -1,8 +1,6 @@
 package com.x.projectxx.application.extensions
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.*
 
 /**
  * Filter out nulls from liveData.value
@@ -22,3 +20,6 @@ inline fun <T> LifecycleOwner.observeEvent(liveData: LiveData<Event<T>>, crossin
 inline fun LifecycleOwner.observeEvent(liveData: LiveData<Event<Unit>>, crossinline unhandledEventContent: () -> Unit) {
     liveData.observe(this, EventObserver { unhandledEventContent() })
 }
+
+fun <T> MutableLiveData<T>.observeAsLiveData() = switchMap { liveData { emit(it) } }
+

@@ -8,8 +8,8 @@ import com.x.projectxx.domain.contact.AcceptContact.*
 import com.x.projectxx.domain.contact.DeleteContact
 import com.x.projectxx.domain.contact.DeleteContact.*
 import com.x.projectxx.domain.contact.RequestContact
-import com.x.projectxx.domain.contact.RetrieveUserContacts
-import com.x.projectxx.domain.contact.RetrieveUserContacts.*
+import com.x.projectxx.domain.contact.RetrieveUserContactsStatus
+import com.x.projectxx.domain.contact.RetrieveUserContactsStatus.*
 import com.x.projectxx.domain.user.SearchUserByEmail
 import com.x.projectxx.domain.user.SearchUserByEmail.*
 import com.x.projectxx.domain.user.model.ContactStatus
@@ -37,7 +37,7 @@ class SearchViewModelTest : BaseCoroutineTest() {
     lateinit var loginManager: LoginManager
 
     @Mock
-    lateinit var retrieveUserContacts: RetrieveUserContacts
+    lateinit var retrieveUserContactsStatus: RetrieveUserContactsStatus
 
     @Mock
     lateinit var acceptContact: AcceptContact
@@ -58,7 +58,7 @@ class SearchViewModelTest : BaseCoroutineTest() {
             searchUserByEmail,
             requestContact,
             loginManager,
-            retrieveUserContacts,
+            retrieveUserContactsStatus,
             acceptContact,
             deleteContact
         )
@@ -74,7 +74,7 @@ class SearchViewModelTest : BaseCoroutineTest() {
                     mockUser
                 )
             }
-            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+            whenever(retrieveUserContactsStatus.invoke(MockitoHelper.anyObject())).then {
                 RetrieveContactResult.Success(
                     listOf(User.Contact("aaa", ContactStatus.PENDING))
                 )
@@ -107,7 +107,7 @@ class SearchViewModelTest : BaseCoroutineTest() {
                     mockUser
                 )
             }
-            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+            whenever(retrieveUserContactsStatus.invoke(MockitoHelper.anyObject())).then {
                 RetrieveContactResult.Success(
                     listOf(User.Contact("aaa", ContactStatus.REQUEST))
                 )
@@ -140,7 +140,7 @@ class SearchViewModelTest : BaseCoroutineTest() {
                     mockUser
                 )
             }
-            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+            whenever(retrieveUserContactsStatus.invoke(MockitoHelper.anyObject())).then {
                 RetrieveContactResult.Success(
                     listOf(User.Contact("aaa", ContactStatus.CONFIRMED))
                 )
@@ -172,7 +172,7 @@ class SearchViewModelTest : BaseCoroutineTest() {
                     mockUser
                 )
             }
-            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+            whenever(retrieveUserContactsStatus.invoke(MockitoHelper.anyObject())).then {
                 RetrieveContactResult.Success(
                     listOf(User.Contact("bbb", ContactStatus.CONFIRMED))
                 )
@@ -202,7 +202,7 @@ class SearchViewModelTest : BaseCoroutineTest() {
                     mockUser
                 )
             }
-            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+            whenever(retrieveUserContactsStatus.invoke(MockitoHelper.anyObject())).then {
                 RetrieveContactResult.Error(
                     -1
                 )
@@ -247,7 +247,7 @@ class SearchViewModelTest : BaseCoroutineTest() {
                         mockUser
                     )
                 }
-                whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+                whenever(retrieveUserContactsStatus.invoke(MockitoHelper.anyObject())).then {
                     RetrieveContactResult.Success(
                         listOf(User.Contact("aaa", ContactStatus.REQUEST))
                     )
@@ -275,7 +275,7 @@ class SearchViewModelTest : BaseCoroutineTest() {
                     mockUser
                 )
             }
-            whenever(retrieveUserContacts.invoke(MockitoHelper.anyObject())).then {
+            whenever(retrieveUserContactsStatus.invoke(MockitoHelper.anyObject())).then {
                 RetrieveContactResult.Success(
                     listOf(User.Contact("aaa", ContactStatus.PENDING))
                 )

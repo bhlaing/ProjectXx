@@ -2,7 +2,7 @@ package com.x.projectxx.domain.contact
 
 import com.x.projectxx.R
 import com.x.projectxx.data.identity.IdentityRepository
-import com.x.projectxx.domain.contact.RetrieveUserContacts.*
+import com.x.projectxx.domain.contact.RetrieveUserContactsStatus.*
 import com.x.projectxx.domain.shared.ResultInteractor
 import com.x.projectxx.domain.contact.model.ContactDetails
 import com.x.projectxx.domain.user.mappers.toContactDetails
@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class RetrieveContactList @Inject constructor(
-    private val retrieveUserContacts: RetrieveUserContacts,
+    private val retrieveUserContactsStatus: RetrieveUserContactsStatus,
     private val identityRepository: IdentityRepository
 ) : ResultInteractor<RetrieveContactList.Param, RetrieveContactList.Result>() {
 
@@ -31,7 +31,7 @@ class RetrieveContactList @Inject constructor(
         identityRepository.getUserProfile(userId)?.toContactDetails(status)
 
     private suspend fun getContacts(userId: String) =
-        RetrieveUserContacts.Param(userId).run { retrieveUserContacts(this) }
+        RetrieveUserContactsStatus.Param(userId).run { retrieveUserContactsStatus(this) }
 
 
     class Param(val userId: String)
@@ -40,5 +40,4 @@ class RetrieveContactList @Inject constructor(
         class Success(val contacts: List<ContactDetails>): Result()
         class Fail(val error: Int): Result()
     }
-
 }

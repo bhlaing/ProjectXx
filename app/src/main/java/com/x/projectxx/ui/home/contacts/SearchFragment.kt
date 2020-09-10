@@ -15,7 +15,7 @@ import com.x.projectxx.databinding.*
 import com.x.projectxx.ui.home.contacts.model.SearchState
 import com.x.projectxx.ui.home.contacts.model.SearchProfileItem
 import com.x.projectxx.ui.home.contacts.model.SearchProfileItem.*
-import com.x.projectxx.ui.home.contacts.model.UserActionState
+import com.x.projectxx.ui.home.contacts.model.ActionState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.view_profile_add.view.*
 
@@ -49,23 +49,24 @@ class SearchFragment : Fragment() {
         setUpObservers()
     }
 
+
     private fun setUpObservers() {
         viewLifecycleOwner.observeNonNull(viewModel.searchResult) { onSearchStateChanged(it) }
 
         viewLifecycleOwner.observeNonNull(viewModel.actionResult) { onActionResultChanged(it) }
     }
 
-    private fun onActionResultChanged(actionState: UserActionState) {
+    private fun onActionResultChanged(actionState: ActionState) {
         when (actionState) {
-            is UserActionState.Loading -> {
+            is ActionState.Loading -> {
                 binding.loading.visibility = VISIBLE
             }
-            is UserActionState.Success -> {
+            is ActionState.Success -> {
                 binding.loading.visibility = GONE
                 actionState.message?.let { context?.showShortToast(getString(it)) }
             }
 
-            is UserActionState.Fail -> {
+            is ActionState.Fail -> {
                 binding.loading.visibility = GONE
                 actionState.error?.let { context?.showShortToast(getString(it)) }
             }

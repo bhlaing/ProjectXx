@@ -4,10 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2E3032"
-    tools:context=".ui.home.contacts.ContactsActivity">
+    tools:context=".ui.home.contacts.SearchActivity">
 
 <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/contactsListView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>
+
+    <ProgressBar
+        android:id="@+id/loadingWheel"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 </RelativeLayout>

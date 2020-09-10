@@ -1,35 +1,34 @@
 package com.x.projectxx.ui.home.contacts
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.switchMap
-import com.x.projectxx.domain.contact.RetrieveContactList
+import androidx.lifecycle.*
+import com.x.projectxx.application.authentication.LoginManager
+import com.x.projectxx.application.extensions.observeAsLiveData
+import com.x.projectxx.domain.contact.ObserveContactList
 import com.x.projectxx.domain.contact.model.ContactDetails
-import com.x.projectxx.domain.user.GetCurrentUser
-import com.x.projectxx.domain.user.GetCurrentUser.*
-import com.x.projectxx.domain.user.model.User
+import com.x.projectxx.domain.exceptions.GenericException
+import com.x.projectxx.ui.home.contacts.model.ActionState
+import kotlinx.coroutines.flow.collect
 
 class ContactsViewModel @ViewModelInject constructor(
-    private val getCurrentUser: GetCurrentUser,
-    private val retrieveContactList: RetrieveContactList
+    private val observeContactList: ObserveContactList,
+    private val loginManager: LoginManager
 ) : ViewModel() {
+    private val observeActionState: MutableLiveData<ActionState> = MutableLiveData()
 
-    private val observeCurrentUserProfile: LiveData<User> =
-        liveData {
-            when(val result = getCurrentUser(Unit)) {
-                is UserProfileResult.Success -> emit(result.user)
-                is UserProfileResult.Error -> Unit // Don't do anything
+    val actionState = observeActionState.observeAsLiveData()
+    val contactList = liveData {
+            try {
+                observeActionState.value = ActionState.Loading
+
+                observeContactList(ObserveContactList.Param(loginManager.getCurrentUserId()!!))
+                    .collect {
+                        observeActionState.value = ActionState.Success()
+                        emit(it)
+                    }
+            } catch (ex: GenericException) {
+                emit(emptyList<ContactDetails>())
+                observeActionState.value = ActionState.Fail(ex.errorMessage)
             }
         }
-
-    val contactList: LiveData<List<ContactDetails>> = observeCurrentUserProfile.switchMap { user ->
-        liveData {
-
-            when(val result =  retrieveContactList(RetrieveContactList.Param(user.userId))){
-                is RetrieveContactList.Result.Success -> emit(result.contacts)
-            }
-        }
-    }
 }
