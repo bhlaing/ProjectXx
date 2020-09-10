@@ -46,7 +46,7 @@
     <string name="create">Create</string>
 
     <!-- Exception messages-->
-    <string name="generic_error_message">Oops..Something went wrong!</string>
+    <string name="generic_error_message">Oops..Something went wrong! Please try again..</string>
     <string name="login_welcome_message">Please login to continue</string>
 
     <!-- Generic actions-->
