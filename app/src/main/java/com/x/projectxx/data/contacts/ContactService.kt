@@ -1,9 +1,16 @@
 package com.x.projectxx.data.contacts
 
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.functions.FirebaseFunctions
 import com.x.projectxx.data.contacts.model.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -68,9 +75,38 @@ class ContactService @Inject constructor(
         }
     }
 
-    private fun getAcceptContactFunction() = functions.getHttpsCallable(FUNCTION_ACCEPT_CONTACT)
+    @ExperimentalCoroutinesApi
+    override suspend fun observeUserContacts(userId: String): Flow<List<Contact>> =
+        getContactCollection(userId).observe { it.toObjects(Contact::class.java) }
 
+
+    private fun getAcceptContactFunction() = functions.getHttpsCallable(FUNCTION_ACCEPT_CONTACT)
 
     private fun getContactCollection(userId: String) = userCollection.document(userId)
         .collection(COLLECTION_CONTACTS)
 }
+
+/**
+ * Temporary extension. Might move it somewhere later
+ */
+@ExperimentalCoroutinesApi
+fun <T> CollectionReference.observe(aa: (QuerySnapshot) -> List<T>): Flow<List<T>> =
+    callbackFlow {
+        val listener = addSnapshotListener { documents, firebaseException ->
+            if (documents != null) {
+                offer(aa(documents))
+            } else {
+                offer(emptyList<T>())
+            }
+            firebaseException?.let {
+                cancel(it.message.toString())
+                throw Exception(it.message)
+            }
+        }
+
+        awaitClose {
+            listener.remove()
+            cancel()
+        }
+
+    }

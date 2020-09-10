@@ -6,7 +6,7 @@ import com.x.projectxx.R
 import com.x.projectxx.application.authentication.LoginManager
 import com.x.projectxx.application.extensions.observeNonNull
 import com.x.projectxx.ui.BaseActivity
-import com.x.projectxx.ui.chat.ChatActivity
+import com.x.projectxx.ui.home.HomeActivity
 import com.x.projectxx.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,17 +25,17 @@ class SplashActivity : BaseActivity() {
     private fun setUpObservers() {
         this.observeNonNull(viewModel.authStatus) {
             when(it) {
-                is LoginManager.AuthState.LoggedIn -> navigateToChat()
+                is LoginManager.AuthState.LoggedIn -> navigateToHome()
                 is LoginManager.AuthState.LoggedOut -> navigateToLogin()
             }
         }
     }
 
     private fun navigateToLogin() {
-        startActivity(LoginActivity.makeChatIntent(this))
+        startActivity(LoginActivity.makeLoginIntent(this))
     }
 
-    private fun navigateToChat() {
-        startActivity(ChatActivity.makeChatIntent(this))
+    private fun navigateToHome() {
+        startActivity(HomeActivity.makeHomeIntent(this))
     }
 }

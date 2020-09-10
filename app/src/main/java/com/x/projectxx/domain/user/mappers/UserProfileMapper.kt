@@ -31,7 +31,7 @@ private fun mapToUserContact(contact: Contact) =
         )
     }
 
-private fun mapToContactStatus(relationship: ContactRelationshipType) =
+fun mapToContactStatus(relationship: ContactRelationshipType) =
     when (relationship) {
         ContactRelationshipType.PENDING -> {
             ContactStatus.PENDING
