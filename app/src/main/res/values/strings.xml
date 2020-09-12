@@ -52,7 +52,7 @@
     <!-- Generic actions-->
     <string name="cancel">Cancel</string>
     <string name="no">No</string>
-    <string name="title_activity_home">Just do it!</string>
-    <string name="title_home">Home</string>
+    <string name="title_activity_home">Boring App</string>
+    <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 </resources>
