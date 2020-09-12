@@ -3,14 +3,8 @@ package com.x.projectxx.ui.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.x.projectxx.R
 import com.x.projectxx.databinding.ActivityHomeBinding
 import com.x.projectxx.ui.BaseActivity
