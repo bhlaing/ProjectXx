@@ -2,8 +2,8 @@ package com.x.projectxx.domain.contact
 
 import com.x.projectxx.BaseTest
 import com.x.projectxx.MockitoHelper
-import com.x.projectxx.data.contacts.ContactRepository
-import com.x.projectxx.data.contacts.model.SimpleResult
+import com.x.projectxx.data.contact.ContactRepository
+import com.x.projectxx.data.contact.model.SimpleResult
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertTrue
 import org.junit.Before

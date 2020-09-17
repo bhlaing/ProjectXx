@@ -1,4 +1,4 @@
-package com.x.projectxx.data.contacts.model
+package com.x.projectxx.data.contact.model
 
 class SetContactRequest(
     val requesterId: String,

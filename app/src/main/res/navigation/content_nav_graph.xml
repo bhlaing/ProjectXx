@@ -1,0 +1,12 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_nav_graph"
+    app:startDestination="@id/addContent">
+
+    <fragment
+        android:id="@+id/addContent"
+        android:name="com.x.projectxx.ui.content.addcontent.AddContentFragment"
+        tools:layout="@layout/fragment_add_content" >
+    </fragment>
+</navigation>

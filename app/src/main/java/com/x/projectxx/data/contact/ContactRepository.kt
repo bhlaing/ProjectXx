@@ -1,6 +1,6 @@
-package com.x.projectxx.data.contacts
+package com.x.projectxx.data.contact
 
-import com.x.projectxx.data.contacts.model.*
+import com.x.projectxx.data.contact.model.*
 import kotlinx.coroutines.flow.Flow
 
 interface ContactRepository {

@@ -9,14 +9,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.x.projectxx.R
+import com.x.projectxx.application.extensions.observeNonNull
 import com.x.projectxx.databinding.FragmentDashboardBinding
 import com.x.projectxx.ui.content.addcontent.AddContentActivity
+import com.x.projectxx.ui.content.model.UserContentItem
+import com.x.projectxx.ui.home.dashboard.adapter.ContentsListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DashboardFragment : Fragment() {
 
-    private  val dashboardViewModel: DashboardViewModel by viewModels()
+    private val viewModel: DashboardViewModel by viewModels()
     private lateinit var binding: FragmentDashboardBinding
+    private lateinit var contentsAdapter: ContentsListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,15 +31,43 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDashboardBinding.inflate(inflater)
-        val textView = binding.textHome
 
         binding.addFab.setOnClickListener {
-            startActivity(AddContentActivity.makeAddContentIntent(requireContext()))
+            startActivity(
+                AddContentActivity.makeAddContentIntent(
+                    requireContext()
+                )
+            )
         }
 
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer { textView.text = it })
-
+        setUpContentList()
 
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setUpObservers()
+    }
+
+    private fun setUpContentList() {
+        contentsAdapter = ContentsListAdapter()
+        binding.contentList.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = contentsAdapter
+        }
+    }
+
+
+    private fun setUpObservers() {
+        viewLifecycleOwner.observeNonNull(viewModel.contents) {
+            onUserContent(it)
+        }
+    }
+
+    private fun onUserContent(contentItems: List<UserContentItem>) {
+        contentsAdapter.updateContents(contentItems)
+    }
+
 }

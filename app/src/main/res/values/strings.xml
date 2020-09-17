@@ -44,6 +44,7 @@
     <string name="hint_password">Password</string>
     <string name="hint_email">Email</string>
     <string name="create">Create</string>
+    <string name="content_error_message">Invalid content</string>
 
     <!-- Exception messages-->
     <string name="generic_error_message">Oops..Something went wrong! Please try again..</string>

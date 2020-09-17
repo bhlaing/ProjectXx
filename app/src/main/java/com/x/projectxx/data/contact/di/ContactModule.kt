@@ -1,7 +1,7 @@
-package com.x.projectxx.data.contacts.di
+package com.x.projectxx.data.contact.di
 
-import com.x.projectxx.data.contacts.ContactRepository
-import com.x.projectxx.data.contacts.ContactService
+import com.x.projectxx.data.contact.ContactRepository
+import com.x.projectxx.data.contact.ContactService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

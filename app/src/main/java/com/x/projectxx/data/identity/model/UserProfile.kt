@@ -1,6 +1,6 @@
 package com.x.projectxx.data.identity.model
 
-import com.x.projectxx.data.contacts.model.Contact
+import com.x.projectxx.data.contact.model.Contact
 
 data class UserProfile(
     val userId: String? = null,

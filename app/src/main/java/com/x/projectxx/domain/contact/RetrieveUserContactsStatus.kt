@@ -2,8 +2,8 @@ package com.x.projectxx.domain.contact
 
 import androidx.annotation.StringRes
 import com.x.projectxx.R
-import com.x.projectxx.data.contacts.ContactRepository
-import com.x.projectxx.data.contacts.model.UserContactsResult
+import com.x.projectxx.data.contact.ContactRepository
+import com.x.projectxx.data.contact.model.UserContactsResult
 import com.x.projectxx.domain.shared.ResultInteractor
 import com.x.projectxx.domain.user.model.User
 import kotlinx.coroutines.CoroutineDispatcher

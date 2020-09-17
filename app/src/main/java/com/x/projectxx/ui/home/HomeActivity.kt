@@ -10,7 +10,6 @@ import com.x.projectxx.databinding.ActivityHomeBinding
 import com.x.projectxx.ui.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class HomeActivity : BaseActivity() {
 
