@@ -36,10 +36,12 @@ class ContentsListAdapter :
 
         fun bind(content: UserContentItem) {
             with(contentBinding) {
+//                this.contentName.setCompoundDrawablesWithIntrinsicBounds(content.icon, 0, 0, 0)
+
                 this.contentName.text = content.name
                 this.descriptionText.setTextOrGone(content.description)
-                this.securityLevel.setCompoundDrawablesWithIntrinsicBounds(0, content.icon, 0, 0)
-                this.securityLevel.text = "Security Level: "+ content.securityLevel.name
+//                this.securityLevel.setCompoundDrawablesWithIntrinsicBounds(0, content.icon, 0, 0)
+                this.securityLevel.text = "Security Level: " + content.securityLevel.name
                 this.editDate.text = "Created on: " + content.createdDate
             }
         }

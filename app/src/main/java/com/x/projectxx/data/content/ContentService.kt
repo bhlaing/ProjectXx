@@ -20,19 +20,14 @@ class ContentService @Inject constructor(cloudFirestoreDb: FirebaseFirestore) : 
     private val userCollection = cloudFirestoreDb.collection(COLLECTION_USERS)
 
     @ExperimentalCoroutinesApi
-    override fun observeUserContents(userId: String): Flow<List<ContentWrapperDO>> {
-        val flow: Flow<List<ContentWrapperDO>> = getUserContentCollectionRef(userId).observe { querySnapshot ->
+    override fun observeUserContents(userId: String): Flow<List<ContentWrapperDO>> =
+        getUserContentCollectionRef(userId).observe { querySnapshot ->
             querySnapshot.documents.mapNotNull { documentSnapshot ->
                 documentSnapshot.toObject(Content::class.java)?.let { content ->
                     ContentWrapperDO(documentSnapshot.id, content)
                 }
             }
         }
-
-        return flow
-    }
-
-
 
     override fun addUserContent(request: AddContentRequest) =
         try {

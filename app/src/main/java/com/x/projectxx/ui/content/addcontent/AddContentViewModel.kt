@@ -13,10 +13,4 @@ import com.x.projectxx.domain.content.ObserveContents
 import kotlinx.coroutines.flow.collect
 import java.util.*
 
-class AddContentViewModel @ViewModelInject constructor(
-    private val contentRepository: ContentRepository,
-    private val loginManager: LoginManager,
-    private val observeContents: ObserveContents
-) : ViewModel() {
-
-}
+class AddContentViewModel @ViewModelInject constructor() : ViewModel()
