@@ -1,7 +1,5 @@
 package com.x.projectxx.ui.content
 
-import com.x.projectxx.R
-import com.x.projectxx.domain.content.model.SecurityLevel
 import com.x.projectxx.ui.content.model.UserContentItem
 import com.x.projectxx.domain.content.model.UserContent
 import java.text.SimpleDateFormat
@@ -26,8 +24,7 @@ private fun mapToPayIdItem(mobileNumberContent: UserContent.PAYID) = with(mobile
         ymdFormat.format(this.createdDate),
         securityLevel,
         value,
-        mapContentDescription(this),
-        mapIcon(securityLevel)
+        mapContentDescription(this)
     )
 }
 
@@ -38,8 +35,7 @@ private fun mapToWifiItem(mobileNumberContent: UserContent.WIFI) = with(mobileNu
         ymdFormat.format(this.createdDate),
         securityLevel,
         value,
-        mapContentDescription(this),
-        mapIcon(securityLevel)
+        mapContentDescription(this)
     )
 }
 
@@ -51,8 +47,7 @@ private fun mapToMobileItem(mobileNumberContent: UserContent.MOBILE) = with(mobi
         ymdFormat.format(this.createdDate),
         securityLevel,
         number,
-        mapContentDescription(this),
-        mapIcon(securityLevel)
+        mapContentDescription(this)
     )
 }
 
@@ -61,21 +56,3 @@ private fun mapContentDescription(content: UserContent) =
             "${content.description} " +
             "created on: ${ymdFormat.format(content.createdDate)}" +
             "security level set to: ${content.securityLevel}"
-
-
-private fun mapIcon(securityLevel: SecurityLevel) =
-    when(securityLevel) {
-        SecurityLevel.NONE -> R.drawable.ic_baseline_tag_faces_24
-        SecurityLevel.DEFAULT -> R.drawable.ic_baseline_tag_faces_24
-        SecurityLevel.HIGH -> R.drawable.ic_baseline_tag_faces_24
-        else -> R.drawable.ic_baseline_tag_faces_24
-    }
-
-//class MOBILEItem(
-//    referenceId: String,
-//    name: String = "",
-//    description: String = "",
-//    createdDate: String,
-//    securityLevel: SecurityLevel,
-//    val number: String,
-//    contentDescription: String

@@ -9,8 +9,7 @@ sealed class UserContentItem(
     val description: String,
     val createdDate: String,
     val securityLevel: SecurityLevel,
-    val contentDescription: String,
-    @DrawableRes val icon: Int
+    val contentDescription: String
 ) {
     class PayIdItem(
         referenceId: String,
@@ -19,16 +18,14 @@ sealed class UserContentItem(
         createdDate: String,
         securityLevel: SecurityLevel,
         val value: String,
-        contentDescription: String,
-        @DrawableRes icon: Int
+        contentDescription: String
     ) : UserContentItem(
         referenceId,
         name,
         description,
         createdDate,
         securityLevel,
-        contentDescription,
-        icon
+        contentDescription
     )
 
     class WifItem(
@@ -38,16 +35,14 @@ sealed class UserContentItem(
         createdDate: String,
         securityLevel: SecurityLevel,
         val value: String,
-        contentDescription: String,
-        @DrawableRes icon: Int
+        contentDescription: String
     ) : UserContentItem(
         referenceId,
         name,
         description,
         createdDate,
         securityLevel,
-        contentDescription,
-        icon
+        contentDescription
     )
 
     class MobileItem(
@@ -57,15 +52,13 @@ sealed class UserContentItem(
         createdDate: String,
         securityLevel: SecurityLevel,
         val number: String,
-        contentDescription: String,
-        @DrawableRes icon: Int
+        contentDescription: String
     ) : UserContentItem(
         referenceId,
         name,
         description,
         createdDate,
         securityLevel,
-        contentDescription,
-        icon
+        contentDescription
     )
 }
