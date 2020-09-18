@@ -22,12 +22,12 @@ class DashboardViewModel @ViewModelInject constructor(
 
     val contents = liveData {
 
-        try{
+        try {
             ObserveContents.Param(loginManager.getCurrentUserId()!!)
                 .run {
                     observeContents(this)
                         .collect {
-                            emit(it.map { userContent -> userContent.toUserContentItem()  })
+                            emit(it.map { userContent -> userContent.toUserContentItem() })
                         }
                 }
         } catch (ex: Exception) {
