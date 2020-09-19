@@ -1,9 +1,9 @@
 package com.x.projectxx.domain.contact
 
-import com.x.projectxx.data.contacts.ContactService
-import com.x.projectxx.data.contacts.model.Contact
-import com.x.projectxx.data.contacts.model.ContactRelationshipType
-import com.x.projectxx.data.contacts.model.SetContactRequest
+import com.x.projectxx.data.contact.ContactService
+import com.x.projectxx.data.contact.model.Contact
+import com.x.projectxx.data.contact.model.ContactRelationshipType
+import com.x.projectxx.data.contact.model.SetContactRequest
 import com.x.projectxx.domain.shared.ResultInteractor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

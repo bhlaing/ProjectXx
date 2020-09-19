@@ -1,7 +1,7 @@
 package com.x.projectxx.domain.contact
 
 import com.x.projectxx.R
-import com.x.projectxx.data.contacts.ContactRepository
+import com.x.projectxx.data.contact.ContactRepository
 import com.x.projectxx.data.identity.IdentityRepository
 import com.x.projectxx.domain.shared.ResultInteractor
 import com.x.projectxx.domain.contact.model.ContactDetails

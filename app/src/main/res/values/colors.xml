@@ -9,4 +9,16 @@
     <color name="yellow">#FDD835</color>
     <color name="dark_gray">#48232323</color>
     <color name="gray">#48BCBCBC</color>
+    <color name="xx_blue">#4584D8</color>
+    <color name="xx_light_green">#4BB38F</color>
+    <color name="xx_light_blue">#47B5DC</color>
+    <color name="xx_orange">#EBA14C</color>
+    <color name="xx_light_purple">#8C6AA8</color>
+    <color name="xx_purple">#6959D3</color>
+    <color name="xx_makeup_red">#EA5552</color>
+    <color name="xx_gray">#6D6E71</color>
+
+    <color name="xx_lime">#C2D92D</color>
+    <color name="xx_hot_pink">#F26093</color>
+    <color name="xx_green">#31A661</color>
 </resources>

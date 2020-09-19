@@ -1,4 +1,4 @@
-package com.x.projectxx.data.contacts.model
+package com.x.projectxx.data.contact.model
 
 sealed class UserContactsResult {
     class Success(val contacts: List<Contact>): UserContactsResult()

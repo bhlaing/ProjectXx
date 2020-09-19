@@ -39,5 +39,12 @@
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@color/bottom_nav_selector"
         app:itemTextColor="@color/bottom_nav_selector"
-        app:menu="@menu/menu_bottom_nav" />
+        app:menu="@menu/menu_bottom_nav" >
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 </RelativeLayout>

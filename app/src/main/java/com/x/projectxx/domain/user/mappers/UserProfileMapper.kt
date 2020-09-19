@@ -1,7 +1,7 @@
 package com.x.projectxx.domain.user.mappers
 
-import com.x.projectxx.data.contacts.model.Contact
-import com.x.projectxx.data.contacts.model.ContactRelationshipType
+import com.x.projectxx.data.contact.model.Contact
+import com.x.projectxx.data.contact.model.ContactRelationshipType
 import com.x.projectxx.data.identity.model.UserProfile
 import com.x.projectxx.domain.user.model.ContactStatus
 import com.x.projectxx.domain.user.model.User

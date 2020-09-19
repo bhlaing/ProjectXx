@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    app:cardCornerRadius="16dp">
+
+    <RelativeLayout
+        android:id="@+id/cardWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dark_gray"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/contentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:minWidth="40dp"
+            android:padding="8dp"
+            android:textStyle="bold"
+            tools:text="Wifi" />
+
+        <TextView
+            android:id="@+id/descriptionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contentName"
+            android:layout_alignStart="@+id/contentName"
+            android:minWidth="40dp"
+            android:padding="8dp"
+            android:textStyle="bold"
+            tools:text="Wifi deets to share with friends" />
+
+        <ImageView
+            android:id="@+id/more_options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_more_48dp" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/descriptionText"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/editDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider"
+            android:layout_marginStart="16dp"
+            android:minWidth="40dp"
+            android:padding="8dp"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            tools:text="edited: 2020-08-01" />
+
+        <TextView
+            android:id="@+id/securityLevel"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            tools:text="Unsecured" />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

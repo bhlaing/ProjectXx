@@ -1,9 +1,9 @@
 package com.x.projectxx.domain.contact
 
 import com.x.projectxx.R
-import com.x.projectxx.data.contacts.ContactRepository
-import com.x.projectxx.data.contacts.model.DeleteContactRequest
-import com.x.projectxx.data.contacts.model.SimpleResult
+import com.x.projectxx.data.contact.ContactRepository
+import com.x.projectxx.data.contact.model.DeleteContactRequest
+import com.x.projectxx.data.contact.model.SimpleResult
 import com.x.projectxx.domain.shared.ResultInteractor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
