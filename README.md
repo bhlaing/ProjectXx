@@ -8,7 +8,7 @@ App uses Kotlin, Coroutine, Firestore, Hilt, ViewModel, LiveData, Architecture c
 - **Paragraphs** -> **xxTheme.Text.Paragraph**
 - **List titles**, **Buttons**, **Tabs**  -> **xxTheme.Text.Title**
 - **List item titles**, **Important text snippets** -> **xxTheme.Text.ItemTitle**
-- **Secondary text**, **Captions** -> **xx**Theme.Text.Captions**
+- **Secondary text**, **Captions** -> **xxTheme.Text.Captions**
 - **Text inputs** -> **xxTheme.Text.Input**
 
 Model naming standards
