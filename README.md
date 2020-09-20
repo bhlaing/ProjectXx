@@ -4,12 +4,12 @@ App uses Kotlin, Coroutine, Firestore, Hilt, ViewModel, LiveData, Architecture c
  Text standards
  --------------
  Themes can be found under **styles.xml**
-- Activity, Fragment titles -> xxTheme.Text.PageTitle
-- Paragraphs -> xxTheme.Text.Paragraph
-- List titles, Buttons, Tabs  -> xxTheme.Text.Title
-- List item titles, Important text snippets -> xxTheme.Text.ItemTitle
-- Secondary text, Captions -> xTheme.Text.Captions
-- Text inputs -> xxTheme.Text.Input
+- **Activity, **Fragment titles** -> **xxTheme.Text.PageTitle**
+- **Paragraphs** -> **xxTheme.Text.Paragraph**
+- **List titles**, ****Buttons**, **Tabs**  -> **xxTheme.Text.Title**
+- **List item titles**, **Important text snippets** -> **xxTheme.Text.ItemTitle**
+- **Secondary text**, **Captions** -> **xx**Theme.Text.Captions**
+- **Text inputs** -> **xxTheme.Text.Input**
 
 Model naming standards
 ----------------------
