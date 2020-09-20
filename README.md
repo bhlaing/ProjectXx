@@ -24,4 +24,9 @@ Layout file naming standards
 - **List items** are prefixed with **item_xxx.xml**. For example (item_contact_detail.xml, item_content.xml)
 - **View Ids** are named by the following format **xx_xx_xx_component**. For example (user_id_text_view, password_text_view)
 
+Layout file naming standards
+----------------------------
+Images must be either **.svg** or **.webp** format.
+See https://developer.android.com/studio/write/convert-webp on how to convert from **.png** images to **.webp** format
+
 
