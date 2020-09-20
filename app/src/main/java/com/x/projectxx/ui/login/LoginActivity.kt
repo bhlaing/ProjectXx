@@ -32,5 +32,7 @@ class LoginActivity : BaseActivity() {
         val navController = findNavController(R.id.loginFlowFragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+
+        title = getString(R.string.sign_up_title)
     }
 }

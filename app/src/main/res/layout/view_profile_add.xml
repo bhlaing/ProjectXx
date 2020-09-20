@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profileAddContainer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="100dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,31 +38,30 @@
 
             <TextView
                 android:id="@+id/nameText"
+                style="@style/xxTheme.Text.ItemTitle"
                 android:layout_width="180dp"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 tools:text="ProjectXx" />
 
             <TextView
                 android:id="@+id/statusText"
+                style="@style/xxTheme.Text.Captions"
                 android:layout_width="180dp"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
-                android:textSize="12sp"
                 tools:text="Feeling Awesome!" />
         </LinearLayout>
 
         <Button
             android:id="@+id/actionButton"
+            style="@style/xxTheme.Text.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="0dp"
             android:layout_toEndOf="@+id/profileInfoContainer"
             android:background="?android:attr/selectableItemBackground"
-            android:text="Add"
+            android:text="ADD"
             android:drawableStart="@drawable/ic_person_add_24" />
     </RelativeLayout>
 

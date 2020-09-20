@@ -13,6 +13,7 @@
 
         <EditText
             android:id="@+id/input_email"
+            style="@style/xxTheme.Text.Input"
             android:drawableStart="@drawable/ic_search_24"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,10 +24,15 @@
 
     <Button
         android:id="@+id/searchButton"
+        style="@style/xxTheme.Text.Title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/input_layout_email"
         android:layout_marginTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorGreen"
         android:text="@string/search" />
 
     <ProgressBar
@@ -43,8 +49,8 @@
         android:id="@+id/profileLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/searchButton"
-        android:layout_marginTop="4dp"
+        android:layout_below="@id/progressBar"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:gravity="center_vertical"

@@ -6,4 +6,44 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <!-- Bottom nav view -->
+    <style name="xxTheme.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+    <!-- End region -->
+
+    <!-- Region text styles -->
+    <style name="xxTheme.Text" parent="TextAppearance.AppCompat">
+        <!-- Do not use -->
+    </style>
+    <!-- Activity,Fragment titles -->
+    <style name="xxTheme.Text.PageTitle">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <!-- Paragraphs -->
+    <style name="xxTheme.Text.Paragraph">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">sans-serif-condensed-light</item>
+    </style>
+    <!-- List titles, Buttons, Tabs -->
+    <style name="xxTheme.Text.Title">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">sans-serif-condensed</item>
+    </style>
+    <!-- List item titles, Important text snippets -->
+    <style name="xxTheme.Text.ItemTitle">
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!-- Secondary text, captions -->
+    <style name="xxTheme.Text.Captions">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/xx_light_gray</item>
+    </style>
+    <!-- Text inputs -->
+    <style name="xxTheme.Text.Input">
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!-- End region -->
 </resources>
