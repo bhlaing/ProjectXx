@@ -1,5 +1,5 @@
 # ProjectXx
-App uses Kotlin, Coroutine, Firestore, Hilt, ViewModel, LiveData, Architecture components, Clean architecture so on...
+App uses Kotlin, Coroutine, Firebase, Firestore, Hilt, ViewModel, LiveData, Architecture components, Clean architecture so on...
 
  Text standards
  --------------
