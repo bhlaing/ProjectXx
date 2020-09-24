@@ -117,6 +117,7 @@ dependencies {
     def functionsVersion = '19.0.2'
     implementation "com.google.firebase:firebase-functions-ktx:$functionsVersion"
 
+    implementation project(":FirebaseCore")
 //    implementation 'com.google.firebase:firebase-functions-ktx:19.0.2'
 
 }

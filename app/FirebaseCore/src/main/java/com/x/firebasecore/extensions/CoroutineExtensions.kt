@@ -1,5 +1,4 @@
-package com.x.projectxx.application.extensions
-
+package com.x.firebasecore.extensions
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
