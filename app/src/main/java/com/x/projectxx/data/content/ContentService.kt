@@ -2,7 +2,7 @@ package com.x.projectxx.data.content
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
-import com.x.projectxx.application.extensions.observe
+import com.x.firebasecore.extensions.observe
 import com.x.projectxx.data.content.model.AddContentRequest
 import com.x.projectxx.data.content.model.Content
 import com.x.projectxx.data.content.model.ContentWrapperDO

@@ -3,10 +3,9 @@ package com.x.projectxx.data.contact
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.functions.FirebaseFunctions
-import com.x.projectxx.application.extensions.observe
+import com.x.firebasecore.extensions.observe
 import com.x.projectxx.data.contact.model.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
