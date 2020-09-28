@@ -19,6 +19,7 @@ fun <T> CollectionReference.observe(transformer: (QuerySnapshot) -> List<T>): Fl
             firebaseException?.let {
                 cancel(it.message.toString())
                 throw Exception(it.message)
+
             }
         }
 

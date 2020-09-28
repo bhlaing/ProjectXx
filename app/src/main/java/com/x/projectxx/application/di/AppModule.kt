@@ -7,6 +7,8 @@ import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.x.contentlibrary.ContentLibraryBuilder
+import com.x.contentlibrary.ContentRepository
 import com.x.projectxx.application.authentication.LoginManager
 import com.x.projectxx.application.authentication.LoginManagerImpl
 import dagger.Module
@@ -32,4 +34,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideCloudFirestoreFunction(): FirebaseFunctions = Firebase.functions
+
+    @Singleton
+    @Provides
+    fun provideContentLibrary(firebaseFirestore: FirebaseFirestore): ContentRepository =
+        ContentLibraryBuilder.init(firebaseFirestore)
 }

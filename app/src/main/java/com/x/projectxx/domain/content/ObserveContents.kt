@@ -1,12 +1,11 @@
 package com.x.projectxx.domain.content
 
-import com.x.projectxx.data.content.ContentRepository
-import com.x.projectxx.domain.content.model.UserContent
+import com.x.contentlibrary.ContentRepository
+import com.x.contentlibrary.domain.UserContent
 import com.x.projectxx.domain.shared.ResultInteractor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ObserveContents @Inject constructor(private val contentRepository: ContentRepository) :
@@ -16,9 +15,6 @@ class ObserveContents @Inject constructor(private val contentRepository: Content
 
     override suspend fun doWork(params: Param): Flow<List<UserContent>> =
         contentRepository.observeUserContents(params.userId)
-            .map {
-                it.toUserContents()
-            }
 
     class Param(val userId: String)
 }

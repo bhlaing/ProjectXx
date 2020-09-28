@@ -118,6 +118,7 @@ dependencies {
     implementation "com.google.firebase:firebase-functions-ktx:$functionsVersion"
 
     implementation project(":FirebaseCore")
+    implementation project(":ContentLibrary")
 //    implementation 'com.google.firebase:firebase-functions-ktx:19.0.2'
 
 }
