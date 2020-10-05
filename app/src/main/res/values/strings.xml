@@ -58,5 +58,5 @@
     <string name="title_notifications">Notifications</string>
 
     <!-- Content-->
-    <string name="select_content_type_title">What kind of stuff would you like to save?</string>
+    <string name="select_content_type_title">What kind of stuff do you want to save?</string>
 </resources>
