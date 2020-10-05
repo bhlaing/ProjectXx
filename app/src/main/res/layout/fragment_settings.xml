@@ -7,7 +7,7 @@
     tools:context=".ui.settings.MainSettingsFragment">
 
 <include
-    android:id="@+id/profileLayout"
+    android:id="@+id/profile_layout"
     layout="@layout/view_profile"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>
@@ -16,6 +16,6 @@
     android:layout_width="match_parent"
     android:layout_height="1dp"
     android:layout_marginTop="4dp"
-    android:layout_below="@id/profileLayout"
+    android:layout_below="@id/profile_layout"
     android:background="@color/colorWhite"/>
 </RelativeLayout>

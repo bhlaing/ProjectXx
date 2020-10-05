@@ -45,6 +45,8 @@ internal class ContentService constructor(cloudFirestoreDb: FirebaseFirestore): 
             }
         }
 
+    override fun getEligibleContentTypes(): List<ContentType> = ContentType.values().toList()
+
     private fun buildUserTextContent(docId: String, request: TextContentRequest) =
         ContentDO(
             docId,
