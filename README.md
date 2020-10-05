@@ -29,4 +29,7 @@ Image standards
 Images must be either **.svg** or **.webp** format.
 See https://developer.android.com/studio/write/convert-webp on how to convert from **.png** images to **.webp** format
 
+Architecture
+-------------
+
 
