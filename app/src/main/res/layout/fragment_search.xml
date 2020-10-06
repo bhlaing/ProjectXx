@@ -23,7 +23,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/searchButton"
+        android:id="@+id/search_button"
         style="@style/xxTheme.Text.Title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -40,13 +40,13 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/searchButton"
+        android:layout_below="@id/search_button"
         android:indeterminateOnly="true"
         android:visibility="gone"
         tools:visibility="visible" />
 
     <LinearLayout
-        android:id="@+id/profileLayout"
+        android:id="@+id/profile_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/progressBar"

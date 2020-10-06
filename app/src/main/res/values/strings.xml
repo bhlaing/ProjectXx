@@ -56,4 +56,7 @@
     <string name="title_activity_home">Boring App</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <!-- Content-->
+    <string name="select_content_type_title">What kind of stuff do you want to save?</string>
 </resources>

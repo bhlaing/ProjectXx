@@ -1,5 +1,5 @@
+include ':ContentLibrary'
 include ':FirebaseCore'
-include ':app:FirebaseCore'
 include ':app'
 project(':FirebaseCore').projectDir = new File(rootDir, 'app/FirebaseCore/')
 rootProject.name = "ProjectXx"
