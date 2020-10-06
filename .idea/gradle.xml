@@ -12,8 +12,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ContentLibrary" />
+            <option value="$PROJECT_DIR$/FirebaseCore" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/app/FirebaseCore" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
