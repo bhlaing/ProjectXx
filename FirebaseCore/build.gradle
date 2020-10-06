@@ -31,4 +31,5 @@ dependencies {
     deps.kotlin()
     deps.firebase()
     deps.coroutines()
+    deps.unitTest()
 }
